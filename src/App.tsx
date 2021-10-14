@@ -1,6 +1,8 @@
 import React from 'react';
 import * as Tone from 'tone';
+
 import { PitchClass } from './utils/types';
+import Looper from './Looper';
 
 const App = () => {
 	const synth = new Tone.Synth().toDestination();
@@ -16,6 +18,7 @@ const App = () => {
 				<button className="note" onClick={() => playNote(PitchClass.C)}>
 					C
 				</button>
+				<Looper />
 			</div>
 		</div>
 	);
