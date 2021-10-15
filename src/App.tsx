@@ -2,14 +2,14 @@ import React from 'react';
 import * as Tone from 'tone';
 
 import { PitchClass } from './utils/types';
-import Looper from './Looper';
+import Transport from './Transport';
 
 const App = () => {
 	return (
 		<div>
 			<header></header>
 			<div>
-				<Looper />
+				<Transport />
 			</div>
 		</div>
 	);
