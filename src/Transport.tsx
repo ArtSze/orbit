@@ -9,9 +9,9 @@ const Transport = () => {
 	const synth = new Tone.Synth().toDestination();
 
 	useEffect(() => {
+		Tone.Transport.cancel();
 		Tone.Transport.bpm.value = bpm;
 		setPeriod(Tone.Time('2m').toSeconds());
-		Tone.Transport.cancel();
 		console.log(`new bpm: ${Tone.Transport.bpm.value}`);
 	}, [bpm]);
 
@@ -21,13 +21,14 @@ const Transport = () => {
 		new Tone.Loop((time) => {
 			synth.triggerAttackRelease('C4', '16n');
 		}, period / numOfSteps).start(0);
+		// .stop(3);
 
 		console.log(`num of steps: ${numOfSteps}`);
-	}, [numOfSteps]);
+	}, [numOfSteps, period]);
 
 	const loop = new Tone.Loop((time) => {
 		// insert pattern from useEffect above
-		console.log(period);
+		// console.log(period);
 	}, '2m').start(0);
 
 	const initialize = () => {
