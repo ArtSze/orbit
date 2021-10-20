@@ -5,31 +5,33 @@ const Transport = () => {
 	const [bpm, setBpm] = useState(120);
 	const [numOfSteps, setNumOfSteps] = useState(4);
 	const [period, setPeriod] = useState(Tone.Time('2m').toSeconds());
-
+	const [interval, setInterval] = useState(1);
 	const synth = new Tone.Synth().toDestination();
 
 	useEffect(() => {
 		Tone.Transport.cancel();
 		Tone.Transport.bpm.value = bpm;
 		setPeriod(Tone.Time('2m').toSeconds());
-		console.log(`new bpm: ${Tone.Transport.bpm.value}`);
-	}, [bpm]);
+		setInterval(period / numOfSteps);
+	}, [bpm, numOfSteps]);
 
 	useEffect(() => {
 		Tone.Transport.cancel();
+		setInterval(period / numOfSteps);
 
-		new Tone.Loop((time) => {
-			synth.triggerAttackRelease('C4', '16n');
-		}, period / numOfSteps).start(0);
-		// .stop(3);
+		Tone.Transport.scheduleRepeat(
+			(time) => {
+				synth.triggerAttackRelease('C4', interval * 0.75, time);
+			},
+			interval,
+			0,
+			period
+		);
 
-		console.log(`num of steps: ${numOfSteps}`);
-	}, [numOfSteps, period]);
-
-	const loop = new Tone.Loop((time) => {
-		// insert pattern from useEffect above
-		// console.log(period);
-	}, '2m').start(0);
+		Tone.Transport.loopStart = 0;
+		Tone.Transport.loopEnd = period;
+		Tone.Transport.loop = true;
+	}, [interval]);
 
 	const initialize = () => {
 		Tone.start();
