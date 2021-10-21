@@ -1,37 +1,25 @@
 import * as Tone from 'tone';
 import { useState, useEffect } from 'react';
 
+import Voice from './Voice';
+
 const Transport = () => {
 	const [bpm, setBpm] = useState(120);
-	const [numOfSteps, setNumOfSteps] = useState(4);
 	const [period, setPeriod] = useState(Tone.Time('2m').toSeconds());
-	const [interval, setInterval] = useState(1);
-	const synth = new Tone.Synth().toDestination();
 
 	useEffect(() => {
 		Tone.Transport.cancel();
 		Tone.Transport.bpm.value = bpm;
 		setPeriod(Tone.Time('2m').toSeconds());
-		setInterval(period / numOfSteps);
-	}, [bpm, numOfSteps]);
+	}, [bpm]);
 
 	useEffect(() => {
 		Tone.Transport.cancel();
-		setInterval(period / numOfSteps);
-
-		Tone.Transport.scheduleRepeat(
-			(time) => {
-				synth.triggerAttackRelease('C4', interval * 0.75, time);
-			},
-			interval,
-			0,
-			period
-		);
 
 		Tone.Transport.loopStart = 0;
 		Tone.Transport.loopEnd = period;
 		Tone.Transport.loop = true;
-	}, [interval]);
+	}, [bpm, period]);
 
 	const initialize = () => {
 		Tone.start();
@@ -43,6 +31,20 @@ const Transport = () => {
 
 	const stopLoop = () => {
 		Tone.Transport.stop();
+	};
+
+	const scheduleEvents = (
+		interval: number,
+		callback: (time: any) => void
+	) => {
+		Tone.Transport.scheduleRepeat(
+			(time) => {
+				callback(time);
+			},
+			interval,
+			0,
+			period
+		);
 	};
 
 	return (
@@ -57,15 +59,7 @@ const Transport = () => {
 					onChange={(event) => setBpm(parseInt(event.target.value))}
 				/>
 			</div>
-			<div>
-				{'num of steps:'}
-				<input
-					value={numOfSteps}
-					onChange={(event) =>
-						setNumOfSteps(parseInt(event.target.value))
-					}
-				/>
-			</div>
+			<Voice period={period} scheduleEvents={scheduleEvents} />
 			<div>{`length of period in seconds: ${period}`}</div>
 		</div>
 	);
