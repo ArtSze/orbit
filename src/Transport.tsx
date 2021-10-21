@@ -36,19 +36,19 @@ const Transport = () => {
 		console.log(Tone.Transport.state);
 	};
 
-	const scheduleEvents = (
-		interval: number,
-		callback: (time: any) => void
-	) => {
-		Tone.Transport.scheduleRepeat(
-			(time) => {
-				callback(time);
-			},
-			interval,
-			0,
-			period
-		);
-	};
+	// const scheduleEvents = (
+	// 	interval: number,
+	// 	callback: (time: any) => void
+	// ) => {
+	// 	Tone.Transport.scheduleRepeat(
+	// 		(time) => {
+	// 			callback(time);
+	// 		},
+	// 		interval,
+	// 		0,
+	// 		period
+	// 	);
+	// };
 
 	return (
 		<div>
@@ -62,13 +62,13 @@ const Transport = () => {
 			</div>
 			<Voice
 				period={period}
-				scheduleEvents={scheduleEvents}
+				// scheduleEvents={scheduleEvents}
 				voice={1}
 				pitch={PitchClass.C}
 			/>
 			<Voice
 				period={period}
-				scheduleEvents={scheduleEvents}
+				// scheduleEvents={scheduleEvents}
 				voice={2}
 				pitch={PitchClass.G}
 			/>
