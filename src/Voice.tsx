@@ -4,12 +4,13 @@ import { PitchClass } from './utils/types';
 
 type VoiceProps = {
 	period: number;
-	// scheduleEvents: (interval: number, callback: (time: any) => void) => void;
 	voice: number;
 	pitch: PitchClass;
 };
 
-const Voice = ({ period, /* scheduleEvents ,*/ voice, pitch }: VoiceProps) => {
+// handle edge case for no. of steps being 0 or NaN
+
+const Voice = ({ period, voice, pitch }: VoiceProps) => {
 	const [numOfSteps, setNumOfSteps] = useState(4);
 	const [interval, setInterval] = useState(1);
 	const [loopID, setLoopId] = useState(0);
@@ -18,17 +19,12 @@ const Voice = ({ period, /* scheduleEvents ,*/ voice, pitch }: VoiceProps) => {
 
 	useEffect(() => {
 		Tone.Transport.clear(loopID);
-		// Tone.Transport.cancel();
 		setInterval(period / numOfSteps);
 	}, [period, numOfSteps]);
 
 	useEffect(() => {
 		Tone.Transport.clear(loopID);
-		// Tone.Transport.cancel();
 		setInterval(period / numOfSteps);
-		// scheduleEvents(interval, (time) =>
-		// 	synth.triggerAttackRelease(`${pitch}4`, interval * 0.75, time)
-		// );
 		setLoopId(
 			Tone.Transport.scheduleRepeat(
 				(time) => {
