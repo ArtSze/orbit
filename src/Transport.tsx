@@ -9,11 +9,33 @@ const Transport = () => {
 	const [period, setPeriod] = useState(Tone.Time('1m').toSeconds());
 
 	const [triggerText, setTriggerText] = useState('play');
+	const [bpmErrorMessage, setBpmErrorMessage] = useState('');
+
+	const validTempo = bpm >= 20 && bpm <= 300 && !isNaN(bpm) ? true : false;
+
+	const toggleTransport = () => {
+		Tone.Transport.toggle();
+		triggerText === 'play'
+			? setTriggerText('stop')
+			: setTriggerText('play');
+	};
+
+	const flashBpmErrorMessage = () => {
+		setBpmErrorMessage('BPM must fall within range of 20 through 300 BPM');
+		setTimeout(() => setBpmErrorMessage(''), 4 * 1000);
+	};
 
 	useEffect(() => {
-		Tone.Transport.cancel();
-		Tone.Transport.bpm.value = bpm;
-		setPeriod(Tone.Time('1m').toSeconds());
+		if (validTempo) {
+			Tone.Transport.cancel();
+			Tone.Transport.bpm.value = bpm;
+			setPeriod(Tone.Time('1m').toSeconds());
+		} else if (!validTempo) {
+			if (Tone.Transport.state === 'started') {
+				toggleTransport();
+			}
+			flashBpmErrorMessage();
+		}
 	}, [bpm]);
 
 	useEffect(() => {
@@ -24,16 +46,15 @@ const Transport = () => {
 	}, [bpm, period]);
 
 	const triggerLoop = async () => {
-		if (Tone.context.state === 'suspended') {
-			await Tone.start();
-			console.log(`context resumed`);
-		}
+		if (validTempo) {
+			if (Tone.context.state === 'suspended') {
+				await Tone.start();
+				console.log(`context resumed`);
+			}
 
-		Tone.Transport.toggle();
-		triggerText === 'play'
-			? setTriggerText('stop')
-			: setTriggerText('play');
-		console.log(Tone.Transport.state);
+			toggleTransport();
+			console.log(Tone.Transport.state);
+		}
 	};
 
 	return (
@@ -45,6 +66,7 @@ const Transport = () => {
 					value={bpm}
 					onChange={(event) => setBpm(parseInt(event.target.value))}
 				/>
+				<div>{`${bpmErrorMessage}`}</div>
 			</div>
 			<Voice period={period} voice={1} pitch={PitchClass.C} />
 			<Voice period={period} voice={2} pitch={PitchClass.G} />
