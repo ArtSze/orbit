@@ -48,6 +48,8 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 							interval * 0.75,
 							time
 						);
+						// include logic here that sets each respective step's indicator state to true so that it flashes...
+						// tricky part is iterating through the steps... need to bump up index although this is a "scheduled repeat"
 					},
 					interval,
 					0,

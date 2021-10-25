@@ -13,6 +13,8 @@ const Transport = () => {
 
 	const validTempo = bpm >= 20 && bpm <= 300 && !isNaN(bpm) ? true : false;
 
+	// implement midi export of loop
+
 	const toggleTransport = () => {
 		Tone.Transport.toggle();
 		triggerText === 'play'
@@ -50,6 +52,7 @@ const Transport = () => {
 			if (Tone.context.state === 'suspended') {
 				await Tone.start();
 				console.log(`context resumed`);
+				console.log(Tone.Transport);
 			}
 
 			toggleTransport();
