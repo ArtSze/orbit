@@ -1,6 +1,8 @@
 .inactive {
 	padding: 4px;
 	text-align: center;
+	border-width: 1px;
+	border-style: solid;
 }
 
 .active {

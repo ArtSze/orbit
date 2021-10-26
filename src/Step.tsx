@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import './utils/styles.css';
+import { StepProps } from './Voice';
 
-const Step = () => {
-	const [indicator, setIndicator] = useState(false);
-
-	return <div className={indicator ? 'active' : 'inactive'}></div>;
+const Step = ({ isHead, isOn }: StepProps) => {
+	return <div className={isOn ? 'active' : 'inactive'}></div>;
 };
+
+export default Step;

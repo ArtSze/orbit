@@ -51,12 +51,9 @@ const Transport = () => {
 		if (validTempo) {
 			if (Tone.context.state === 'suspended') {
 				await Tone.start();
-				console.log(`context resumed`);
-				console.log(Tone.Transport);
 			}
 
 			toggleTransport();
-			console.log(Tone.Transport.state);
 		}
 	};
 
