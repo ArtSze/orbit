@@ -76,7 +76,6 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		flashHead();
 		iterateHead();
 		console.log({ postAll: steps });
-		console.log(Tone.Transport);
 	};
 
 	useEffect(() => {
@@ -94,9 +93,6 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 			flashStepsErrorMessage();
 		}
 	}, [period, numOfSteps]);
-
-	// is it creating and clearing a loop every step?
-	// better to schedule individual events?
 
 	useEffect(() => {
 		Tone.Transport.clear(loopID);
@@ -119,6 +115,9 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 				)
 			);
 		}
+		// proof it's creating and clearing a loop every step?
+		// better to schedule individual events?
+		console.log(loopID);
 	}, [period, interval, steps]);
 
 	return (
@@ -134,7 +133,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 				<div>{`${stepsErrorMessage}`}</div>
 				<div>
 					{steps.map((step, index) => {
-						return <Step key={index} {...step}></Step>;
+						return <Step {...step} key={index}></Step>;
 					})}
 				</div>
 				<button
