@@ -39,40 +39,57 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		setTimeout(() => setStepsErrorMessage(''), 3 * 1000);
 	};
 
+	const toggleIsOn = (step: StepProps) => {
+		return { ...step, isOn: !step.isOn };
+	};
+
+	const findHead = (steps: StepProps[]) => {
+		return {
+			head: steps.find((step) => {
+				return step.isHead === true;
+			}),
+			index: steps.findIndex((step) => {
+				return step.isHead === true;
+			}),
+		};
+	};
+
+	const flashHead = () => {
+		const placeholderSteps = steps;
+		const headObject = findHead(steps);
+		const flashingHead = toggleIsOn(headObject.head!);
+		placeholderSteps[headObject.index] = flashingHead;
+		setSteps(placeholderSteps);
+	};
+
+	const iterateHead = async () => {
+		let placeholderSteps = [...steps];
+		const prevHeadIndex = findHead(steps).index;
+		const nextHeadIndex =
+			prevHeadIndex === steps.length - 1 ? 0 : prevHeadIndex + 1;
+		placeholderSteps[prevHeadIndex] = { isHead: false, isOn: false };
+		placeholderSteps[nextHeadIndex] = { isHead: true, isOn: false };
+		setSteps([...placeholderSteps]);
+	};
+
 	const flashAndIterate = () => {
-		const og = steps;
-		const flash = steps.map((step) => {
-			return step.isHead ? { ...step, isOn: true } : { ...step };
-		});
-		setSteps(flash);
-		setSteps(og);
-		const iteratedHead = steps.map((step, index) => {
-			if (index === steps.length - 1) {
-				return index === 0
-					? { ...step, isHead: true }
-					: { ...step, isHead: false };
-			} else {
-				return steps[index - 1].isHead
-					? { ...step, isHead: true }
-					: { ...step, isHead: false };
-			}
-		});
-		setSteps(iteratedHead);
+		flashHead();
+		iterateHead();
+		console.log({ postAll: steps });
 	};
 
 	useEffect(() => {
 		Tone.Transport.clear(loopID);
 		if (validTimeParams && stepsWithinRange) {
 			setInterval(period / numOfSteps);
-			let remainderSteps = [];
-			for (let i = 1; i < numOfSteps; i++) {
-				remainderSteps.push({ isHead: false, isOn: false });
-			}
-			setSteps([{ isHead: true, isOn: false }, ...remainderSteps]);
+			// let remainderSteps = [];
+			// for (let i = 1; i < numOfSteps; i++) {
+			// 	remainderSteps.push({ isHead: false, isOn: false });
+			// }
+			// setSteps([{ isHead: true, isOn: false }, ...remainderSteps]);
 		} else if (!stepsWithinRange) {
 			flashStepsErrorMessage();
 		}
-		console.log(steps);
 	}, [period, numOfSteps]);
 
 	useEffect(() => {
@@ -88,12 +105,29 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 							interval * 0.75,
 							time
 						);
-						flashAndIterate();
+						// flashAndIterate();
 					},
 					interval,
 					0,
 					period
 				)
+			);
+
+			// for (let i = 0; i < numOfSteps; i++) {
+			// 	Tone.Draw.schedule(() => {
+			// 		flashAndIterate();
+			// 	}, `+${interval}`);
+			// }
+
+			Tone.Transport.scheduleRepeat(
+				(time) => {
+					Tone.Draw.schedule(() => {
+						flashAndIterate();
+					}, time);
+				},
+				interval,
+				0,
+				period
 			);
 		}
 	}, [period, interval]);
@@ -110,10 +144,16 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 				/>
 				<div>{`${stepsErrorMessage}`}</div>
 				<div>
-					{steps.map((step) => {
-						return <Step {...step}></Step>;
+					{steps.map((step, index) => {
+						return <Step key={index} {...step}></Step>;
 					})}
 				</div>
+				<button
+					onClick={() => {
+						flashAndIterate();
+					}}>
+					Flash and Iterate
+				</button>
 			</div>
 		</div>
 	);
