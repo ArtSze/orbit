@@ -30,7 +30,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 
 	const validTimeParams = numOfSteps !== (NaN || 0) ? true : false;
 
-	const stepsWithinRange = numOfSteps! <= 128 ? true : false;
+	const stepsWithinRange = numOfSteps <= 128 ? true : false;
 
 	const flashStepsErrorMessage = () => {
 		setStepsErrorMessage(
@@ -64,12 +64,11 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		Tone.Transport.clear(loopID);
 		if (validTimeParams && stepsWithinRange) {
 			setInterval(period / numOfSteps);
-			setSteps([{ isHead: true, isOn: false }]);
 			let remainderSteps = [];
 			for (let i = 1; i < numOfSteps; i++) {
 				remainderSteps.push({ isHead: false, isOn: false });
 			}
-			setSteps([...steps, ...remainderSteps]);
+			setSteps([{ isHead: true, isOn: false }, ...remainderSteps]);
 		} else if (!stepsWithinRange) {
 			flashStepsErrorMessage();
 		}
