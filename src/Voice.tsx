@@ -76,21 +76,27 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		flashHead();
 		iterateHead();
 		console.log({ postAll: steps });
+		console.log(Tone.Transport);
 	};
 
 	useEffect(() => {
 		Tone.Transport.clear(loopID);
 		if (validTimeParams && stepsWithinRange) {
 			setInterval(period / numOfSteps);
-			// let remainderSteps = [];
-			// for (let i = 1; i < numOfSteps; i++) {
-			// 	remainderSteps.push({ isHead: false, isOn: false });
-			// }
-			// setSteps([{ isHead: true, isOn: false }, ...remainderSteps]);
+			const headObject = findHead(steps);
+			const newSteps = [] as StepProps[];
+			for (let i = 0; i < numOfSteps; i++) {
+				newSteps.push({ isHead: false, isOn: false });
+			}
+			newSteps[headObject.index] = headObject.head!;
+			setSteps(newSteps);
 		} else if (!stepsWithinRange) {
 			flashStepsErrorMessage();
 		}
 	}, [period, numOfSteps]);
+
+	// is it creating and clearing a loop every step?
+	// better to schedule individual events?
 
 	useEffect(() => {
 		Tone.Transport.clear(loopID);
