@@ -105,32 +105,15 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 							interval * 0.75,
 							time
 						);
-						// flashAndIterate();
+						flashAndIterate();
 					},
 					interval,
 					0,
 					period
 				)
 			);
-
-			// for (let i = 0; i < numOfSteps; i++) {
-			// 	Tone.Draw.schedule(() => {
-			// 		flashAndIterate();
-			// 	}, `+${interval}`);
-			// }
-
-			Tone.Transport.scheduleRepeat(
-				(time) => {
-					Tone.Draw.schedule(() => {
-						flashAndIterate();
-					}, time);
-				},
-				interval,
-				0,
-				period
-			);
 		}
-	}, [period, interval]);
+	}, [period, interval, steps]);
 
 	return (
 		<div>
