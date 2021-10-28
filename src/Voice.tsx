@@ -2,6 +2,7 @@ import * as Tone from 'tone';
 import { useState, useEffect } from 'react';
 import { PitchClass } from './utils/types';
 import Step from './Step';
+import Steps from './Steps';
 
 type VoiceProps = {
 	period: number;
@@ -75,7 +76,6 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 	const flashAndIterate = () => {
 		flashHead();
 		iterateHead();
-		console.log({ postAll: steps });
 	};
 
 	useEffect(() => {
@@ -115,10 +115,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 				)
 			);
 		}
-		// proof it's creating and clearing a loop every step?
-		// better to schedule individual events?
-		console.log(loopID);
-	}, [period, interval, steps]);
+	}, [period, interval]);
 
 	return (
 		<div>
@@ -131,11 +128,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 					}
 				/>
 				<div>{`${stepsErrorMessage}`}</div>
-				<div>
-					{steps.map((step, index) => {
-						return <Step {...step} key={index}></Step>;
-					})}
-				</div>
+				<Steps steps={steps} />
 				<button
 					onClick={() => {
 						flashAndIterate();
