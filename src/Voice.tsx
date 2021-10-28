@@ -25,7 +25,6 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 
 	const initialSteps: StepProps[] = [
 		{ isActive: true, isHead: true, isPlaying: false },
-		{ isActive: false, isHead: false, isPlaying: false },
 	];
 
 	const [steps, setSteps] = useState<StepProps[]>(initialSteps);
@@ -46,6 +45,14 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 	useEffect(() => {
 		if (validTimeParams && stepsWithinRange) {
 			setInterval(period / numOfSteps);
+			const tempSteps = [];
+			for (let i = 0; i < numOfSteps; i++) {
+				tempSteps.push({
+					isActive: false,
+					isHead: false,
+					isPlaying: false,
+				});
+			}
 		} else if (!stepsWithinRange) {
 			flashStepsErrorMessage();
 		}
