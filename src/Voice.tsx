@@ -1,8 +1,8 @@
 import * as Tone from 'tone';
 import { useState, useEffect } from 'react';
+
 import { PitchClass } from './utils/types';
-import Step from './Step';
-import Steps from './Steps';
+import StepContainer from './StepContainer';
 
 type VoiceProps = {
 	period: number;
@@ -12,20 +12,23 @@ type VoiceProps = {
 
 export type StepProps = {
 	isHead: boolean;
-	isOn: boolean;
+	isActive: boolean;
+	isPlaying: boolean;
 };
+
+// need to make setSteps accessible to inner workings of each step div so that clicking actually triggers a state change
 
 const Voice = ({ period, voice, pitch }: VoiceProps) => {
 	const [numOfSteps, setNumOfSteps] = useState<number>(4);
 	const [interval, setInterval] = useState<number>(1);
-	const [loopID, setLoopId] = useState<number>(0);
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
-	const [steps, setSteps] = useState<StepProps[]>([
-		{ isHead: true, isOn: false },
-		{ isHead: false, isOn: false },
-		{ isHead: false, isOn: false },
-		{ isHead: false, isOn: false },
-	]);
+
+	const initialSteps: StepProps[] = [
+		{ isActive: true, isHead: true, isPlaying: false },
+		{ isActive: false, isHead: false, isPlaying: false },
+	];
+
+	const [steps, setSteps] = useState<StepProps[]>(initialSteps);
 
 	const synth = new Tone.Synth().toDestination();
 
@@ -40,82 +43,23 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		setTimeout(() => setStepsErrorMessage(''), 3 * 1000);
 	};
 
-	const toggleIsOn = (step: StepProps) => {
-		return { ...step, isOn: !step.isOn };
-	};
-
-	const findHead = (steps: StepProps[]) => {
-		return {
-			head: steps.find((step) => {
-				return step.isHead === true;
-			}),
-			index: steps.findIndex((step) => {
-				return step.isHead === true;
-			}),
-		};
-	};
-
-	const flashHead = () => {
-		const placeholderSteps = steps;
-		const headObject = findHead(steps);
-		const flashingHead = toggleIsOn(headObject.head!);
-		placeholderSteps[headObject.index] = flashingHead;
-		setSteps(placeholderSteps);
-	};
-
-	const iterateHead = async () => {
-		let placeholderSteps = [...steps];
-		const prevHeadIndex = findHead(steps).index;
-		const nextHeadIndex =
-			prevHeadIndex === steps.length - 1 ? 0 : prevHeadIndex + 1;
-		placeholderSteps[prevHeadIndex] = { isHead: false, isOn: false };
-		placeholderSteps[nextHeadIndex] = { isHead: true, isOn: false };
-		setSteps([...placeholderSteps]);
-	};
-
-	const flashAndIterate = () => {
-		flashHead();
-		iterateHead();
-	};
-
 	useEffect(() => {
-		Tone.Transport.clear(loopID);
 		if (validTimeParams && stepsWithinRange) {
 			setInterval(period / numOfSteps);
-			const headObject = findHead(steps);
-			const newSteps = [] as StepProps[];
-			for (let i = 0; i < numOfSteps; i++) {
-				newSteps.push({ isHead: false, isOn: false });
-			}
-			newSteps[headObject.index] = headObject.head!;
-			setSteps(newSteps);
 		} else if (!stepsWithinRange) {
 			flashStepsErrorMessage();
 		}
 	}, [period, numOfSteps]);
 
 	useEffect(() => {
-		Tone.Transport.clear(loopID);
 		if (validTimeParams) {
 			setInterval(period / numOfSteps);
-
-			setLoopId(
-				Tone.Transport.scheduleRepeat(
-					(time) => {
-						synth.triggerAttackRelease(
-							`${pitch}4`,
-							interval * 0.75,
-							time
-						);
-						flashAndIterate();
-					},
-					interval,
-					0,
-					period
-				)
-			);
 		}
 	}, [period, interval]);
+
+	useEffect(() => {
+		console.log(steps);
+	}, [steps]);
 
 	return (
 		<div>
@@ -128,13 +72,11 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 					}
 				/>
 				<div>{`${stepsErrorMessage}`}</div>
-				<Steps steps={steps} />
-				<button
-					onClick={() => {
-						flashAndIterate();
-					}}>
-					Flash and Iterate
-				</button>
+				{steps ? (
+					<StepContainer steps={steps} setSteps={setSteps} />
+				) : (
+					<div />
+				)}
 			</div>
 		</div>
 	);
