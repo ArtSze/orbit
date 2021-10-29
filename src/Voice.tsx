@@ -29,6 +29,8 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 	];
 
 	const [steps, setSteps] = useState<StepProps[]>(initialSteps);
+	const [seqArgs, setSeqArgs] = useState<string[]>(['']);
+	const [seq, setSeq] = useState<Tone.Sequence<string>>();
 
 	const synth = new Tone.Synth().toDestination();
 
@@ -63,7 +65,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 			// toggle head's 'isPlaying' status 'true'
 			placeholderSteps[headObject.index!].isPlaying = true;
 			setSteps([...placeholderSteps]);
-			// toggle back to false
+			// toggle back to false... needs method different than setTimeout
 			setTimeout(() => {
 				placeholderSteps[headObject.index!].isPlaying = false;
 				setSteps([...placeholderSteps]);
@@ -83,7 +85,11 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		}
 	};
 
+	// handle changes in numOfSteps
 	useEffect(() => {
+		if (seq) {
+			seq.clear();
+		}
 		if (validTimeParams && stepsWithinRange) {
 			setInterval(period / numOfSteps);
 			const tempSteps = [...steps];
@@ -107,15 +113,39 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		}
 	}, [period, numOfSteps]);
 
+	// initializes and updates array to be fed into seq
 	useEffect(() => {
+		if (seq) {
+			seq.clear();
+		}
+		setSeqArgs(
+			steps.map((step) => {
+				return step.isActive
+					? `${pitch}4`
+					: '' /* needs to be replaced with undefined or void? to create empty member of array */;
+			})
+		);
+	}, [steps]);
+
+	// potential event scheduling
+	useEffect(() => {
+		if (seq) {
+			seq.clear();
+		}
 		if (validTimeParams) {
 			setInterval(period / numOfSteps);
+			setSeq(
+				new Tone.Sequence(
+					(time, note) => {
+						synth.triggerAttackRelease(note, interval * 0.75, time);
+					},
+					[...seqArgs],
+					interval
+				).start(0)
+			);
 		}
-	}, [period, interval]);
-
-	useEffect(() => {
-		console.log(steps);
-	}, [steps]);
+		console.log(seqArgs);
+	}, [period, interval, seqArgs]);
 
 	return (
 		<div>
