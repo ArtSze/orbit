@@ -53,6 +53,33 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		};
 	};
 
+	const flashAndIterate = () => {
+		const placeholderSteps = [...steps];
+		// find head
+		const headObject = findHead(steps);
+		// toggle head's 'isPlaying' status 'true'
+		placeholderSteps[headObject.index!].isPlaying = true;
+		setSteps([...placeholderSteps]);
+		// toggle back to false
+		setTimeout(() => {
+			placeholderSteps[headObject.index!].isPlaying = false;
+			setSteps([...placeholderSteps]);
+		}, 100);
+		// set head's 'isHead' status to false
+		placeholderSteps[headObject.index!].isHead = false;
+		setSteps([...placeholderSteps]);
+		// set [head + 1]'s 'isHead status to true'
+		if (headObject.index! === steps.length - 1) {
+			placeholderSteps[0].isHead = true;
+			setSteps([...placeholderSteps]);
+		} else {
+			placeholderSteps[headObject.index! + 1].isHead = true;
+			setSteps([...placeholderSteps]);
+		}
+
+		console.log(`flash!`);
+	};
+
 	useEffect(() => {
 		if (validTimeParams && stepsWithinRange) {
 			setInterval(period / numOfSteps);
@@ -63,7 +90,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 			if (diff > 0) {
 				for (let i = 0; i < diff; i++) {
 					tempSteps.push({
-						isActive: false,
+						isActive: true,
 						isHead: false,
 						isPlaying: false,
 					});
@@ -103,6 +130,12 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 				) : (
 					<div />
 				)}
+				<button
+					onClick={() => {
+						flashAndIterate();
+					}}>
+					flash and iterate
+				</button>
 			</div>
 		</div>
 	);

@@ -13,9 +13,15 @@ const Step = ({
 	setSteps: React.Dispatch<React.SetStateAction<StepProps[]>>;
 	steps: StepProps[];
 }) => {
+	const status = step.isPlaying
+		? 'playing'
+		: step.isActive
+		? 'active'
+		: 'inactive';
+
 	return (
 		<div
-			className={step.isActive ? 'active' : 'inactive'}
+			className={status}
 			onClick={() => {
 				const tempSteps = steps;
 				tempSteps[ind].isActive = !tempSteps[ind].isActive;
