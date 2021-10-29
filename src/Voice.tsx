@@ -54,19 +54,23 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 	};
 
 	useEffect(() => {
-		// needs to be refined to account for steps that are active pre numOfStep change
 		if (validTimeParams && stepsWithinRange) {
 			setInterval(period / numOfSteps);
-			const headObject = findHead(steps);
-			const tempSteps = [];
-			for (let i = 0; i < numOfSteps; i++) {
-				tempSteps.push({
-					isActive: false,
-					isHead: false,
-					isPlaying: false,
-				});
+			const tempSteps = [...steps];
+			const diff = numOfSteps - steps.length;
+			console.log(diff);
+
+			if (diff > 0) {
+				for (let i = 0; i < diff; i++) {
+					tempSteps.push({
+						isActive: false,
+						isHead: false,
+						isPlaying: false,
+					});
+				}
+			} else if (diff < 0) {
+				tempSteps.splice(numOfSteps - 1, Math.abs(diff));
 			}
-			tempSteps[headObject.index] = headObject.head;
 			setSteps([...tempSteps]);
 		} else if (!stepsWithinRange) {
 			flashStepsErrorMessage();
