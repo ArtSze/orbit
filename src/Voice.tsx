@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 
 import { PitchClass } from './utils/types';
 import StepContainer from './StepContainer';
+import { Synth } from 'tone';
 
 type VoiceProps = {
 	period: number;
@@ -57,14 +58,18 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		const placeholderSteps = [...steps];
 		// find head
 		const headObject = findHead(steps);
-		// toggle head's 'isPlaying' status 'true'
-		placeholderSteps[headObject.index!].isPlaying = true;
-		setSteps([...placeholderSteps]);
-		// toggle back to false
-		setTimeout(() => {
-			placeholderSteps[headObject.index!].isPlaying = false;
+
+		if (headObject.head?.isActive) {
+			// toggle head's 'isPlaying' status 'true'
+			placeholderSteps[headObject.index!].isPlaying = true;
 			setSteps([...placeholderSteps]);
-		}, 100);
+			// toggle back to false
+			setTimeout(() => {
+				placeholderSteps[headObject.index!].isPlaying = false;
+				setSteps([...placeholderSteps]);
+			}, 100);
+		}
+
 		// set head's 'isHead' status to false
 		placeholderSteps[headObject.index!].isHead = false;
 		setSteps([...placeholderSteps]);
@@ -76,8 +81,6 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 			placeholderSteps[headObject.index! + 1].isHead = true;
 			setSteps([...placeholderSteps]);
 		}
-
-		console.log(`flash!`);
 	};
 
 	useEffect(() => {
