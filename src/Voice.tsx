@@ -138,6 +138,8 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 				new Tone.Sequence(
 					(time, note) => {
 						synth.triggerAttackRelease(note, interval * 0.75, time);
+						/* this call causes transport to malfunction... but works for 10s or so */
+						// flashAndIterate();
 					},
 					[...seqArgs],
 					interval
