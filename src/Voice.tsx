@@ -117,9 +117,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		}
 		setSeqArgs(
 			steps.map((step) => {
-				return step.isActive
-					? `${pitch}4`
-					: '' /* needs to be replaced with undefined or void? to create empty member of array */;
+				return step.isActive ? `${pitch}4` : '';
 			})
 		);
 	}, [steps]);
@@ -134,7 +132,14 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 			setSeq(
 				new Tone.Sequence(
 					(time, note) => {
-						synth.triggerAttackRelease(note, interval * 0.75, time);
+						note === ''
+							? (seq!.mute = true)
+							: synth.triggerAttackRelease(
+									note,
+									interval * 0.75,
+									time
+							  );
+
 						/* this call causes transport to malfunction... but works for 10s or so */
 						// flashAndIterate();
 					},
