@@ -1,5 +1,5 @@
 import * as Tone from 'tone';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 import { PitchClass } from './utils/types';
 import StepContainer from './StepContainer';
@@ -26,6 +26,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 	];
 
 	const [steps, setSteps] = useState<StepProps[]>(initialSteps);
+
 	const [seqArgs, setSeqArgs] = useState<string[]>(['']);
 	const [seq, setSeq] = useState<Tone.Sequence<string>>();
 
@@ -63,10 +64,10 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 			placeholderSteps[headObject.index!].isPlaying = true;
 			setSteps([...placeholderSteps]);
 			// toggle back to false... needs method different than setTimeout
-			setTimeout(() => {
-				placeholderSteps[headObject.index!].isPlaying = false;
-				setSteps([...placeholderSteps]);
-			}, 100);
+			// setTimeout(() => {
+			placeholderSteps[headObject.index!].isPlaying = false;
+			setSteps([...placeholderSteps]);
+			// }, 100);
 		}
 
 		// set head's 'isHead' status to false
@@ -91,7 +92,6 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 			setInterval(period / numOfSteps);
 			const tempSteps = [...steps];
 			const diff = numOfSteps - steps.length;
-			console.log(diff);
 
 			if (diff > 0) {
 				for (let i = 0; i < diff; i++) {
@@ -121,6 +121,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 			})
 		);
 	}, [steps]);
+	// ^^^ TRIGGERS FEEDBACK LOOP OF STATE CHANGE... ALWAYS TRUE
 
 	// potential event scheduling
 	useEffect(() => {
@@ -139,16 +140,16 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 									interval * 0.75,
 									time
 							  );
-
-						/* this call causes transport to malfunction... but works for 10s or so */
-						// flashAndIterate();
+						Tone.Draw.schedule(() => {
+							console.log('draw!');
+							// flashAndIterate();
+						}, time);
 					},
 					[...seqArgs],
 					interval
 				).start(0)
 			);
 		}
-		console.log(seqArgs);
 	}, [period, interval, seqArgs]);
 
 	return (

@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
 import './utils/styles.css';
 import { StepProps } from './Voice';
+import { useSpring, animated } from 'react-spring';
 
 const Step = ({
 	step,
@@ -13,20 +13,26 @@ const Step = ({
 	setSteps: React.Dispatch<React.SetStateAction<StepProps[]>>;
 	steps: StepProps[];
 }) => {
-	const status = step.isPlaying
-		? 'playing'
-		: step.isActive
-		? 'active'
-		: 'inactive';
+	const props = useSpring({
+		background: step.isPlaying
+			? 'green'
+			: step.isActive
+			? 'coral'
+			: 'white',
+		config: { tension: 1000 },
+	});
 
 	return (
-		<div
-			className={status}
+		<animated.div
+			className={'step'}
+			style={props}
 			onClick={() => {
 				const tempSteps = steps;
 				tempSteps[ind].isActive = !tempSteps[ind].isActive;
 				setSteps([...tempSteps]);
-			}}></div>
+			}}>
+			I will fade in
+		</animated.div>
 	);
 };
 
