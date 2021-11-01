@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 
 import { PitchClass } from './utils/types';
 import StepContainer from './StepContainer';
-import { Synth } from 'tone';
 
 type VoiceProps = {
 	period: number;
@@ -16,8 +15,6 @@ export type StepProps = {
 	isActive: boolean;
 	isPlaying: boolean;
 };
-
-// need to make setSteps accessible to inner workings of each step div so that clicking actually triggers a state change
 
 const Voice = ({ period, voice, pitch }: VoiceProps) => {
 	const [numOfSteps, setNumOfSteps] = useState<number>(4);
