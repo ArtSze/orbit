@@ -30,9 +30,7 @@ const Step = ({
 				const tempSteps = steps;
 				tempSteps[ind].isActive = !tempSteps[ind].isActive;
 				setSteps([...tempSteps]);
-			}}>
-			I will fade in
-		</animated.div>
+			}}></animated.div>
 	);
 };
 

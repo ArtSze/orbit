@@ -15,6 +15,7 @@ const stepContainer = ({
 			{steps.map((step, index) => {
 				return (
 					<Step
+						key={index}
 						step={step}
 						ind={index}
 						setSteps={setSteps}
