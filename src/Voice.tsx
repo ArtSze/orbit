@@ -23,11 +23,19 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 
 	const initialSteps: StepProps[] = [
 		{ isActive: true, isHead: true, isPlaying: false },
+		{ isActive: true, isHead: false, isPlaying: false },
+		{ isActive: true, isHead: false, isPlaying: false },
+		{ isActive: true, isHead: false, isPlaying: false },
 	];
 
 	const [steps, setSteps] = useState<StepProps[]>(initialSteps);
 
-	const [seqArgs, setSeqArgs] = useState<string[]>(['']);
+	const [seqArgs, setSeqArgs] = useState<string[]>([
+		`${pitch}4`,
+		`${pitch}4`,
+		`${pitch}4`,
+		`${pitch}4`,
+	]);
 	const [seq, setSeq] = useState<Tone.Sequence<string>>();
 
 	const synth = new Tone.Synth().toDestination();
@@ -62,24 +70,24 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		if (headObject.head?.isActive) {
 			// toggle head's 'isPlaying' status 'true'
 			placeholderSteps[headObject.index!].isPlaying = true;
-			setSteps([...placeholderSteps]);
+			setSteps(placeholderSteps);
 			// toggle back to false... needs method different than setTimeout
-			// setTimeout(() => {
-			placeholderSteps[headObject.index!].isPlaying = false;
-			setSteps([...placeholderSteps]);
-			// }, 100);
+			setTimeout(() => {
+				placeholderSteps[headObject.index!].isPlaying = false;
+				setSteps(placeholderSteps);
+			}, 1);
 		}
 
 		// set head's 'isHead' status to false
 		placeholderSteps[headObject.index!].isHead = false;
-		setSteps([...placeholderSteps]);
+		setSteps(placeholderSteps);
 		// set [head + 1]'s 'isHead status to true'
 		if (headObject.index! === steps.length - 1) {
 			placeholderSteps[0].isHead = true;
-			setSteps([...placeholderSteps]);
+			setSteps(placeholderSteps);
 		} else {
 			placeholderSteps[headObject.index! + 1].isHead = true;
-			setSteps([...placeholderSteps]);
+			setSteps(placeholderSteps);
 		}
 	};
 
@@ -90,38 +98,32 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		}
 		if (validTimeParams && stepsWithinRange) {
 			setInterval(period / numOfSteps);
-			const tempSteps = [...steps];
-			const diff = numOfSteps - steps.length;
+
+			const tempSeqArgs = [...seqArgs];
+			const diff = numOfSteps - seqArgs.length;
 
 			if (diff > 0) {
 				for (let i = 0; i < diff; i++) {
-					tempSteps.push({
-						isActive: true,
-						isHead: false,
-						isPlaying: false,
-					});
+					tempSeqArgs.push(`${pitch}4`);
 				}
 			} else if (diff < 0) {
-				tempSteps.splice(numOfSteps - 1, Math.abs(diff));
+				tempSeqArgs.splice(numOfSteps - 1, Math.abs(diff));
 			}
-			setSteps([...tempSteps]);
+			setSeqArgs(tempSeqArgs);
 		} else if (!stepsWithinRange) {
 			flashStepsErrorMessage();
 		}
 	}, [period, numOfSteps]);
 
-	// initializes and updates array to be fed into seq
 	useEffect(() => {
-		if (seq) {
-			seq.clear();
-		}
-		setSeqArgs(
-			steps.map((step) => {
-				return step.isActive ? `${pitch}4` : '';
-			})
-		);
-	}, [steps]);
-	// ^^^ TRIGGERS FEEDBACK LOOP OF STATE CHANGE... ALWAYS TRUE
+		const tempSteps = [...steps];
+
+		tempSteps.forEach((step, i) => {
+			step.isActive = seqArgs[i] === '' ? false : true;
+		});
+
+		setSteps(tempSteps);
+	}, [seqArgs]);
 
 	// potential event scheduling
 	useEffect(() => {
@@ -142,7 +144,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 							  );
 						Tone.Draw.schedule(() => {
 							console.log('draw!');
-							// flashAndIterate();
+							flashAndIterate();
 						}, time);
 					},
 					[...seqArgs],
@@ -164,7 +166,12 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 				/>
 				<div>{`${stepsErrorMessage}`}</div>
 				{steps ? (
-					<StepContainer steps={steps} setSteps={setSteps} />
+					<StepContainer
+						steps={steps}
+						seqArgs={seqArgs}
+						setSeqArgs={setSeqArgs}
+						pitch={pitch}
+					/>
 				) : (
 					<div />
 				)}

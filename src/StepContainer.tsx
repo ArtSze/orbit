@@ -2,24 +2,30 @@ import { useState, useEffect } from 'react';
 import './utils/styles.css';
 import Step from './Step';
 import { StepProps } from './Voice';
+import { PitchClass } from './utils/types';
 
 const stepContainer = ({
 	steps,
-	setSteps,
+	seqArgs,
+	setSeqArgs,
+	pitch,
 }: {
 	steps: StepProps[];
-	setSteps: React.Dispatch<React.SetStateAction<StepProps[]>>;
+	seqArgs: string[];
+	setSeqArgs: React.Dispatch<React.SetStateAction<string[]>>;
+	pitch: PitchClass;
 }) => {
 	return (
 		<div className="stepContainer">
 			{steps.map((step, index) => {
 				return (
 					<Step
-						key={index}
+						pitch={pitch}
 						step={step}
+						key={index}
 						ind={index}
-						setSteps={setSteps}
-						steps={steps}></Step>
+						seqArgs={seqArgs}
+						setSeqArgs={setSeqArgs}></Step>
 				);
 			})}
 		</div>

@@ -1,17 +1,20 @@
 import './utils/styles.css';
 import { StepProps } from './Voice';
 import { useSpring, animated } from 'react-spring';
+import { PitchClass } from './utils/types';
 
 const Step = ({
 	step,
 	ind,
-	setSteps,
-	steps,
+	seqArgs,
+	setSeqArgs,
+	pitch,
 }: {
 	step: StepProps;
 	ind: number;
-	setSteps: React.Dispatch<React.SetStateAction<StepProps[]>>;
-	steps: StepProps[];
+	seqArgs: string[];
+	setSeqArgs: React.Dispatch<React.SetStateAction<string[]>>;
+	pitch: PitchClass;
 }) => {
 	const props = useSpring({
 		background: step.isPlaying
@@ -27,9 +30,9 @@ const Step = ({
 			className={'step'}
 			style={props}
 			onClick={() => {
-				const tempSteps = steps;
-				tempSteps[ind].isActive = !tempSteps[ind].isActive;
-				setSteps([...tempSteps]);
+				const tempSeqArgs = [...seqArgs];
+				tempSeqArgs[ind] = step.isActive ? '' : `${pitch}4`;
+				setSeqArgs(tempSeqArgs);
 			}}></animated.div>
 	);
 };
