@@ -66,18 +66,15 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		const placeholderSteps = [...steps];
 		// find head
 		const headObject = findHead(steps);
-
 		if (headObject.head?.isActive) {
 			// toggle head's 'isPlaying' status 'true'
 			placeholderSteps[headObject.index!].isPlaying = true;
 			setSteps(placeholderSteps);
 			// toggle back to false... needs method different than setTimeout
-			setTimeout(() => {
-				placeholderSteps[headObject.index!].isPlaying = false;
-				setSteps(placeholderSteps);
-			}, 1);
-		}
 
+			placeholderSteps[headObject.index!].isPlaying = false;
+			setSteps(placeholderSteps);
+		}
 		// set head's 'isHead' status to false
 		placeholderSteps[headObject.index!].isHead = false;
 		setSteps(placeholderSteps);
@@ -115,17 +112,32 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		}
 	}, [period, numOfSteps]);
 
+	// updates steps to correspond to changes in seqArgs
 	useEffect(() => {
 		const tempSteps = [...steps];
+		const diff = numOfSteps - tempSteps.length;
+
+		if (diff > 0) {
+			for (let i = 0; i < diff; i++) {
+				tempSteps.push({
+					isActive: true,
+					isHead: false,
+					isPlaying: false,
+				});
+			}
+		} else if (diff < 0) {
+			tempSteps.splice(numOfSteps - 1, Math.abs(diff));
+		}
 
 		tempSteps.forEach((step, i) => {
 			step.isActive = seqArgs[i] === '' ? false : true;
 		});
 
 		setSteps(tempSteps);
-	}, [seqArgs]);
+		console.log(seqArgs);
+	}, [seqArgs, numOfSteps]);
 
-	// potential event scheduling
+	// event scheduling
 	useEffect(() => {
 		if (seq) {
 			seq.clear();
