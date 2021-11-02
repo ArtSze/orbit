@@ -66,26 +66,27 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		const placeholderSteps = [...steps];
 		// find head
 		const headObject = findHead(steps);
-		if (headObject.head?.isActive) {
-			// toggle head's 'isPlaying' status 'true'
-			placeholderSteps[headObject.index!].isPlaying = true;
-			setSteps(placeholderSteps);
-			// toggle back to false... needs method different than setTimeout
+		// if (headObject.head?.isActive) {
+		// toggle head's 'isPlaying' status 'true'
+		// placeholderSteps[headObject.index!].isPlaying = true;
+		// setSteps(placeholderSteps);
+		// toggle back to false... needs method different than setTimeout
 
-			placeholderSteps[headObject.index!].isPlaying = false;
-			setSteps(placeholderSteps);
-		}
+		// placeholderSteps[headObject.index!].isPlaying = false;
+		// setSteps(placeholderSteps);
+		// }
 		// set head's 'isHead' status to false
 		placeholderSteps[headObject.index!].isHead = false;
 		setSteps(placeholderSteps);
 		// set [head + 1]'s 'isHead status to true'
 		if (headObject.index! === steps.length - 1) {
 			placeholderSteps[0].isHead = true;
-			setSteps(placeholderSteps);
+			setSteps([...placeholderSteps]);
 		} else {
 			placeholderSteps[headObject.index! + 1].isHead = true;
-			setSteps(placeholderSteps);
+			setSteps([...placeholderSteps]);
 		}
+		console.log('inside');
 	};
 
 	// handle changes in numOfSteps
@@ -155,7 +156,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 									time
 							  );
 						Tone.Draw.schedule(() => {
-							console.log('draw!');
+							// console.log('draw!');
 							flashAndIterate();
 						}, time);
 					},

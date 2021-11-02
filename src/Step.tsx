@@ -17,11 +17,12 @@ const Step = ({
 	pitch: PitchClass;
 }) => {
 	const props = useSpring({
-		background: step.isPlaying
-			? 'green'
-			: step.isActive
-			? 'coral'
-			: 'white',
+		background:
+			step.isHead && step.isActive
+				? 'green'
+				: step.isActive
+				? 'coral'
+				: 'white',
 		config: { tension: 1000 },
 	});
 
