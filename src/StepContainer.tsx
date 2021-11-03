@@ -22,7 +22,7 @@ const stepContainer = ({
 					<Step
 						pitch={pitch}
 						step={step}
-						key={index}
+						key={`${pitch}4- ${index}`}
 						ind={index}
 						seqArgs={seqArgs}
 						setSeqArgs={setSeqArgs}></Step>

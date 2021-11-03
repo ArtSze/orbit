@@ -18,7 +18,7 @@ const Step = ({
 }) => {
 	const props = useSpring({
 		background:
-			step.isHead && step.isActive
+			step.isPlaying && step.isActive
 				? 'green'
 				: step.isActive
 				? 'coral'

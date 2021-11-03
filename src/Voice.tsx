@@ -11,7 +11,7 @@ type VoiceProps = {
 };
 
 export type StepProps = {
-	isHead: boolean;
+	isPlayHead: boolean;
 	isActive: boolean;
 	isPlaying: boolean;
 };
@@ -22,10 +22,10 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
 
 	const initialSteps: StepProps[] = [
-		{ isActive: true, isHead: true, isPlaying: false },
-		{ isActive: true, isHead: false, isPlaying: false },
-		{ isActive: true, isHead: false, isPlaying: false },
-		{ isActive: true, isHead: false, isPlaying: false },
+		{ isActive: true, isPlayHead: false, isPlaying: true },
+		{ isActive: true, isPlayHead: false, isPlaying: false },
+		{ isActive: true, isPlayHead: false, isPlaying: false },
+		{ isActive: true, isPlayHead: false, isPlaying: false },
 	];
 
 	const [steps, setSteps] = useState<StepProps[]>(initialSteps);
@@ -37,6 +37,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		`${pitch}4`,
 	]);
 	const [seq, setSeq] = useState<Tone.Sequence<string>>();
+	const [headIndex, setHeadIndex] = useState<number>(0);
 
 	const synth = new Tone.Synth().toDestination();
 
@@ -51,41 +52,21 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		setTimeout(() => setStepsErrorMessage(''), 3 * 1000);
 	};
 
-	const findHead = (steps: StepProps[]) => {
-		return {
-			head: steps.find((step) => {
-				return step.isHead === true;
-			}),
-			index: steps.findIndex((step) => {
-				return step.isHead === true;
-			}),
-		};
-	};
-
-	const flashAndIterate = () => {
-		const placeholderSteps = [...steps];
-		// find head
-		const headObject = findHead(steps);
-		// if (headObject.head?.isActive) {
-		// toggle head's 'isPlaying' status 'true'
-		// placeholderSteps[headObject.index!].isPlaying = true;
-		// setSteps(placeholderSteps);
-		// toggle back to false... needs method different than setTimeout
-
-		// placeholderSteps[headObject.index!].isPlaying = false;
-		// setSteps(placeholderSteps);
-		// }
-		// set head's 'isHead' status to false
-		placeholderSteps[headObject.index!].isHead = false;
-		setSteps(placeholderSteps);
-		// set [head + 1]'s 'isHead status to true'
-		if (headObject.index! === steps.length - 1) {
-			placeholderSteps[0].isHead = true;
-			setSteps([...placeholderSteps]);
+	const flashAndIterate = (headIndex: number) => {
+		const tempSteps = [...steps];
+		tempSteps[headIndex].isPlaying = false;
+		setSteps(tempSteps);
+		if (headIndex === steps.length - 1) {
+			tempSteps[0].isPlaying = true;
+			setHeadIndex(0);
+			setSteps(tempSteps);
 		} else {
-			placeholderSteps[headObject.index! + 1].isHead = true;
-			setSteps([...placeholderSteps]);
+			tempSteps[headIndex + 1].isPlaying = true;
+			setHeadIndex(headIndex + 1);
+			console.log(headIndex);
+			setSteps(tempSteps);
 		}
+
 		console.log('inside');
 	};
 
@@ -122,7 +103,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 			for (let i = 0; i < diff; i++) {
 				tempSteps.push({
 					isActive: true,
-					isHead: false,
+					isPlayHead: false,
 					isPlaying: false,
 				});
 			}
@@ -155,15 +136,23 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 									interval * 0.75,
 									time
 							  );
-						Tone.Draw.schedule(() => {
-							// console.log('draw!');
-							flashAndIterate();
-						}, time);
+						// Tone.Draw.schedule(() => {
+						// 	// setHeadIndex(headIndex + 1);
+						// 	// console.log(headIndex);
+						// 	// console.log('draw!');
+						// 	// flashAndIterate();
+						// }, time);
 					},
 					[...seqArgs],
 					interval
 				).start(0)
 			);
+
+			Tone.Transport.scheduleRepeat((time) => {
+				Tone.Draw.schedule(() => {
+					flashAndIterate(headIndex);
+				}, time);
+			}, interval);
 		}
 	}, [period, interval, seqArgs]);
 
@@ -190,7 +179,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 				)}
 				<button
 					onClick={() => {
-						flashAndIterate();
+						flashAndIterate(headIndex);
 					}}>
 					flash and iterate
 				</button>
