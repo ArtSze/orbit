@@ -52,7 +52,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		setTimeout(() => setStepsErrorMessage(''), 3 * 1000);
 	};
 
-	const flashAndIterate = (headIndex: number) => {
+	const flashAndIterate = () => {
 		const tempSteps = [...steps];
 		tempSteps[headIndex].isPlaying = false;
 		setSteps(tempSteps);
@@ -150,7 +150,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 
 			Tone.Transport.scheduleRepeat((time) => {
 				Tone.Draw.schedule(() => {
-					flashAndIterate(headIndex);
+					flashAndIterate();
 				}, time);
 			}, interval);
 		}
@@ -179,7 +179,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 				)}
 				<button
 					onClick={() => {
-						flashAndIterate(headIndex);
+						flashAndIterate();
 					}}>
 					flash and iterate
 				</button>
