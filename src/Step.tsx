@@ -1,4 +1,4 @@
-import './utils/styles.css';
+import './utils/styles.scss';
 import { StepProps } from './Voice';
 import { useSpring, animated } from 'react-spring';
 import { PitchClass } from './utils/types';
@@ -18,11 +18,9 @@ const Step = ({
 }) => {
 	const props = useSpring({
 		background:
-			step.isPlaying && step.isActive
-				? 'green'
-				: step.isActive
-				? 'coral'
-				: 'white',
+			// step.isPlayHead && step.isActive
+			// 	? 'green'
+			step.isActive ? 'rgb(23, 175, 99)' : 'rgb(220, 255, 238)',
 		config: { tension: 1000 },
 	});
 

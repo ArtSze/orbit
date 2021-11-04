@@ -1,5 +1,5 @@
 import * as Tone from 'tone';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 
 import { PitchClass } from './utils/types';
 import StepContainer from './StepContainer';
@@ -16,19 +16,27 @@ export type StepProps = {
 	isPlaying: boolean;
 };
 
+type StepsWithHeadIndex = {
+	arr: StepProps[];
+	headIndex: number;
+};
+
 const Voice = ({ period, voice, pitch }: VoiceProps) => {
 	const [numOfSteps, setNumOfSteps] = useState<number>(4);
 	const [interval, setInterval] = useState<number>(1);
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
 
 	const initialSteps: StepProps[] = [
-		{ isActive: true, isPlayHead: false, isPlaying: true },
+		{ isActive: true, isPlayHead: true, isPlaying: false },
 		{ isActive: true, isPlayHead: false, isPlaying: false },
 		{ isActive: true, isPlayHead: false, isPlaying: false },
 		{ isActive: true, isPlayHead: false, isPlaying: false },
 	];
 
-	const [steps, setSteps] = useState<StepProps[]>(initialSteps);
+	const [steps, setSteps] = useState<StepsWithHeadIndex>({
+		arr: initialSteps,
+		headIndex: 0,
+	});
 
 	const [seqArgs, setSeqArgs] = useState<string[]>([
 		`${pitch}4`,
@@ -37,7 +45,6 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		`${pitch}4`,
 	]);
 	const [seq, setSeq] = useState<Tone.Sequence<string>>();
-	const [headIndex, setHeadIndex] = useState<number>(0);
 
 	const synth = new Tone.Synth().toDestination();
 
@@ -52,23 +59,25 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		setTimeout(() => setStepsErrorMessage(''), 3 * 1000);
 	};
 
-	const flashAndIterate = () => {
-		const tempSteps = [...steps];
-		tempSteps[headIndex].isPlaying = false;
-		setSteps(tempSteps);
-		if (headIndex === steps.length - 1) {
-			tempSteps[0].isPlaying = true;
-			setHeadIndex(0);
-			setSteps(tempSteps);
-		} else {
-			tempSteps[headIndex + 1].isPlaying = true;
-			setHeadIndex(headIndex + 1);
-			console.log(headIndex);
-			setSteps(tempSteps);
-		}
+	// const flashAndIterate = () => {
+	// 	const tempIndex = steps.headIndex;
+	// 	const tempSteps = [...steps.arr];
+	// 	tempSteps[tempIndex].isPlaying = true;
+	// 	setSteps({ ...steps, arr: tempSteps });
+	// 	if (tempIndex === steps.arr.length - 1) {
+	// 		tempSteps[tempIndex].isPlaying = false;
+	// 		tempSteps[tempIndex].isPlayHead = false;
+	// 		tempSteps[0].isPlayHead = true;
+	// 		setSteps({ arr: tempSteps, headIndex: 0 });
+	// 	} else {
+	// 		tempSteps[tempIndex].isPlaying = false;
+	// 		tempSteps[tempIndex].isPlayHead = false;
+	// 		tempSteps[tempIndex + 1].isPlayHead = true;
+	// 		setSteps({ arr: tempSteps, headIndex: tempIndex + 1 });
+	// 	}
 
-		console.log('inside');
-	};
+	// 	console.log('inside');
+	// };
 
 	// handle changes in numOfSteps
 	useEffect(() => {
@@ -89,6 +98,15 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 				tempSeqArgs.splice(numOfSteps - 1, Math.abs(diff));
 			}
 			setSeqArgs(tempSeqArgs);
+
+			document.documentElement.style.setProperty(
+				'--num-steps',
+				`${numOfSteps}`
+			);
+
+			console.log(
+				document.documentElement.style.getPropertyValue('--num-steps')
+			);
 		} else if (!stepsWithinRange) {
 			flashStepsErrorMessage();
 		}
@@ -96,7 +114,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 
 	// updates steps to correspond to changes in seqArgs
 	useEffect(() => {
-		const tempSteps = [...steps];
+		const tempSteps = [...steps.arr];
 		const diff = numOfSteps - tempSteps.length;
 
 		if (diff > 0) {
@@ -115,8 +133,8 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 			step.isActive = seqArgs[i] === '' ? false : true;
 		});
 
-		setSteps(tempSteps);
-		console.log(seqArgs);
+		setSteps({ ...steps, arr: tempSteps });
+		// console.log(seqArgs);
 	}, [seqArgs, numOfSteps]);
 
 	// event scheduling
@@ -136,23 +154,34 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 									interval * 0.75,
 									time
 							  );
-						// Tone.Draw.schedule(() => {
-						// 	// setHeadIndex(headIndex + 1);
-						// 	// console.log(headIndex);
-						// 	// console.log('draw!');
-						// 	// flashAndIterate();
-						// }, time);
 					},
 					[...seqArgs],
 					interval
 				).start(0)
 			);
 
-			Tone.Transport.scheduleRepeat((time) => {
-				Tone.Draw.schedule(() => {
-					flashAndIterate();
-				}, time);
-			}, interval);
+			// new Tone.Loop(() => {
+			// 	flashAndIterate();
+			// }, interval)
+			// 	.start(0)
+			// 	.stop(period);
+
+			// for (let i = 0; i < numOfSteps; i++) {
+			// 	Tone.Transport.schedule((time) => {
+			// 		Tone.Draw.schedule(() => {
+			// 			const tempSteps = [...steps];
+			// 			tempSteps[i].isPlaying = false;
+			// 			setSteps([...tempSteps]);
+			// 			if (i === steps.length - 1) {
+			// 				tempSteps[0].isPlaying = true;
+			// 				setSteps([...tempSteps]);
+			// 			} else {
+			// 				tempSteps[i + 1].isPlaying = true;
+			// 				setSteps([...tempSteps]);
+			// 			}
+			// 		}, time);
+			// 	}, `${interval}`);
+			// }
 		}
 	}, [period, interval, seqArgs]);
 
@@ -169,7 +198,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 				<div>{`${stepsErrorMessage}`}</div>
 				{steps ? (
 					<StepContainer
-						steps={steps}
+						steps={steps.arr}
 						seqArgs={seqArgs}
 						setSeqArgs={setSeqArgs}
 						pitch={pitch}
@@ -177,12 +206,12 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 				) : (
 					<div />
 				)}
-				<button
+				{/* <button
 					onClick={() => {
 						flashAndIterate();
 					}}>
 					flash and iterate
-				</button>
+				</button> */}
 			</div>
 		</div>
 	);

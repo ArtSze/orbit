@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './utils/styles.css';
+import './utils/styles.scss';
 import Step from './Step';
 import { StepProps } from './Voice';
 import { PitchClass } from './utils/types';
