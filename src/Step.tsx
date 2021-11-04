@@ -21,7 +21,7 @@ const Step = ({
 			// step.isPlayHead && step.isActive
 			// 	? 'green'
 			step.isActive ? 'rgb(23, 175, 99)' : 'rgb(220, 255, 238)',
-		config: { tension: 1000 },
+		config: { tension: 500 },
 	});
 
 	return (

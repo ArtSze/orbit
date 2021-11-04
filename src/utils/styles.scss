@@ -22,7 +22,7 @@ $num-steps: 4;
 		margin: -($item-size / 2);
 
 		$angle: (360 / $item-count);
-		$rot: 0;
+		$rot: -90;
 
 		@for $i from 1 through $item-count {
 			&:nth-of-type(#{$i}) {
@@ -43,7 +43,7 @@ $num-steps: 4;
 		$item-size: 4em
 	);
 	margin: 5em auto 0;
-	border: solid 5px black;
+	border: solid 2px black;
 
 	.step {
 		display: block;

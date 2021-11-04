@@ -99,14 +99,14 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 			}
 			setSeqArgs(tempSeqArgs);
 
-			document.documentElement.style.setProperty(
-				'--num-steps',
-				`${numOfSteps}`
-			);
+			// document.documentElement.style.setProperty(
+			// 	'--num-steps',
+			// 	`${numOfSteps}`
+			// );
 
-			console.log(
-				document.documentElement.style.getPropertyValue('--num-steps')
-			);
+			// console.log(
+			// 	document.documentElement.style.getPropertyValue('--num-steps')
+			// );
 		} else if (!stepsWithinRange) {
 			flashStepsErrorMessage();
 		}
