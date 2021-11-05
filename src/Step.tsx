@@ -1,32 +1,48 @@
-import { useState, useEffect } from 'react';
-import './utils/styles.css';
+import './utils/styles.scss';
 import { StepProps } from './Voice';
+import { useSpring, animated } from 'react-spring';
+import { PitchClass } from './utils/types';
 
 const Step = ({
 	step,
 	ind,
-	setSteps,
-	steps,
+	seqArgs,
+	setSeqArgs,
+	pitch,
+	circleProps,
 }: {
 	step: StepProps;
 	ind: number;
-	setSteps: React.Dispatch<React.SetStateAction<StepProps[]>>;
-	steps: StepProps[];
+	seqArgs: string[];
+	setSeqArgs: React.Dispatch<React.SetStateAction<string[]>>;
+	pitch: PitchClass;
+	circleProps: React.CSSProperties;
 }) => {
-	const status = step.isPlaying
-		? 'playing'
-		: step.isActive
-		? 'active'
-		: 'inactive';
+	const props = useSpring({
+		background:
+			// step.isPlayHead && step.isActive
+			// 	? 'green'
+			step.isActive ? 'rgb(23, 175, 99)' : 'rgb(220, 255, 238)',
+		config: { tension: 500 },
+	});
 
 	return (
 		<div
-			className={status}
+			style={circleProps}
+			className={step.isActive ? 'stepActive' : 'stepInactive'}
 			onClick={() => {
-				const tempSteps = steps;
-				tempSteps[ind].isActive = !tempSteps[ind].isActive;
-				setSteps([...tempSteps]);
+				const tempSeqArgs = [...seqArgs];
+				tempSeqArgs[ind] = step.isActive ? '' : `${pitch}4`;
+				setSeqArgs(tempSeqArgs);
 			}}></div>
+		// <animated.div
+		// 	className={'step'}
+		// 	style={props}
+		// 	onClick={() => {
+		// 		const tempSeqArgs = [...seqArgs];
+		// 		tempSeqArgs[ind] = step.isActive ? '' : `${pitch}4`;
+		// 		setSeqArgs(tempSeqArgs);
+		// 	}}></animated.div>
 	);
 };
 
