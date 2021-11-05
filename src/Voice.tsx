@@ -187,28 +187,26 @@ const Voice = ({ period, voice, pitch /* divHeight */ }: VoiceProps) => {
 	}, [period, interval, seqArgs]);
 
 	return (
-		<div>
-			<div>
-				{`Voice ${voice}: num of steps-`}
-				<input
-					value={numOfSteps}
-					onChange={(event) =>
-						setNumOfSteps(parseInt(event.target.value))
-					}
+		<div className={`voice`}>
+			{`Voice ${voice}: num of steps-`}
+			<input
+				value={numOfSteps}
+				onChange={(event) =>
+					setNumOfSteps(parseInt(event.target.value))
+				}
+			/>
+			<div>{`${stepsErrorMessage}`}</div>
+			{steps ? (
+				<StepContainer
+					steps={steps.arr}
+					seqArgs={seqArgs}
+					setSeqArgs={setSeqArgs}
+					pitch={pitch}
+					voice={voice}
 				/>
-				<div>{`${stepsErrorMessage}`}</div>
-				{steps ? (
-					<StepContainer
-						steps={steps.arr}
-						seqArgs={seqArgs}
-						setSeqArgs={setSeqArgs}
-						pitch={pitch}
-						voice={voice}
-					/>
-				) : (
-					<div />
-				)}
-			</div>
+			) : (
+				<div />
+			)}
 		</div>
 	);
 };

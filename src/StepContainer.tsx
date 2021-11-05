@@ -59,10 +59,7 @@ const StepContainer = ({
 	}, [steps]);
 
 	return (
-		<div
-			ref={targetRef}
-			className="stepContainer" /* id={`voice${voice}`} */
-		>
+		<div ref={targetRef} className="stepContainer" id={`voice${voice}`}>
 			{steps.map((step, index) => {
 				const height = dimensions.height;
 
@@ -73,9 +70,14 @@ const StepContainer = ({
 
 				const style: React.CSSProperties = {
 					position: 'absolute',
-					top: height! / 2 - parseInt(posY.slice(0, -2)) + 200 + 'px',
+					top:
+						height! / 5 -
+						parseInt(posY.slice(0, -2)) /* + 200  */ +
+						'px',
 					left:
-						height! / 2 + parseInt(posX.slice(0, -2)) + 200 + 'px',
+						height! / 5 +
+						parseInt(posX.slice(0, -2)) /* + 200 */ +
+						'px',
 					// padding: 20 + 'px',
 				};
 

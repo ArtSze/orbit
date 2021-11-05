@@ -27,7 +27,14 @@ const Step = ({
 	});
 
 	return (
-		<div style={circleProps} className={`step`}></div>
+		<div
+			style={circleProps}
+			className={step.isActive ? 'stepActive' : 'stepInactive'}
+			onClick={() => {
+				const tempSeqArgs = [...seqArgs];
+				tempSeqArgs[ind] = step.isActive ? '' : `${pitch}4`;
+				setSeqArgs(tempSeqArgs);
+			}}></div>
 		// <animated.div
 		// 	className={'step'}
 		// 	style={props}

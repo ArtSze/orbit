@@ -1,65 +1,53 @@
-// $num-steps: 4;
-
-// #root {
-// 	--num-steps: #{$num-steps};
-// }
-
-// @mixin on-circle($item-count, $circle-size, $item-size) {
-// 	position: relative;
-// 	width: $circle-size;
-// 	height: $circle-size;
-// 	padding: 0;
-// 	border-radius: 50%;
-// 	list-style: none;
-
-// 	> * {
-// 		display: block;
-// 		position: absolute;
-// 		top: 50%;
-// 		left: 50%;
-// 		width: $item-size;
-// 		height: $item-size;
-// 		margin: -($item-size / 2);
-
-// 		$angle: (360 / $item-count);
-// 		$rot: -90;
-
-// 		@for $i from 1 through $item-count {
-// 			&:nth-of-type(#{$i}) {
-// 				transform: rotate($rot * 1deg)
-// 					translate($circle-size / 2)
-// 					rotate($rot * -1deg);
-// 			}
-
-// 			$rot: $rot + $angle;
-// 		}
-// 	}
-// }
-
-// .stepContainer {
-// 	@include on-circle(
-// 		$item-count: $num-steps,
-// 		$circle-size: 10em,
-// 		$item-size: 4em
-// 	);
-// 	margin: 5em auto 0;
-// 	border: solid 2px black;
-
-// 	.step {
-// 		display: block;
-// 		max-width: 100%;
-// 		border-radius: 50%;
-// 	}
-// }
-
-.stepContainer {
+.transport {
 	display: flex;
-	height: 100px;
-	// left: 200px;
+	flex-direction: column;
+	align-items: center;
 }
 
-.step {
-	background-color: aqua;
+#voiceContainer {
+	margin-top: 50px;
+}
+
+.voice {
+	display: flex;
+	justify-content: center;
+}
+
+.stepContainer {
+	position: absolute;
+	transform: rotate(-90deg);
+	margin-left: 40px;
+}
+
+#voice1 {
+	display: flex;
+	height: 90px;
+	margin-top: 300px;
+	margin-right: 33px;
+}
+
+#voice2 {
+	display: flex;
+	height: 150px;
+	margin-top: 261px;
+	margin-left: 44px;
+}
+#voice3 {
+	display: flex;
+	height: 210px;
+	margin-top: 223px;
+	margin-left: 77px;
+}
+
+.stepActive {
+	background-color: rgb(28, 119, 0);
+	padding: 20px;
+	max-width: 100%;
+	border-radius: 50%;
+}
+
+.stepInactive {
+	background-color: rgb(148, 255, 172);
 	padding: 20px;
 	max-width: 100%;
 	border-radius: 50%;
