@@ -9,12 +9,14 @@ const Step = ({
 	seqArgs,
 	setSeqArgs,
 	pitch,
+	circleProps,
 }: {
 	step: StepProps;
 	ind: number;
 	seqArgs: string[];
 	setSeqArgs: React.Dispatch<React.SetStateAction<string[]>>;
 	pitch: PitchClass;
+	circleProps: React.CSSProperties;
 }) => {
 	const props = useSpring({
 		background:
@@ -25,14 +27,15 @@ const Step = ({
 	});
 
 	return (
-		<animated.div
-			className={'step'}
-			style={props}
-			onClick={() => {
-				const tempSeqArgs = [...seqArgs];
-				tempSeqArgs[ind] = step.isActive ? '' : `${pitch}4`;
-				setSeqArgs(tempSeqArgs);
-			}}></animated.div>
+		<div style={circleProps} className={`step`}></div>
+		// <animated.div
+		// 	className={'step'}
+		// 	style={props}
+		// 	onClick={() => {
+		// 		const tempSeqArgs = [...seqArgs];
+		// 		tempSeqArgs[ind] = step.isActive ? '' : `${pitch}4`;
+		// 		setSeqArgs(tempSeqArgs);
+		// 	}}></animated.div>
 	);
 };
 

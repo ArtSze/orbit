@@ -1,53 +1,66 @@
-$num-steps: 4;
+// $num-steps: 4;
 
-#root {
-	--num-steps: #{$num-steps};
-}
+// #root {
+// 	--num-steps: #{$num-steps};
+// }
 
-@mixin on-circle($item-count, $circle-size, $item-size) {
-	position: relative;
-	width: $circle-size;
-	height: $circle-size;
-	padding: 0;
-	border-radius: 50%;
-	list-style: none;
+// @mixin on-circle($item-count, $circle-size, $item-size) {
+// 	position: relative;
+// 	width: $circle-size;
+// 	height: $circle-size;
+// 	padding: 0;
+// 	border-radius: 50%;
+// 	list-style: none;
 
-	> * {
-		display: block;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: $item-size;
-		height: $item-size;
-		margin: -($item-size / 2);
+// 	> * {
+// 		display: block;
+// 		position: absolute;
+// 		top: 50%;
+// 		left: 50%;
+// 		width: $item-size;
+// 		height: $item-size;
+// 		margin: -($item-size / 2);
 
-		$angle: (360 / $item-count);
-		$rot: -90;
+// 		$angle: (360 / $item-count);
+// 		$rot: -90;
 
-		@for $i from 1 through $item-count {
-			&:nth-of-type(#{$i}) {
-				transform: rotate($rot * 1deg)
-					translate($circle-size / 2)
-					rotate($rot * -1deg);
-			}
+// 		@for $i from 1 through $item-count {
+// 			&:nth-of-type(#{$i}) {
+// 				transform: rotate($rot * 1deg)
+// 					translate($circle-size / 2)
+// 					rotate($rot * -1deg);
+// 			}
 
-			$rot: $rot + $angle;
-		}
-	}
-}
+// 			$rot: $rot + $angle;
+// 		}
+// 	}
+// }
+
+// .stepContainer {
+// 	@include on-circle(
+// 		$item-count: $num-steps,
+// 		$circle-size: 10em,
+// 		$item-size: 4em
+// 	);
+// 	margin: 5em auto 0;
+// 	border: solid 2px black;
+
+// 	.step {
+// 		display: block;
+// 		max-width: 100%;
+// 		border-radius: 50%;
+// 	}
+// }
 
 .stepContainer {
-	@include on-circle(
-		$item-count: $num-steps,
-		$circle-size: 10em,
-		$item-size: 4em
-	);
-	margin: 5em auto 0;
-	border: solid 2px black;
+	display: flex;
+	height: 100px;
+	// left: 200px;
+}
 
-	.step {
-		display: block;
-		max-width: 100%;
-		border-radius: 50%;
-	}
+.step {
+	background-color: aqua;
+	padding: 20px;
+	max-width: 100%;
+	border-radius: 50%;
 }

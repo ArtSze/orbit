@@ -8,6 +8,7 @@ type VoiceProps = {
 	period: number;
 	voice: number;
 	pitch: PitchClass;
+	// divHeight: number;
 };
 
 export type StepProps = {
@@ -21,7 +22,7 @@ type StepsWithHeadIndex = {
 	headIndex: number;
 };
 
-const Voice = ({ period, voice, pitch }: VoiceProps) => {
+const Voice = ({ period, voice, pitch /* divHeight */ }: VoiceProps) => {
 	const [numOfSteps, setNumOfSteps] = useState<number>(4);
 	const [interval, setInterval] = useState<number>(1);
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
@@ -202,16 +203,11 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 						seqArgs={seqArgs}
 						setSeqArgs={setSeqArgs}
 						pitch={pitch}
+						voice={voice}
 					/>
 				) : (
 					<div />
 				)}
-				{/* <button
-					onClick={() => {
-						flashAndIterate();
-					}}>
-					flash and iterate
-				</button> */}
 			</div>
 		</div>
 	);
