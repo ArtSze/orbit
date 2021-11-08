@@ -17,11 +17,6 @@ export type StepProps = {
 	isPlaying: boolean;
 };
 
-type StepsWithHeadIndex = {
-	arr: StepProps[];
-	headIndex: number;
-};
-
 const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 	const [interval, setInterval] = useState<number>(1);
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
@@ -33,10 +28,7 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 		{ isActive: true, isPlayHead: false, isPlaying: false },
 	];
 
-	const [steps, setSteps] = useState<StepsWithHeadIndex>({
-		arr: initialSteps,
-		headIndex: 0,
-	});
+	const [steps, setSteps] = useState<StepProps[]>(initialSteps);
 
 	const [seqArgs, setSeqArgs] = useState<string[]>([
 		`${pitch}4`,
@@ -105,11 +97,11 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 
 	// updates steps to correspond to changes in seqArgs
 	useEffect(() => {
-		const tempSteps = [...steps.arr];
+		const tempSteps = [...steps];
 		const diff = numOfSteps - tempSteps.length;
 
 		if (numOfSteps === 0) {
-			setSteps({ ...steps, arr: [] });
+			setSteps([]);
 		} else {
 			if (diff > 0) {
 				for (let i = 0; i < diff; i++) {
@@ -127,7 +119,7 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 				step.isActive = seqArgs[i] === '' ? false : true;
 			});
 
-			setSteps({ ...steps, arr: tempSteps });
+			setSteps(tempSteps);
 		}
 	}, [seqArgs, numOfSteps]);
 
@@ -184,7 +176,7 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 			<div>{`${stepsErrorMessage}`}</div>
 			{steps ? (
 				<StepContainer
-					steps={steps.arr}
+					steps={steps}
 					seqArgs={seqArgs}
 					setSeqArgs={setSeqArgs}
 					pitch={pitch}
