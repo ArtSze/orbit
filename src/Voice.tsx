@@ -8,7 +8,6 @@ type VoiceProps = {
 	period: number;
 	voice: number;
 	pitch: PitchClass;
-	// divHeight: number;
 };
 
 export type StepProps = {
@@ -22,7 +21,7 @@ type StepsWithHeadIndex = {
 	headIndex: number;
 };
 
-const Voice = ({ period, voice, pitch /* divHeight */ }: VoiceProps) => {
+const Voice = ({ period, voice, pitch }: VoiceProps) => {
 	const [numOfSteps, setNumOfSteps] = useState<number>(4);
 	const [interval, setInterval] = useState<number>(1);
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
@@ -99,15 +98,6 @@ const Voice = ({ period, voice, pitch /* divHeight */ }: VoiceProps) => {
 				tempSeqArgs.splice(numOfSteps - 1, Math.abs(diff));
 			}
 			setSeqArgs(tempSeqArgs);
-
-			// document.documentElement.style.setProperty(
-			// 	'--num-steps',
-			// 	`${numOfSteps}`
-			// );
-
-			// console.log(
-			// 	document.documentElement.style.getPropertyValue('--num-steps')
-			// );
 		} else if (!stepsWithinRange) {
 			flashStepsErrorMessage();
 		}
@@ -135,7 +125,6 @@ const Voice = ({ period, voice, pitch /* divHeight */ }: VoiceProps) => {
 		});
 
 		setSteps({ ...steps, arr: tempSteps });
-		// console.log(seqArgs);
 	}, [seqArgs, numOfSteps]);
 
 	// event scheduling
