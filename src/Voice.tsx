@@ -8,6 +8,7 @@ type VoiceProps = {
 	period: number;
 	voice: number;
 	pitch: PitchClass;
+	numOfSteps: number;
 };
 
 export type StepProps = {
@@ -21,8 +22,7 @@ type StepsWithHeadIndex = {
 	headIndex: number;
 };
 
-const Voice = ({ period, voice, pitch }: VoiceProps) => {
-	const [numOfSteps, setNumOfSteps] = useState<number>(4);
+const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 	const [interval, setInterval] = useState<number>(1);
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
 
@@ -181,13 +181,6 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 
 	return (
 		<div className={`voice`}>
-			{`Voice ${voice}: num of steps-`}
-			<input
-				value={numOfSteps}
-				onChange={(event) =>
-					setNumOfSteps(parseInt(event.target.value))
-				}
-			/>
 			<div>{`${stepsErrorMessage}`}</div>
 			{steps ? (
 				<StepContainer
