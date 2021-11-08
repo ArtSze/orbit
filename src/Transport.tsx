@@ -70,12 +70,7 @@ const Transport = () => {
 			</div>
 			<div>{`length of period in seconds: ${period}`}</div>
 			<div id={'voiceContainer'}>
-				<Voice
-					period={period}
-					voice={1}
-					pitch={PitchClass.C}
-					// divHeight={200}
-				/>
+				<Voice period={period} voice={1} pitch={PitchClass.C} />
 				<Voice period={period} voice={2} pitch={PitchClass.G} />
 				<Voice period={period} voice={3} pitch={PitchClass.B} />
 			</div>
