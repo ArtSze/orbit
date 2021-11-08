@@ -108,23 +108,27 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		const tempSteps = [...steps.arr];
 		const diff = numOfSteps - tempSteps.length;
 
-		if (diff > 0) {
-			for (let i = 0; i < diff; i++) {
-				tempSteps.push({
-					isActive: true,
-					isPlayHead: false,
-					isPlaying: false,
-				});
+		if (numOfSteps === 0) {
+			setSteps({ ...steps, arr: [] });
+		} else {
+			if (diff > 0) {
+				for (let i = 0; i < diff; i++) {
+					tempSteps.push({
+						isActive: true,
+						isPlayHead: false,
+						isPlaying: false,
+					});
+				}
+			} else if (diff < 0) {
+				tempSteps.splice(numOfSteps - 1, Math.abs(diff));
 			}
-		} else if (diff < 0) {
-			tempSteps.splice(numOfSteps - 1, Math.abs(diff));
+
+			tempSteps.forEach((step, i) => {
+				step.isActive = seqArgs[i] === '' ? false : true;
+			});
+
+			setSteps({ ...steps, arr: tempSteps });
 		}
-
-		tempSteps.forEach((step, i) => {
-			step.isActive = seqArgs[i] === '' ? false : true;
-		});
-
-		setSteps({ ...steps, arr: tempSteps });
 	}, [seqArgs, numOfSteps]);
 
 	// event scheduling
