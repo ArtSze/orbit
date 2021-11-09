@@ -13,6 +13,9 @@ const Transport = () => {
 
 	const [triggerText, setTriggerText] = useState('play');
 	const [bpmErrorMessage, setBpmErrorMessage] = useState('');
+	const source1 = new Tone.Synth().toDestination();
+	const source2 = new Tone.Synth().toDestination();
+	const source3 = new Tone.Synth().toDestination();
 
 	const validTempo = bpm >= 20 && bpm <= 300 && !isNaN(bpm) ? true : false;
 
@@ -108,18 +111,21 @@ const Transport = () => {
 
 			<div id={'voiceContainer'}>
 				<Voice
+					source={source1}
 					period={period}
 					voice={1}
 					pitch={PitchClass.C}
 					numOfSteps={numOfSteps1}
 				/>
 				<Voice
+					source={source2}
 					period={period}
 					voice={2}
 					pitch={PitchClass.G}
 					numOfSteps={numOfSteps2}
 				/>
 				<Voice
+					source={source3}
 					period={period}
 					voice={3}
 					pitch={PitchClass.B}
