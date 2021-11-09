@@ -6,6 +6,17 @@
 
 #voiceContainer {
 	margin-top: 50px;
+	display: flex;
+}
+
+#controlContainer {
+	display: flex;
+	flex-direction: column;
+}
+
+#numOfStepsContainer {
+	display: flex;
+	flex-direction: column;
 }
 
 .voice {

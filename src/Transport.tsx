@@ -62,38 +62,48 @@ const Transport = () => {
 
 	return (
 		<div className={`transport`}>
-			<button onClick={() => triggerLoop()}>{triggerText}</button>
-			<div>
-				{'bpm:'}
-				<input
-					value={bpm}
-					onChange={(event) => setBpm(parseInt(event.target.value))}
-				/>
-				<div>{`${bpmErrorMessage}`}</div>
-			</div>
-			<div>{`length of period in seconds: ${period}`}</div>
-			<div>
-				1:{' '}
-				<input
-					value={numOfSteps1}
-					onChange={(event) =>
-						setNumOfSteps1(parseInt(event.target.value))
-					}
-				/>
-				2:{' '}
-				<input
-					value={numOfSteps2}
-					onChange={(event) =>
-						setNumOfSteps2(parseInt(event.target.value))
-					}
-				/>
-				3:{' '}
-				<input
-					value={numOfSteps3}
-					onChange={(event) =>
-						setNumOfSteps3(parseInt(event.target.value))
-					}
-				/>
+			<div id={'controlContainer'}>
+				<button onClick={() => triggerLoop()}>{triggerText}</button>
+				<div>
+					{'bpm:'}
+					<input
+						value={bpm}
+						onChange={(event) =>
+							setBpm(parseInt(event.target.value))
+						}
+					/>
+					<div>{`${bpmErrorMessage}`}</div>
+				</div>
+				{/* <div>{`length of period in seconds: ${period}`}</div> */}
+				<div id={'numOfStepsContainer'}>
+					<div>
+						<label>1:</label>
+						<input
+							value={numOfSteps1}
+							onChange={(event) =>
+								setNumOfSteps1(parseInt(event.target.value))
+							}
+						/>
+					</div>
+					<div>
+						<label>2:</label>
+						<input
+							value={numOfSteps2}
+							onChange={(event) =>
+								setNumOfSteps2(parseInt(event.target.value))
+							}
+						/>
+					</div>
+					<div>
+						<label>3:</label>
+						<input
+							value={numOfSteps3}
+							onChange={(event) =>
+								setNumOfSteps3(parseInt(event.target.value))
+							}
+						/>
+					</div>
+				</div>
 			</div>
 
 			<div id={'voiceContainer'}>
