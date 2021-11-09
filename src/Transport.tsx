@@ -7,6 +7,9 @@ import { PitchClass } from './utils/types';
 const Transport = () => {
 	const [bpm, setBpm] = useState(120);
 	const [period, setPeriod] = useState(Tone.Time('1m').toSeconds());
+	const [numOfSteps1, setNumOfSteps1] = useState<number>(4);
+	const [numOfSteps2, setNumOfSteps2] = useState<number>(4);
+	const [numOfSteps3, setNumOfSteps3] = useState<number>(4);
 
 	const [triggerText, setTriggerText] = useState('play');
 	const [bpmErrorMessage, setBpmErrorMessage] = useState('');
@@ -59,20 +62,69 @@ const Transport = () => {
 
 	return (
 		<div className={`transport`}>
-			<button onClick={() => triggerLoop()}>{triggerText}</button>
-			<div>
-				{'bpm:'}
-				<input
-					value={bpm}
-					onChange={(event) => setBpm(parseInt(event.target.value))}
-				/>
-				<div>{`${bpmErrorMessage}`}</div>
+			<div id={'controlContainer'}>
+				<button onClick={() => triggerLoop()}>{triggerText}</button>
+				<div>
+					{'bpm:'}
+					<input
+						value={bpm}
+						onChange={(event) =>
+							setBpm(parseInt(event.target.value))
+						}
+					/>
+					<div>{`${bpmErrorMessage}`}</div>
+				</div>
+				{/* <div>{`length of period in seconds: ${period}`}</div> */}
+				<div id={'numOfStepsContainer'}>
+					<div>
+						<label>1:</label>
+						<input
+							value={numOfSteps1}
+							onChange={(event) =>
+								setNumOfSteps1(parseInt(event.target.value))
+							}
+						/>
+					</div>
+					<div>
+						<label>2:</label>
+						<input
+							value={numOfSteps2}
+							onChange={(event) =>
+								setNumOfSteps2(parseInt(event.target.value))
+							}
+						/>
+					</div>
+					<div>
+						<label>3:</label>
+						<input
+							value={numOfSteps3}
+							onChange={(event) =>
+								setNumOfSteps3(parseInt(event.target.value))
+							}
+						/>
+					</div>
+				</div>
 			</div>
-			<div>{`length of period in seconds: ${period}`}</div>
+
 			<div id={'voiceContainer'}>
-				<Voice period={period} voice={1} pitch={PitchClass.C} />
-				<Voice period={period} voice={2} pitch={PitchClass.G} />
-				<Voice period={period} voice={3} pitch={PitchClass.B} />
+				<Voice
+					period={period}
+					voice={1}
+					pitch={PitchClass.C}
+					numOfSteps={numOfSteps1}
+				/>
+				<Voice
+					period={period}
+					voice={2}
+					pitch={PitchClass.G}
+					numOfSteps={numOfSteps2}
+				/>
+				<Voice
+					period={period}
+					voice={3}
+					pitch={PitchClass.B}
+					numOfSteps={numOfSteps3}
+				/>
 			</div>
 		</div>
 	);

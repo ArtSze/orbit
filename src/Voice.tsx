@@ -8,6 +8,7 @@ type VoiceProps = {
 	period: number;
 	voice: number;
 	pitch: PitchClass;
+	numOfSteps: number;
 };
 
 export type StepProps = {
@@ -16,13 +17,7 @@ export type StepProps = {
 	isPlaying: boolean;
 };
 
-type StepsWithHeadIndex = {
-	arr: StepProps[];
-	headIndex: number;
-};
-
-const Voice = ({ period, voice, pitch }: VoiceProps) => {
-	const [numOfSteps, setNumOfSteps] = useState<number>(4);
+const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 	const [interval, setInterval] = useState<number>(1);
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
 
@@ -33,10 +28,7 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 		{ isActive: true, isPlayHead: false, isPlaying: false },
 	];
 
-	const [steps, setSteps] = useState<StepsWithHeadIndex>({
-		arr: initialSteps,
-		headIndex: 0,
-	});
+	const [steps, setSteps] = useState<StepProps[]>(initialSteps);
 
 	const [seqArgs, setSeqArgs] = useState<string[]>([
 		`${pitch}4`,
@@ -105,26 +97,30 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 
 	// updates steps to correspond to changes in seqArgs
 	useEffect(() => {
-		const tempSteps = [...steps.arr];
+		const tempSteps = [...steps];
 		const diff = numOfSteps - tempSteps.length;
 
-		if (diff > 0) {
-			for (let i = 0; i < diff; i++) {
-				tempSteps.push({
-					isActive: true,
-					isPlayHead: false,
-					isPlaying: false,
-				});
+		if (numOfSteps === 0) {
+			setSteps([]);
+		} else {
+			if (diff > 0) {
+				for (let i = 0; i < diff; i++) {
+					tempSteps.push({
+						isActive: true,
+						isPlayHead: false,
+						isPlaying: false,
+					});
+				}
+			} else if (diff < 0) {
+				tempSteps.splice(numOfSteps - 1, Math.abs(diff));
 			}
-		} else if (diff < 0) {
-			tempSteps.splice(numOfSteps - 1, Math.abs(diff));
+
+			tempSteps.forEach((step, i) => {
+				step.isActive = seqArgs[i] === '' ? false : true;
+			});
+
+			setSteps(tempSteps);
 		}
-
-		tempSteps.forEach((step, i) => {
-			step.isActive = seqArgs[i] === '' ? false : true;
-		});
-
-		setSteps({ ...steps, arr: tempSteps });
 	}, [seqArgs, numOfSteps]);
 
 	// event scheduling
@@ -177,17 +173,10 @@ const Voice = ({ period, voice, pitch }: VoiceProps) => {
 
 	return (
 		<div className={`voice`}>
-			{`Voice ${voice}: num of steps-`}
-			<input
-				value={numOfSteps}
-				onChange={(event) =>
-					setNumOfSteps(parseInt(event.target.value))
-				}
-			/>
 			<div>{`${stepsErrorMessage}`}</div>
 			{steps ? (
 				<StepContainer
-					steps={steps.arr}
+					steps={steps}
 					seqArgs={seqArgs}
 					setSeqArgs={setSeqArgs}
 					pitch={pitch}
