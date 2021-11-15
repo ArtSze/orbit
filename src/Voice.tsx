@@ -22,6 +22,8 @@ const Voice = ({ source, period, voice, pitch, numOfSteps }: VoiceProps) => {
 	const [interval, setInterval] = useState<number>(1);
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
 
+	const synth = source;
+
 	const initialSteps: StepProps[] = [
 		{ isActive: true, isPlayHead: true, isPlaying: false },
 		{ isActive: true, isPlayHead: false, isPlaying: false },
@@ -38,8 +40,6 @@ const Voice = ({ source, period, voice, pitch, numOfSteps }: VoiceProps) => {
 		`${pitch}4`,
 	]);
 	const [seq, setSeq] = useState<Tone.Sequence<string>>();
-
-	const synth = source;
 
 	const validTimeParams = numOfSteps !== (NaN || 0) ? true : false;
 
