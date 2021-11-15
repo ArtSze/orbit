@@ -5,6 +5,7 @@ import { PitchClass } from './utils/types';
 import StepContainer from './StepContainer';
 
 type VoiceProps = {
+	source: Tone.Synth<Tone.SynthOptions>;
 	period: number;
 	voice: number;
 	pitch: PitchClass;
@@ -17,9 +18,11 @@ export type StepProps = {
 	isPlaying: boolean;
 };
 
-const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
+const Voice = ({ source, period, voice, pitch, numOfSteps }: VoiceProps) => {
 	const [interval, setInterval] = useState<number>(1);
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
+
+	const synth = source;
 
 	const initialSteps: StepProps[] = [
 		{ isActive: true, isPlayHead: true, isPlaying: false },
@@ -38,8 +41,6 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 	]);
 	const [seq, setSeq] = useState<Tone.Sequence<string>>();
 
-	const synth = new Tone.Synth().toDestination();
-
 	const validTimeParams = numOfSteps !== (NaN || 0) ? true : false;
 
 	const stepsWithinRange = numOfSteps <= 128 ? true : false;
@@ -50,26 +51,6 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 		);
 		setTimeout(() => setStepsErrorMessage(''), 3 * 1000);
 	};
-
-	// const flashAndIterate = () => {
-	// 	const tempIndex = steps.headIndex;
-	// 	const tempSteps = [...steps.arr];
-	// 	tempSteps[tempIndex].isPlaying = true;
-	// 	setSteps({ ...steps, arr: tempSteps });
-	// 	if (tempIndex === steps.arr.length - 1) {
-	// 		tempSteps[tempIndex].isPlaying = false;
-	// 		tempSteps[tempIndex].isPlayHead = false;
-	// 		tempSteps[0].isPlayHead = true;
-	// 		setSteps({ arr: tempSteps, headIndex: 0 });
-	// 	} else {
-	// 		tempSteps[tempIndex].isPlaying = false;
-	// 		tempSteps[tempIndex].isPlayHead = false;
-	// 		tempSteps[tempIndex + 1].isPlayHead = true;
-	// 		setSteps({ arr: tempSteps, headIndex: tempIndex + 1 });
-	// 	}
-
-	// 	console.log('inside');
-	// };
 
 	// handle changes in numOfSteps
 	useEffect(() => {
@@ -145,29 +126,6 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 					interval
 				).start(0)
 			);
-
-			// new Tone.Loop(() => {
-			// 	flashAndIterate();
-			// }, interval)
-			// 	.start(0)
-			// 	.stop(period);
-
-			// for (let i = 0; i < numOfSteps; i++) {
-			// 	Tone.Transport.schedule((time) => {
-			// 		Tone.Draw.schedule(() => {
-			// 			const tempSteps = [...steps];
-			// 			tempSteps[i].isPlaying = false;
-			// 			setSteps([...tempSteps]);
-			// 			if (i === steps.length - 1) {
-			// 				tempSteps[0].isPlaying = true;
-			// 				setSteps([...tempSteps]);
-			// 			} else {
-			// 				tempSteps[i + 1].isPlaying = true;
-			// 				setSteps([...tempSteps]);
-			// 			}
-			// 		}, time);
-			// 	}, `${interval}`);
-			// }
 		}
 	}, [period, interval, seqArgs]);
 

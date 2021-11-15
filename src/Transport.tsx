@@ -14,6 +14,26 @@ const Transport = () => {
 	const [triggerText, setTriggerText] = useState('play');
 	const [bpmErrorMessage, setBpmErrorMessage] = useState('');
 
+	const reverb = new Tone.Reverb(3).toDestination();
+	const reverbChannel = new Tone.Channel({ volume: -60 }).connect(reverb);
+	reverbChannel.receive('reverb');
+
+	const channel1 = new Tone.Channel().toDestination();
+	const channel2 = new Tone.Channel().toDestination();
+	const channel3 = new Tone.Channel().toDestination();
+
+	const source1 = new Tone.Synth();
+	const source2 = new Tone.Synth();
+	const source3 = new Tone.Synth();
+
+	source1.connect(channel1);
+	source2.connect(channel2);
+	source3.connect(channel3);
+
+	channel1.send('reverb');
+	channel2.send('reverb');
+	channel3.send('reverb');
+
 	const validTempo = bpm >= 20 && bpm <= 300 && !isNaN(bpm) ? true : false;
 
 	// implement midi export of loop
@@ -106,20 +126,35 @@ const Transport = () => {
 				</div>
 			</div>
 
+			<div id={'fxContainer'}>
+				<label>verb level:</label>
+				<input
+					onChange={(event) => {
+						reverbChannel.volume.value = parseInt(
+							event.target.value
+						);
+						console.log(reverbChannel.volume.value);
+					}}
+				/>
+			</div>
+
 			<div id={'voiceContainer'}>
 				<Voice
+					source={source1}
 					period={period}
 					voice={1}
 					pitch={PitchClass.C}
 					numOfSteps={numOfSteps1}
 				/>
 				<Voice
+					source={source2}
 					period={period}
 					voice={2}
 					pitch={PitchClass.G}
 					numOfSteps={numOfSteps2}
 				/>
 				<Voice
+					source={source3}
 					period={period}
 					voice={3}
 					pitch={PitchClass.B}
