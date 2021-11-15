@@ -14,16 +14,25 @@ const Transport = () => {
 	const [triggerText, setTriggerText] = useState('play');
 	const [bpmErrorMessage, setBpmErrorMessage] = useState('');
 
-	const reverb = new Tone.Reverb(2);
-	reverb.wet.value = 0;
+	const reverb = new Tone.Reverb(3).toDestination();
+	const reverbChannel = new Tone.Channel({ volume: -60 }).connect(reverb);
+	reverbChannel.receive('reverb');
+
+	const channel1 = new Tone.Channel().toDestination();
+	const channel2 = new Tone.Channel().toDestination();
+	const channel3 = new Tone.Channel().toDestination();
 
 	const source1 = new Tone.Synth();
 	const source2 = new Tone.Synth();
 	const source3 = new Tone.Synth();
 
-	source1.chain(reverb, Tone.Destination);
-	source2.chain(reverb, Tone.Destination);
-	source3.chain(reverb, Tone.Destination);
+	source1.connect(channel1);
+	source2.connect(channel2);
+	source3.connect(channel3);
+
+	channel1.send('reverb');
+	channel2.send('reverb');
+	channel3.send('reverb');
 
 	const validTempo = bpm >= 20 && bpm <= 300 && !isNaN(bpm) ? true : false;
 
@@ -39,13 +48,6 @@ const Transport = () => {
 	const flashBpmErrorMessage = () => {
 		setBpmErrorMessage('BPM must fall within range of 20 through 300 BPM');
 		setTimeout(() => setBpmErrorMessage(''), 4 * 1000);
-	};
-
-	const toggleEffect = (reverb: Tone.Reverb) => {
-		reverb.wet.value === 1
-			? (reverb.wet.value = 0)
-			: (reverb.wet.value = 1);
-		console.log({ reverb });
 	};
 
 	useEffect(() => {
@@ -125,12 +127,15 @@ const Transport = () => {
 			</div>
 
 			<div id={'fxContainer'}>
-				<button
-					onClick={() => {
-						toggleEffect(reverb);
-					}}>
-					reverb
-				</button>
+				<label>verb level:</label>
+				<input
+					onChange={(event) => {
+						reverbChannel.volume.value = parseInt(
+							event.target.value
+						);
+						console.log(reverbChannel.volume.value);
+					}}
+				/>
 			</div>
 
 			<div id={'voiceContainer'}>
