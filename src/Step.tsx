@@ -29,7 +29,13 @@ const Step = ({
 	return (
 		<div
 			style={circleProps}
-			className={step.isActive ? 'stepActive' : 'stepInactive'}
+			className={
+				step.isPlaying
+					? 'stepPlaying'
+					: step.isActive
+					? 'stepActive'
+					: 'stepInactive'
+			}
 			onClick={() => {
 				const tempSeqArgs = [...seqArgs];
 				tempSeqArgs[ind] = step.isActive ? '' : `${pitch}4`;

@@ -28,6 +28,9 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 		{ isActive: true, isPlayHead: false, isPlaying: false },
 	];
 
+	const myEmitter = new Tone.Emitter();
+	const [headIndex, setHeadIndex] = useState(0);
+
 	const [steps, setSteps] = useState<StepProps[]>(initialSteps);
 
 	const [seqArgs, setSeqArgs] = useState<string[]>([
@@ -51,25 +54,25 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 		setTimeout(() => setStepsErrorMessage(''), 3 * 1000);
 	};
 
-	// const flashAndIterate = () => {
-	// 	const tempIndex = steps.headIndex;
-	// 	const tempSteps = [...steps.arr];
-	// 	tempSteps[tempIndex].isPlaying = true;
-	// 	setSteps({ ...steps, arr: tempSteps });
-	// 	if (tempIndex === steps.arr.length - 1) {
-	// 		tempSteps[tempIndex].isPlaying = false;
-	// 		tempSteps[tempIndex].isPlayHead = false;
-	// 		tempSteps[0].isPlayHead = true;
-	// 		setSteps({ arr: tempSteps, headIndex: 0 });
-	// 	} else {
-	// 		tempSteps[tempIndex].isPlaying = false;
-	// 		tempSteps[tempIndex].isPlayHead = false;
-	// 		tempSteps[tempIndex + 1].isPlayHead = true;
-	// 		setSteps({ arr: tempSteps, headIndex: tempIndex + 1 });
-	// 	}
-
-	// 	console.log('inside');
-	// };
+	const flashAndIterate = () => {
+		const tempIndex = headIndex;
+		const tempSteps = [...steps];
+		tempSteps[tempIndex].isPlaying = true;
+		setSteps(tempSteps);
+		if (tempIndex === steps.length - 1) {
+			tempSteps[tempIndex].isPlaying = false;
+			tempSteps[tempIndex].isPlayHead = false;
+			tempSteps[0].isPlayHead = true;
+			setSteps(tempSteps);
+			setHeadIndex(0);
+		} else {
+			tempSteps[tempIndex].isPlaying = false;
+			tempSteps[tempIndex].isPlayHead = false;
+			tempSteps[tempIndex + 1].isPlayHead = true;
+			setSteps(tempSteps);
+			setHeadIndex(tempIndex + 1);
+		}
+	};
 
 	// handle changes in numOfSteps
 	useEffect(() => {
@@ -146,30 +149,18 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 				).start(0)
 			);
 
-			// new Tone.Loop(() => {
-			// 	flashAndIterate();
-			// }, interval)
-			// 	.start(0)
-			// 	.stop(period);
-
-			// for (let i = 0; i < numOfSteps; i++) {
-			// 	Tone.Transport.schedule((time) => {
-			// 		Tone.Draw.schedule(() => {
-			// 			const tempSteps = [...steps];
-			// 			tempSteps[i].isPlaying = false;
-			// 			setSteps([...tempSteps]);
-			// 			if (i === steps.length - 1) {
-			// 				tempSteps[0].isPlaying = true;
-			// 				setSteps([...tempSteps]);
-			// 			} else {
-			// 				tempSteps[i + 1].isPlaying = true;
-			// 				setSteps([...tempSteps]);
-			// 			}
-			// 		}, time);
-			// 	}, `${interval}`);
-			// }
+			Tone.Transport.scheduleRepeat((time) => {
+				Tone.Draw.schedule(() => {
+					myEmitter.emit('ping');
+				}, time);
+			}, interval);
 		}
 	}, [period, interval, seqArgs]);
+
+	myEmitter.on('ping', () => {
+		flashAndIterate();
+		console.log('pong');
+	});
 
 	return (
 		<div className={`voice`}>
