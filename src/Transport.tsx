@@ -14,9 +14,17 @@ const Transport = () => {
 	const [triggerText, setTriggerText] = useState('play');
 	const [bpmErrorMessage, setBpmErrorMessage] = useState('');
 
-	const reverb = new Tone.Reverb(3).toDestination();
-	const reverbChannel = new Tone.Channel({ volume: -60 }).connect(reverb);
-	reverbChannel.receive('reverb');
+	// const reverb = new Tone.Reverb(3).toDestination();
+	// const reverbChannel = new Tone.Channel({ volume: -60 }).connect(reverb);
+	// reverbChannel.receive('reverb');
+
+	// const chorus = new Tone.Chorus(4, 2.5, 0.5).start().toDestination();
+	// const chorusChannel = new Tone.Channel({ volume: -60 }).connect(chorus);
+	// chorusChannel.receive('chorus');
+
+	// const pingPong = new Tone.PingPongDelay('8n', 0.5).toDestination();
+	// const pingPongChannel = new Tone.Channel({ volume: -60 }).connect(pingPong);
+	// pingPongChannel.receive('pingPong');
 
 	const channel1 = new Tone.Channel().toDestination();
 	const channel2 = new Tone.Channel().toDestination();
@@ -30,9 +38,17 @@ const Transport = () => {
 	source2.connect(channel2);
 	source3.connect(channel3);
 
-	channel1.send('reverb');
-	channel2.send('reverb');
-	channel3.send('reverb');
+	// channel1.send('reverb');
+	// channel2.send('reverb');
+	// channel3.send('reverb');
+
+	// channel1.send('chorus');
+	// channel2.send('chorus');
+	// channel3.send('chorus');
+
+	// channel1.send('pingPong');
+	// channel2.send('pingPong');
+	// channel3.send('pingPong');
 
 	const validTempo = bpm >= 20 && bpm <= 300 && !isNaN(bpm) ? true : false;
 
@@ -127,15 +143,39 @@ const Transport = () => {
 			</div>
 
 			<div id={'fxContainer'}>
-				<label>verb level:</label>
-				<input
-					onChange={(event) => {
-						reverbChannel.volume.value = parseInt(
-							event.target.value
-						);
-						console.log(reverbChannel.volume.value);
-					}}
-				/>
+				{/* <div>
+					<label>verb level:</label>
+					<input
+						onChange={(event) => {
+							reverbChannel.volume.value = parseInt(
+								event.target.value
+							);
+							console.log(reverbChannel.volume.value);
+						}}
+					/>
+				</div> */}
+				{/* <div>
+					<label>chorus level:</label>
+					<input
+						onChange={(event) => {
+							chorusChannel.volume.value = parseInt(
+								event.target.value
+							);
+							console.log(chorusChannel.volume.value);
+						}}
+					/>
+				</div> */}
+				{/* <div>
+					<label>delay level:</label>
+					<input
+						onChange={(event) => {
+							pingPongChannel.volume.value = parseInt(
+								event.target.value
+							);
+							console.log(pingPongChannel.volume.value);
+						}}
+					/>
+				</div> */}
 			</div>
 
 			<div id={'voiceContainer'}>
