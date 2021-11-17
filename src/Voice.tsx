@@ -50,7 +50,6 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 
 	const emitHeadIndex = () => {
 		myEmitter.emit(`${headIndex.current}`);
-		// console.log(headIndex.current);
 	};
 
 	const incrementHeadIndex = () => {
@@ -157,9 +156,19 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 						}, time);
 					},
 					interval,
-					0,
-					'1m'
+					0
 				)
+			);
+
+			Tone.Transport.scheduleRepeat(
+				(time) => {
+					Tone.Draw.schedule(() => {
+						resetHeadIndex();
+						emitHeadIndex();
+					}, time);
+				},
+				'1m',
+				0
 			);
 		}
 	}, [period, interval, seqArgs]);
