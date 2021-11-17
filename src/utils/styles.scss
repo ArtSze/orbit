@@ -50,7 +50,7 @@
 }
 
 .stepPlaying {
-	background-color: rgb(17, 0, 248);
+	background-color: rgb(5, 136, 0);
 	padding: 25px;
 	max-width: 100%;
 	border-radius: 50%;
@@ -58,7 +58,7 @@
 }
 
 .stepActive {
-	background-color: rgb(28, 119, 0);
+	background-color: rgb(177, 255, 146);
 	padding: 20px;
 	max-width: 100%;
 	border-radius: 50%;
@@ -66,10 +66,10 @@
 }
 
 .stepInactive {
-	background-color: rgba(255, 255, 255, 0.589);
-	padding: 20px;
+	background-color: rgb(216, 253, 253);
+	padding: 19px;
 	max-width: 100%;
 	border-radius: 50%;
-	border-width: 1px;
-	border-style: solid;
+	box-shadow: black;
+	transition: 0.25s ease-out all;
 }
