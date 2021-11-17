@@ -22,6 +22,7 @@ const Step = ({
 	circleProps: React.CSSProperties;
 	emitter: Tone.Emitter<string>;
 }) => {
+
 	const [flash, setFlash] = useState(false);
 
 	emitter.on(`${ind}`, () => {
@@ -33,6 +34,7 @@ const Step = ({
 			}, 50);
 		}
 	});
+
 
 	return (
 		<div

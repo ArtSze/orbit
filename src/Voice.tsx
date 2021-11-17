@@ -5,6 +5,7 @@ import { PitchClass } from './utils/types';
 import StepContainer from './StepContainer';
 
 type VoiceProps = {
+	source: Tone.Synth<Tone.SynthOptions>;
 	period: number;
 	voice: number;
 	pitch: PitchClass;
@@ -15,9 +16,11 @@ export type StepProps = {
 	isActive: boolean;
 };
 
-const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
+const Voice = ({ source, period, voice, pitch, numOfSteps }: VoiceProps) => {
 	const [interval, setInterval] = useState<number>(1);
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
+
+	const synth = source;
 
 	const initialSteps: StepProps[] = [
 		{ isActive: true },
@@ -40,8 +43,6 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 	const [flashEvents, setFlashEvents] = useState<number>();
 
 	const myEmitter = new Tone.Emitter();
-
-	const synth = new Tone.Synth().toDestination();
 
 	const validTimeParams = numOfSteps !== (NaN || 0) ? true : false;
 
@@ -164,6 +165,7 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 					resetHeadIndex();
 				}, time);
 			}, period - 0.01);
+
 		}
 	}, [period, interval, seqArgs]);
 
