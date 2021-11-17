@@ -13,7 +13,6 @@ type VoiceProps = {
 
 export type StepProps = {
 	isActive: boolean;
-	isPlaying: boolean;
 };
 
 const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
@@ -21,13 +20,13 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
 
 	const initialSteps: StepProps[] = [
-		{ isActive: true, isPlaying: false },
-		{ isActive: true, isPlaying: false },
-		{ isActive: true, isPlaying: false },
-		{ isActive: true, isPlaying: false },
+		{ isActive: true },
+		{ isActive: true },
+		{ isActive: true },
+		{ isActive: true },
 	];
 
-	let headIndex = useRef<number>(-1);
+	let headIndex = useRef<number>(0);
 
 	const [steps, setSteps] = useState<StepProps[]>(initialSteps);
 
@@ -104,7 +103,6 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 				for (let i = 0; i < diff; i++) {
 					tempSteps.push({
 						isActive: true,
-						isPlaying: false,
 					});
 				}
 			} else if (diff < 0) {
@@ -147,12 +145,13 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 				Tone.Transport.scheduleRepeat(
 					(time) => {
 						Tone.Draw.schedule(() => {
-							if (headIndex.current === seqArgs.length - 1) {
-								resetHeadIndex();
-							} else {
+							if (headIndex.current !== numOfSteps - 1) {
+								emitHeadIndex();
 								incrementHeadIndex();
+							} else {
+								emitHeadIndex();
+								resetHeadIndex();
 							}
-							emitHeadIndex();
 						}, time);
 					},
 					interval,
@@ -160,16 +159,11 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 				)
 			);
 
-			Tone.Transport.scheduleRepeat(
-				(time) => {
-					Tone.Draw.schedule(() => {
-						resetHeadIndex();
-						emitHeadIndex();
-					}, time);
-				},
-				'1m',
-				0
-			);
+			Tone.Transport.schedule((time) => {
+				Tone.Draw.schedule(() => {
+					resetHeadIndex();
+				}, time);
+			}, period);
 		}
 	}, [period, interval, seqArgs]);
 
