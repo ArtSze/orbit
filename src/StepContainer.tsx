@@ -3,6 +3,7 @@ import './utils/styles.scss';
 import Step from './Step';
 import { StepProps } from './Voice';
 import { PitchClass } from './utils/types';
+import * as Tone from 'tone';
 
 const StepContainer = ({
 	steps,
@@ -10,12 +11,14 @@ const StepContainer = ({
 	setSeqArgs,
 	pitch,
 	voice,
+	emitter,
 }: {
 	steps: StepProps[];
 	seqArgs: string[];
 	setSeqArgs: React.Dispatch<React.SetStateAction<string[]>>;
 	pitch: PitchClass;
 	voice: number;
+	emitter: Tone.Emitter<string>;
 }) => {
 	const targetRef = useRef<HTMLDivElement & undefined>(null);
 	const [dimensions, setDimensions] = useState<{
@@ -82,7 +85,8 @@ const StepContainer = ({
 						ind={index}
 						seqArgs={seqArgs}
 						setSeqArgs={setSeqArgs}
-						circleProps={style}></Step>
+						circleProps={style}
+						emitter={emitter}></Step>
 				);
 			})}
 		</div>

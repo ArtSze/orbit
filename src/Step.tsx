@@ -1,7 +1,10 @@
+import * as Tone from 'tone';
+
 import './utils/styles.scss';
 import { StepProps } from './Voice';
 import { useSpring, animated } from 'react-spring';
 import { PitchClass } from './utils/types';
+import { useEffect, useState } from 'react';
 
 const Step = ({
 	step,
@@ -10,6 +13,7 @@ const Step = ({
 	setSeqArgs,
 	pitch,
 	circleProps,
+	emitter,
 }: {
 	step: StepProps;
 	ind: number;
@@ -17,20 +21,26 @@ const Step = ({
 	setSeqArgs: React.Dispatch<React.SetStateAction<string[]>>;
 	pitch: PitchClass;
 	circleProps: React.CSSProperties;
+	emitter: Tone.Emitter<string>;
 }) => {
-	const props = useSpring({
-		background:
-			// step.isPlayHead && step.isActive
-			// 	? 'green'
-			step.isActive ? 'rgb(23, 175, 99)' : 'rgb(220, 255, 238)',
-		config: { tension: 500 },
+	const [flash, setFlash] = useState(false);
+
+	emitter.on(`${ind}`, () => {
+		setFlash(true);
+		setTimeout(() => {
+			setFlash(false);
+		}, 300);
 	});
+
+	useEffect(() => {
+		console.log(`step ${ind} flash = ${flash}`);
+	}, [flash]);
 
 	return (
 		<div
 			style={circleProps}
 			className={
-				step.isPlaying
+				flash && step.isActive
 					? 'stepPlaying'
 					: step.isActive
 					? 'stepActive'

@@ -1,5 +1,5 @@
 import * as Tone from 'tone';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { PitchClass } from './utils/types';
 import StepContainer from './StepContainer';
@@ -12,7 +12,6 @@ type VoiceProps = {
 };
 
 export type StepProps = {
-	isPlayHead: boolean;
 	isActive: boolean;
 	isPlaying: boolean;
 };
@@ -22,14 +21,13 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
 
 	const initialSteps: StepProps[] = [
-		{ isActive: true, isPlayHead: true, isPlaying: false },
-		{ isActive: true, isPlayHead: false, isPlaying: false },
-		{ isActive: true, isPlayHead: false, isPlaying: false },
-		{ isActive: true, isPlayHead: false, isPlaying: false },
+		{ isActive: true, isPlaying: false },
+		{ isActive: true, isPlaying: false },
+		{ isActive: true, isPlaying: false },
+		{ isActive: true, isPlaying: false },
 	];
 
-	const myEmitter = new Tone.Emitter();
-	const [headIndex, setHeadIndex] = useState(0);
+	let headIndex = useRef<number>(0);
 
 	const [steps, setSteps] = useState<StepProps[]>(initialSteps);
 
@@ -40,12 +38,27 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 		`${pitch}4`,
 	]);
 	const [seq, setSeq] = useState<Tone.Sequence<string>>();
+	const [flashEvents, setFlashEvents] = useState<number>();
+
+	const myEmitter = new Tone.Emitter();
 
 	const synth = new Tone.Synth().toDestination();
 
 	const validTimeParams = numOfSteps !== (NaN || 0) ? true : false;
 
 	const stepsWithinRange = numOfSteps <= 128 ? true : false;
+
+	const emitHeadIndex = () => {
+		myEmitter.emit(`${headIndex.current}`);
+		// console.log(headIndex.current);
+	};
+
+	const incrementHeadIndex = () => {
+		headIndex.current++;
+	};
+	const resetHeadIndex = () => {
+		headIndex.current = 0;
+	};
 
 	const flashStepsErrorMessage = () => {
 		setStepsErrorMessage(
@@ -54,30 +67,11 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 		setTimeout(() => setStepsErrorMessage(''), 3 * 1000);
 	};
 
-	const flashAndIterate = () => {
-		const tempIndex = headIndex;
-		const tempSteps = [...steps];
-		tempSteps[tempIndex].isPlaying = true;
-		setSteps(tempSteps);
-		if (tempIndex === steps.length - 1) {
-			tempSteps[tempIndex].isPlaying = false;
-			tempSteps[tempIndex].isPlayHead = false;
-			tempSteps[0].isPlayHead = true;
-			setSteps(tempSteps);
-			setHeadIndex(0);
-		} else {
-			tempSteps[tempIndex].isPlaying = false;
-			tempSteps[tempIndex].isPlayHead = false;
-			tempSteps[tempIndex + 1].isPlayHead = true;
-			setSteps(tempSteps);
-			setHeadIndex(tempIndex + 1);
-		}
-	};
-
 	// handle changes in numOfSteps
 	useEffect(() => {
-		if (seq) {
+		if (seq && flashEvents) {
 			seq.clear();
+			Tone.Transport.clear(flashEvents);
 		}
 		if (validTimeParams && stepsWithinRange) {
 			setInterval(period / numOfSteps);
@@ -103,14 +97,14 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 		const tempSteps = [...steps];
 		const diff = numOfSteps - tempSteps.length;
 
-		if (numOfSteps === 0) {
+		if (numOfSteps === 0 && flashEvents) {
 			setSteps([]);
+			Tone.Transport.clear(flashEvents);
 		} else {
 			if (diff > 0) {
 				for (let i = 0; i < diff; i++) {
 					tempSteps.push({
 						isActive: true,
-						isPlayHead: false,
 						isPlaying: false,
 					});
 				}
@@ -128,8 +122,9 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 
 	// event scheduling
 	useEffect(() => {
-		if (seq) {
+		if (seq && flashEvents) {
 			seq.clear();
+			Tone.Transport.clear(flashEvents);
 		}
 		if (validTimeParams) {
 			setInterval(period / numOfSteps);
@@ -149,18 +144,25 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 				).start(0)
 			);
 
-			Tone.Transport.scheduleRepeat((time) => {
-				Tone.Draw.schedule(() => {
-					myEmitter.emit('ping');
-				}, time);
-			}, interval);
+			setFlashEvents(
+				Tone.Transport.scheduleRepeat(
+					(time) => {
+						Tone.Draw.schedule(() => {
+							if (headIndex.current === seqArgs.length - 1) {
+								resetHeadIndex();
+							} else {
+								incrementHeadIndex();
+							}
+							emitHeadIndex();
+						}, time);
+					},
+					interval,
+					0,
+					'1m'
+				)
+			);
 		}
 	}, [period, interval, seqArgs]);
-
-	myEmitter.on('ping', () => {
-		flashAndIterate();
-		console.log('pong');
-	});
 
 	return (
 		<div className={`voice`}>
@@ -172,6 +174,7 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 					setSeqArgs={setSeqArgs}
 					pitch={pitch}
 					voice={voice}
+					emitter={myEmitter}
 				/>
 			) : (
 				<div />
