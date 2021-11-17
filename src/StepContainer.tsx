@@ -73,7 +73,7 @@ const StepContainer = ({
 
 				const style: React.CSSProperties = {
 					position: 'absolute',
-					top: height! / 5 - parseInt(posY.slice(0, -2)) + 'px',
+					top: height! / 5 + parseInt(posY.slice(0, -2)) + 'px',
 					left: height! / 5 + parseInt(posX.slice(0, -2)) + 'px',
 				};
 

@@ -27,7 +27,7 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 		{ isActive: true, isPlaying: false },
 	];
 
-	let headIndex = useRef<number>(0);
+	let headIndex = useRef<number>(-1);
 
 	const [steps, setSteps] = useState<StepProps[]>(initialSteps);
 
