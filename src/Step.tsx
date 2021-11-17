@@ -25,7 +25,7 @@ const Step = ({
 	const [flash, setFlash] = useState(false);
 
 	emitter.on(`${ind}`, () => {
-		console.log(`step ${ind} emitted`);
+		// console.log(`step ${ind} emitted`);
 		if (step.isActive) {
 			setFlash(true);
 			setTimeout(() => {

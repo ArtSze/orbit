@@ -163,7 +163,7 @@ const Voice = ({ period, voice, pitch, numOfSteps }: VoiceProps) => {
 				Tone.Draw.schedule(() => {
 					resetHeadIndex();
 				}, time);
-			}, period);
+			}, period - 0.01);
 		}
 	}, [period, interval, seqArgs]);
 
