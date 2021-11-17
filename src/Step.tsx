@@ -29,7 +29,7 @@ const Step = ({
 		setFlash(true);
 		setTimeout(() => {
 			setFlash(false);
-		}, 300);
+		}, 50);
 	});
 
 	useEffect(() => {
