@@ -11,6 +11,10 @@ const Transport = () => {
 	const [numOfSteps2, setNumOfSteps2] = useState<number>(4);
 	const [numOfSteps3, setNumOfSteps3] = useState<number>(4);
 
+	const [pitch1, setPitch1] = useState<PitchClass>(PitchClass.C);
+	const [pitch2, setPitch2] = useState<PitchClass>(PitchClass.E);
+	const [pitch3, setPitch3] = useState<PitchClass>(PitchClass.B);
+
 	const [triggerText, setTriggerText] = useState('play');
 	const [bpmErrorMessage, setBpmErrorMessage] = useState('');
 
@@ -66,6 +70,37 @@ const Transport = () => {
 		setTimeout(() => setBpmErrorMessage(''), 4 * 1000);
 	};
 
+	const parsePitch = (pitchNum: number) => {
+		switch (pitchNum) {
+			case 0:
+				return PitchClass.C;
+			case 1:
+				return PitchClass.C_sharp;
+			case 2:
+				return PitchClass.D;
+			case 3:
+				return PitchClass.D_sharp;
+			case 4:
+				return PitchClass.E;
+			case 5:
+				return PitchClass.F;
+			case 6:
+				return PitchClass.F_sharp;
+			case 7:
+				return PitchClass.G;
+			case 8:
+				return PitchClass.G_sharp;
+			case 9:
+				return PitchClass.A;
+			case 10:
+				return PitchClass.A_sharp;
+			case 11:
+				return PitchClass.B;
+			default:
+				return PitchClass.C;
+		}
+	};
+
 	useEffect(() => {
 		if (validTempo) {
 			Tone.Transport.cancel();
@@ -111,7 +146,8 @@ const Transport = () => {
 					<div>{`${bpmErrorMessage}`}</div>
 				</div>
 				{/* <div>{`length of period in seconds: ${period}`}</div> */}
-				<div id={'numOfStepsContainer'}>
+
+				<div id={'paramsContainer'}>
 					<div>
 						<label>1:</label>
 						<input
@@ -120,6 +156,36 @@ const Transport = () => {
 								setNumOfSteps1(parseInt(event.target.value))
 							}
 						/>
+						<div>
+							<input
+								list={'pitch_list'}
+								type="range"
+								// value={pitch1}
+								max={11}
+								step={1}
+								onChange={(event) =>
+									setPitch1(
+										parsePitch(parseInt(event.target.value))
+									)
+								}
+							/>
+							<datalist id="pitch_list">
+								<select>
+									<option value={0}></option>
+									<option value={1}></option>
+									<option value={2}></option>
+									<option value={3}></option>
+									<option value={4}></option>
+									<option value={5}></option>
+									<option value={6}></option>
+									<option value={7}></option>
+									<option value={8}></option>
+									<option value={9}></option>
+									<option value={10}></option>
+									<option value={11}></option>
+								</select>
+							</datalist>
+						</div>
 					</div>
 					<div>
 						<label>2:</label>
@@ -183,21 +249,21 @@ const Transport = () => {
 					source={source1}
 					period={period}
 					voice={1}
-					pitch={PitchClass.C}
+					pitch={pitch1}
 					numOfSteps={numOfSteps1}
 				/>
 				<Voice
 					source={source2}
 					period={period}
 					voice={2}
-					pitch={PitchClass.G}
+					pitch={pitch2}
 					numOfSteps={numOfSteps2}
 				/>
 				<Voice
 					source={source3}
 					period={period}
 					voice={3}
-					pitch={PitchClass.B}
+					pitch={pitch1}
 					numOfSteps={numOfSteps3}
 				/>
 			</div>
