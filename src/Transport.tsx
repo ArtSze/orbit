@@ -106,9 +106,14 @@ const Transport = () => {
 			<div id={'controlContainer'}>
 				<button onClick={() => triggerLoop()}>{triggerText}</button>
 				<div>
-					{'bpm:'}
+					{`bpm: ${bpm}`}
+
 					<input
-						value={bpm}
+						type="range"
+						defaultValue={bpm}
+						max={300}
+						min={20}
+						step={1}
 						onChange={(event) =>
 							setBpm(parseInt(event.target.value))
 						}

@@ -3,7 +3,7 @@ import * as Tone from 'tone';
 import './utils/styles.scss';
 import { StepProps } from './Voice';
 import { PitchClass } from './utils/types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const Step = ({
 	step,
@@ -22,7 +22,6 @@ const Step = ({
 	circleProps: React.CSSProperties;
 	emitter: Tone.Emitter<string>;
 }) => {
-
 	const [flash, setFlash] = useState(false);
 
 	emitter.on(`${ind}`, () => {
@@ -34,7 +33,6 @@ const Step = ({
 			}, 50);
 		}
 	});
-
 
 	return (
 		<div
