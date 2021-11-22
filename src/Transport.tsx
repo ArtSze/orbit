@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 
 import Voice from './Voice';
 import { PitchClass } from './utils/types';
+import PitchControl from './TransportSubControls/PitchControl';
 
 const Transport = () => {
 	const [bpm, setBpm] = useState(120);
@@ -70,37 +71,6 @@ const Transport = () => {
 		setTimeout(() => setBpmErrorMessage(''), 4 * 1000);
 	};
 
-	const parsePitch = (pitchNum: number) => {
-		switch (pitchNum) {
-			case 0:
-				return PitchClass.C;
-			case 1:
-				return PitchClass.C_sharp;
-			case 2:
-				return PitchClass.D;
-			case 3:
-				return PitchClass.D_sharp;
-			case 4:
-				return PitchClass.E;
-			case 5:
-				return PitchClass.F;
-			case 6:
-				return PitchClass.F_sharp;
-			case 7:
-				return PitchClass.G;
-			case 8:
-				return PitchClass.G_sharp;
-			case 9:
-				return PitchClass.A;
-			case 10:
-				return PitchClass.A_sharp;
-			case 11:
-				return PitchClass.B;
-			default:
-				return PitchClass.C;
-		}
-	};
-
 	useEffect(() => {
 		if (validTempo) {
 			Tone.Transport.cancel();
@@ -148,7 +118,7 @@ const Transport = () => {
 				{/* <div>{`length of period in seconds: ${period}`}</div> */}
 
 				<div id={'paramsContainer'}>
-					<div>
+					<div className={'voiceControls'}>
 						<label>1:</label>
 						<input
 							value={numOfSteps1}
@@ -156,38 +126,13 @@ const Transport = () => {
 								setNumOfSteps1(parseInt(event.target.value))
 							}
 						/>
-						<div>
-							<input
-								list={'pitch_list'}
-								type="range"
-								// value={pitch1}
-								max={11}
-								step={1}
-								onChange={(event) =>
-									setPitch1(
-										parsePitch(parseInt(event.target.value))
-									)
-								}
-							/>
-							<datalist id="pitch_list">
-								<select>
-									<option value={0}></option>
-									<option value={1}></option>
-									<option value={2}></option>
-									<option value={3}></option>
-									<option value={4}></option>
-									<option value={5}></option>
-									<option value={6}></option>
-									<option value={7}></option>
-									<option value={8}></option>
-									<option value={9}></option>
-									<option value={10}></option>
-									<option value={11}></option>
-								</select>
-							</datalist>
-						</div>
+						<PitchControl
+							pitch={pitch1}
+							setPitch={setPitch1}
+							defaultInd={0}
+						/>
 					</div>
-					<div>
+					<div className={'voiceControls'}>
 						<label>2:</label>
 						<input
 							value={numOfSteps2}
@@ -195,14 +140,24 @@ const Transport = () => {
 								setNumOfSteps2(parseInt(event.target.value))
 							}
 						/>
+						<PitchControl
+							pitch={pitch2}
+							setPitch={setPitch2}
+							defaultInd={5}
+						/>
 					</div>
-					<div>
+					<div className={'voiceControls'}>
 						<label>3:</label>
 						<input
 							value={numOfSteps3}
 							onChange={(event) =>
 								setNumOfSteps3(parseInt(event.target.value))
 							}
+						/>
+						<PitchControl
+							pitch={pitch3}
+							setPitch={setPitch3}
+							defaultInd={11}
 						/>
 					</div>
 				</div>
@@ -263,7 +218,7 @@ const Transport = () => {
 					source={source3}
 					period={period}
 					voice={3}
-					pitch={pitch1}
+					pitch={pitch3}
 					numOfSteps={numOfSteps3}
 				/>
 			</div>

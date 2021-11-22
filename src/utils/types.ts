@@ -5,10 +5,10 @@ export enum PitchClass {
 	D_sharp = 'D#',
 	E = 'E',
 	F = 'F',
-	F_sharp = 'C#',
+	F_sharp = 'F#',
 	G = 'G',
-	G_sharp = 'C#',
+	G_sharp = 'G#',
 	A = 'A',
-	A_sharp = 'C#',
+	A_sharp = 'A#',
 	B = 'B',
 }

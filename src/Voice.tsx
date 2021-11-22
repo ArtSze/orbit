@@ -66,6 +66,14 @@ const Voice = ({ source, period, voice, pitch, numOfSteps }: VoiceProps) => {
 		setTimeout(() => setStepsErrorMessage(''), 3 * 1000);
 	};
 
+	useEffect(() => {
+		const newPitchArgs = seqArgs.map(() => {
+			return `${pitch}4`;
+		});
+
+		setSeqArgs(newPitchArgs);
+	}, [pitch]);
+
 	// handle changes in numOfSteps
 	useEffect(() => {
 		if (seq && flashEvents) {
