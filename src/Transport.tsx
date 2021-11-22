@@ -19,21 +19,23 @@ const Transport = () => {
 	const [triggerText, setTriggerText] = useState('play');
 	const [bpmErrorMessage, setBpmErrorMessage] = useState('');
 
-	const reverb = new Tone.Reverb(3).toDestination();
+	const limiter = new Tone.Limiter(-10).toDestination();
+
+	const reverb = new Tone.Reverb(3).connect(limiter);
 	const reverbChannel = new Tone.Channel({ volume: -60 }).connect(reverb);
 	reverbChannel.receive('reverb');
 
-	const chorus = new Tone.Chorus(4, 2.5, 0.5).start().toDestination();
+	const chorus = new Tone.Chorus(4, 2.5, 0.5).start().connect(limiter);
 	const chorusChannel = new Tone.Channel({ volume: -60 }).connect(chorus);
 	chorusChannel.receive('chorus');
 
-	const vibrato = new Tone.Vibrato('8n', 0.5).toDestination();
+	const vibrato = new Tone.Vibrato('8n', 0.5).connect(limiter);
 	const vibratoChannel = new Tone.Channel({ volume: -60 }).connect(vibrato);
 	vibratoChannel.receive('vibrato');
 
-	const channel1 = new Tone.Channel().toDestination();
-	const channel2 = new Tone.Channel().toDestination();
-	const channel3 = new Tone.Channel().toDestination();
+	const channel1 = new Tone.Channel().connect(limiter);
+	const channel2 = new Tone.Channel().connect(limiter);
+	const channel3 = new Tone.Channel().connect(limiter);
 
 	const source1 = new Tone.Synth();
 	const source2 = new Tone.Synth();
