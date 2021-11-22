@@ -27,6 +27,16 @@
 	// border-radius: 50%;
 }
 
+.voiceControls {
+	width: 350px;
+	display: flex;
+	justify-content: space-around;
+	// border-style: solid;
+	// border-width: 2px;
+	// padding: 20px;
+	// border-radius: 50%;
+}
+
 .stepContainer {
 	position: absolute;
 	transform: rotate(-90deg);

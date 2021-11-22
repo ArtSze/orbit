@@ -32,6 +32,7 @@ const Voice = ({ source, period, voice, pitch, numOfSteps }: VoiceProps) => {
 	let headIndex = useRef<number>(0);
 
 	const [steps, setSteps] = useState<StepProps[]>(initialSteps);
+	const [pitchTimer, setPitchTimer] = useState();
 
 	const [seqArgs, setSeqArgs] = useState<string[]>([
 		`${pitch}4`,
@@ -65,6 +66,20 @@ const Voice = ({ source, period, voice, pitch, numOfSteps }: VoiceProps) => {
 		);
 		setTimeout(() => setStepsErrorMessage(''), 3 * 1000);
 	};
+
+	const resetPitch = () => {
+		const newPitchArgs = seqArgs.map(() => {
+			return `${pitch}4`;
+		});
+
+		setSeqArgs(newPitchArgs);
+	};
+
+	useEffect(() => {
+		clearInterval(pitchTimer);
+		// @ts-ignore
+		setPitchTimer(setTimeout(resetPitch, 300));
+	}, [pitch]);
 
 	// handle changes in numOfSteps
 	useEffect(() => {
@@ -163,7 +178,7 @@ const Voice = ({ source, period, voice, pitch, numOfSteps }: VoiceProps) => {
 			Tone.Transport.schedule((time) => {
 				Tone.Draw.schedule(() => {
 					resetHeadIndex();
-					console.log(Tone.Transport);
+					// console.log(Tone.Transport);
 				}, time);
 			}, period - 0.01);
 		}
