@@ -115,13 +115,16 @@ const Transport = () => {
 					/>
 					<div>{`${bpmErrorMessage}`}</div>
 				</div>
-				{/* <div>{`length of period in seconds: ${period}`}</div> */}
 
 				<div id={'paramsContainer'}>
 					<div className={'voiceControls'}>
-						<label>1:</label>
+						<label>voice 1:</label>
+						<label>{numOfSteps1}</label>
 						<input
-							value={numOfSteps1}
+							type="range"
+							defaultValue={numOfSteps1}
+							max={32}
+							step={1}
 							onChange={(event) =>
 								setNumOfSteps1(parseInt(event.target.value))
 							}
@@ -133,9 +136,13 @@ const Transport = () => {
 						/>
 					</div>
 					<div className={'voiceControls'}>
-						<label>2:</label>
+						<label>voice 2:</label>
+						<label>{numOfSteps2}</label>
 						<input
-							value={numOfSteps2}
+							type="range"
+							defaultValue={numOfSteps2}
+							max={32}
+							step={1}
 							onChange={(event) =>
 								setNumOfSteps2(parseInt(event.target.value))
 							}
@@ -147,9 +154,13 @@ const Transport = () => {
 						/>
 					</div>
 					<div className={'voiceControls'}>
-						<label>3:</label>
+						<label>voice 3:</label>
+						<label>{numOfSteps3}</label>
 						<input
-							value={numOfSteps3}
+							type="range"
+							defaultValue={numOfSteps3}
+							max={32}
+							step={1}
 							onChange={(event) =>
 								setNumOfSteps3(parseInt(event.target.value))
 							}
