@@ -182,7 +182,7 @@ const Voice = ({ source, period, voice, pitch, numOfSteps }: VoiceProps) => {
 				}, time);
 			}, period - 0.01);
 		}
-	}, [period, interval, seqArgs]);
+	}, [period, interval, seqArgs, source]);
 
 	return (
 		<div className={`voice`}>

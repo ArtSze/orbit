@@ -19,43 +19,27 @@ const Transport = () => {
 	const [triggerText, setTriggerText] = useState('play');
 	const [bpmErrorMessage, setBpmErrorMessage] = useState('');
 
-	const limiter = new Tone.Limiter(-10).toDestination();
+	const limiter = new Tone.Limiter(-5).toDestination();
 
-	const reverb = new Tone.Reverb(3).connect(limiter);
-	const reverbChannel = new Tone.Channel({ volume: -60 }).connect(reverb);
-	reverbChannel.receive('reverb');
+	const source1 = new Tone.Synth().connect(limiter);
+	const source2 = new Tone.Synth().connect(limiter);
+	const source3 = new Tone.Synth().connect(limiter);
 
-	const chorus = new Tone.Chorus(4, 2.5, 0.5).start().connect(limiter);
-	const chorusChannel = new Tone.Channel({ volume: -60 }).connect(chorus);
-	chorusChannel.receive('chorus');
+	// const reverb = new Tone.Reverb(3).connect(limiter);
+	// const reverbChannel = new Tone.Channel({ volume: -60 }).connect(reverb);
+	// reverbChannel.receive('reverb');
 
-	const vibrato = new Tone.Vibrato('8n', 0.5).connect(limiter);
-	const vibratoChannel = new Tone.Channel({ volume: -60 }).connect(vibrato);
-	vibratoChannel.receive('vibrato');
+	// const chorus = new Tone.Chorus(4, 2.5, 0.5).start().connect(limiter);
+	// const chorusChannel = new Tone.Channel({ volume: -60 }).connect(chorus);
+	// chorusChannel.receive('chorus');
 
-	const channel1 = new Tone.Channel().connect(limiter);
-	const channel2 = new Tone.Channel().connect(limiter);
-	const channel3 = new Tone.Channel().connect(limiter);
+	// channel1.send('reverb');
+	// channel2.send('reverb');
+	// channel3.send('reverb');
 
-	const source1 = new Tone.Synth();
-	const source2 = new Tone.Synth();
-	const source3 = new Tone.Synth();
-
-	source1.connect(channel1);
-	source2.connect(channel2);
-	source3.connect(channel3);
-
-	channel1.send('reverb');
-	channel2.send('reverb');
-	channel3.send('reverb');
-
-	channel1.send('chorus');
-	channel2.send('chorus');
-	channel3.send('chorus');
-
-	channel1.send('vibrato');
-	channel2.send('vibrato');
-	channel3.send('vibrato');
+	// channel1.send('chorus');
+	// channel2.send('chorus');
+	// channel3.send('chorus');
 
 	const validTempo = bpm >= 20 && bpm <= 300 && !isNaN(bpm) ? true : false;
 
@@ -181,7 +165,7 @@ const Transport = () => {
 				</div>
 			</div>
 
-			<div id={'fxContainer'}>
+			{/* <div id={'fxContainer'}>
 				<div>
 					<label>verb level:</label>
 					<input
@@ -212,16 +196,45 @@ const Transport = () => {
 						}
 					/>
 				</div>
+			</div> */}
+
+			<div id={'faderContainer'}>
 				<div>
-					<label>vibrato level:</label>
+					<label>channel 1 level:</label>
 					<input
 						type="range"
-						defaultValue={-60}
 						max={0}
-						min={-60}
+						min={-21}
+						step={1}
+						onChange={(event) => {
+							source1.volume.value = parseInt(event.target.value);
+							console.log(source1.volume.value);
+						}}
+					/>
+				</div>
+				<div>
+					<label>channel 2 level:</label>
+					<input
+						type="range"
+						max={0}
+						min={-21}
 						step={1}
 						onChange={(event) =>
-							(vibratoChannel.volume.value = parseInt(
+							(source2.volume.value = parseInt(
+								event.target.value
+							))
+						}
+					/>
+				</div>
+				<div>
+					<label>channel 3 level:</label>
+					<input
+						type="range"
+						max={0}
+						min={-21}
+						step={1}
+						onChange={(event) =>
+							(source3.volume.value = parseInt(
 								event.target.value
 							))
 						}
