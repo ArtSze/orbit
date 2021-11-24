@@ -1,4 +1,5 @@
 import * as Tone from 'tone';
+import { Midi } from '@tonejs/midi';
 import { useState, useEffect } from 'react';
 
 import Voice from './Voice';
@@ -24,6 +25,8 @@ const Transport = () => {
 	const source1 = new Tone.Synth().connect(limiter);
 	const source2 = new Tone.Synth().connect(limiter);
 	const source3 = new Tone.Synth().connect(limiter);
+
+	const midi = new Midi();
 
 	// const reverb = new Tone.Reverb(3).connect(limiter);
 	// const reverbChannel = new Tone.Channel({ volume: -60 }).connect(reverb);
@@ -86,6 +89,10 @@ const Transport = () => {
 			toggleTransport();
 		}
 	};
+
+	useEffect(() => {
+		console.log(midi);
+	}, [midi]);
 
 	return (
 		<div className={`transport`}>
@@ -242,6 +249,8 @@ const Transport = () => {
 				</div>
 			</div>
 
+			<div></div>
+
 			<div id={'voiceContainer'}>
 				<Voice
 					source={source1}
@@ -249,6 +258,7 @@ const Transport = () => {
 					voice={1}
 					pitch={pitch1}
 					numOfSteps={numOfSteps1}
+					midi={midi}
 				/>
 				<Voice
 					source={source2}
@@ -256,6 +266,7 @@ const Transport = () => {
 					voice={2}
 					pitch={pitch2}
 					numOfSteps={numOfSteps2}
+					midi={midi}
 				/>
 				<Voice
 					source={source3}
@@ -263,6 +274,7 @@ const Transport = () => {
 					voice={3}
 					pitch={pitch3}
 					numOfSteps={numOfSteps3}
+					midi={midi}
 				/>
 			</div>
 		</div>
