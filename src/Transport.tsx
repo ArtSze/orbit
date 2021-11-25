@@ -28,6 +28,10 @@ const Transport = () => {
 
 	const midi = new Midi();
 
+	const track1 = midi.addTrack();
+	const track2 = midi.addTrack();
+	const track3 = midi.addTrack();
+
 	const validTempo = bpm >= 20 && bpm <= 300 && !isNaN(bpm) ? true : false;
 
 	// implement midi export of loop
@@ -202,7 +206,13 @@ const Transport = () => {
 			</div>
 
 			<div>
-				<button>encode midi</button>
+				<a
+					download="test.mid"
+					href={URL.createObjectURL(
+						new Blob([Buffer.from(midi.toArray())])
+					)}>
+					encode midi
+				</a>
 			</div>
 
 			<div id={'voiceContainer'}>
@@ -212,7 +222,7 @@ const Transport = () => {
 					voice={1}
 					pitch={pitch1}
 					numOfSteps={numOfSteps1}
-					midi={midi}
+					track={track1}
 				/>
 				<Voice
 					source={source2}
@@ -220,7 +230,7 @@ const Transport = () => {
 					voice={2}
 					pitch={pitch2}
 					numOfSteps={numOfSteps2}
-					midi={midi}
+					track={track2}
 				/>
 				<Voice
 					source={source3}
@@ -228,7 +238,7 @@ const Transport = () => {
 					voice={3}
 					pitch={pitch3}
 					numOfSteps={numOfSteps3}
-					midi={midi}
+					track={track3}
 				/>
 			</div>
 		</div>

@@ -1,5 +1,5 @@
 import * as Tone from 'tone';
-import { Midi } from '@tonejs/midi';
+import { Midi, Track } from '@tonejs/midi';
 import { useState, useEffect, useRef } from 'react';
 
 import { PitchClass } from './utils/types';
@@ -11,7 +11,7 @@ type VoiceProps = {
 	voice: number;
 	pitch: PitchClass;
 	numOfSteps: number;
-	midi: Midi;
+	track: Track;
 };
 
 export type StepProps = {
@@ -24,14 +24,12 @@ const Voice = ({
 	voice,
 	pitch,
 	numOfSteps,
-	midi,
+	track,
 }: VoiceProps) => {
 	const [interval, setInterval] = useState<number>(1);
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
 
 	const synth = source;
-
-	const track = midi.addTrack();
 
 	const initialSteps: StepProps[] = [
 		{ isActive: true },
