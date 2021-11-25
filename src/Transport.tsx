@@ -28,22 +28,6 @@ const Transport = () => {
 
 	const midi = new Midi();
 
-	// const reverb = new Tone.Reverb(3).connect(limiter);
-	// const reverbChannel = new Tone.Channel({ volume: -60 }).connect(reverb);
-	// reverbChannel.receive('reverb');
-
-	// const chorus = new Tone.Chorus(4, 2.5, 0.5).start().connect(limiter);
-	// const chorusChannel = new Tone.Channel({ volume: -60 }).connect(chorus);
-	// chorusChannel.receive('chorus');
-
-	// channel1.send('reverb');
-	// channel2.send('reverb');
-	// channel3.send('reverb');
-
-	// channel1.send('chorus');
-	// channel2.send('chorus');
-	// channel3.send('chorus');
-
 	const validTempo = bpm >= 20 && bpm <= 300 && !isNaN(bpm) ? true : false;
 
 	// implement midi export of loop
@@ -91,6 +75,7 @@ const Transport = () => {
 	};
 
 	useEffect(() => {
+		midi.tracks = midi.tracks.filter((track) => track.notes.length > 0);
 		console.log(midi);
 	}, [midi]);
 
@@ -172,39 +157,6 @@ const Transport = () => {
 				</div>
 			</div>
 
-			{/* <div id={'fxContainer'}>
-				<div>
-					<label>verb level:</label>
-					<input
-						type="range"
-						defaultValue={-60}
-						max={0}
-						min={-60}
-						step={1}
-						onChange={(event) =>
-							(reverbChannel.volume.value = parseInt(
-								event.target.value
-							))
-						}
-					/>
-				</div>
-				<div>
-					<label>chorus level:</label>
-					<input
-						type="range"
-						defaultValue={-60}
-						max={0}
-						min={-60}
-						step={1}
-						onChange={(event) =>
-							(chorusChannel.volume.value = parseInt(
-								event.target.value
-							))
-						}
-					/>
-				</div>
-			</div> */}
-
 			<div id={'faderContainer'}>
 				<div>
 					<label>channel 1 level:</label>
@@ -249,7 +201,9 @@ const Transport = () => {
 				</div>
 			</div>
 
-			<div></div>
+			<div>
+				<button>encode midi</button>
+			</div>
 
 			<div id={'voiceContainer'}>
 				<Voice

@@ -147,6 +147,7 @@ const Voice = ({
 	// event scheduling
 	useEffect(() => {
 		if (seq && flashEvents) {
+			track.notes = [];
 			seq.clear();
 			Tone.Transport.clear(flashEvents);
 		}
