@@ -172,8 +172,10 @@ const Voice = ({
 				if (note !== '') {
 					track.addNote({
 						midi: Tone.Frequency(note).toMidi(),
-						time: interval * index,
-						duration: interval * 0.75,
+						time:
+							interval * index * (Tone.Transport.bpm.value / 120),
+						duration:
+							interval * 0.75 * (Tone.Transport.bpm.value / 120),
 					});
 				}
 			});

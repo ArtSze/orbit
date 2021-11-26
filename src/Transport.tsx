@@ -1,6 +1,6 @@
 import * as Tone from 'tone';
 import * as FileSaver from 'file-saver';
-import { Midi } from '@tonejs/midi';
+import { Header, Midi } from '@tonejs/midi';
 import { useState, useEffect } from 'react';
 
 import Voice from './Voice';
@@ -83,15 +83,23 @@ const Transport = () => {
 			if (Tone.context.state === 'suspended') {
 				await Tone.start();
 			}
-
 			toggleTransport();
 		}
 	};
 
 	const encodeMidi = () => {
+		console.log(midi.header.ppq);
+		console.log(Tone.Transport.PPQ);
+		console.log(midi);
+
+		midi.header.tempos = [{ ticks: 0, bpm: bpm }];
 		const blob = new Blob([midi.toArray()], { type: 'audio/midi' });
 		FileSaver.saveAs(blob, 'test.mid');
 	};
+
+	useEffect(() => {
+		console.log(midi);
+	}, [midi]);
 
 	return (
 		<div className={`transport`}>
