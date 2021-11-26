@@ -1,5 +1,5 @@
 import * as Tone from 'tone';
-import { Midi, Track } from '@tonejs/midi';
+import { Track } from '@tonejs/midi';
 import { useState, useEffect, useRef } from 'react';
 
 import { PitchClass } from './utils/types';
