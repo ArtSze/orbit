@@ -1,4 +1,5 @@
 import * as Tone from 'tone';
+import { Midi, Track } from '@tonejs/midi';
 import { useState, useEffect, useRef } from 'react';
 
 import { PitchClass } from './utils/types';
@@ -10,13 +11,21 @@ type VoiceProps = {
 	voice: number;
 	pitch: PitchClass;
 	numOfSteps: number;
+	track: Track;
 };
 
 export type StepProps = {
 	isActive: boolean;
 };
 
-const Voice = ({ source, period, voice, pitch, numOfSteps }: VoiceProps) => {
+const Voice = ({
+	source,
+	period,
+	voice,
+	pitch,
+	numOfSteps,
+	track,
+}: VoiceProps) => {
 	const [interval, setInterval] = useState<number>(1);
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
 
@@ -68,8 +77,9 @@ const Voice = ({ source, period, voice, pitch, numOfSteps }: VoiceProps) => {
 	};
 
 	const resetPitch = () => {
-		const newPitchArgs = seqArgs.map(() => {
-			return `${pitch}4`;
+		const tempArgs = [...seqArgs];
+		const newPitchArgs = tempArgs.map((arg) => {
+			return arg === '' ? '' : `${pitch}4`;
 		});
 
 		setSeqArgs(newPitchArgs);
@@ -136,6 +146,7 @@ const Voice = ({ source, period, voice, pitch, numOfSteps }: VoiceProps) => {
 	// event scheduling
 	useEffect(() => {
 		if (seq && flashEvents) {
+			track.notes = [];
 			seq.clear();
 			Tone.Transport.clear(flashEvents);
 		}
@@ -156,6 +167,18 @@ const Voice = ({ source, period, voice, pitch, numOfSteps }: VoiceProps) => {
 					interval
 				).start(0)
 			);
+
+			seqArgs.map((note, index) => {
+				if (note !== '') {
+					track.addNote({
+						midi: Tone.Frequency(note).toMidi(),
+						time:
+							interval * index * (Tone.Transport.bpm.value / 120),
+						duration:
+							interval * 0.75 * (Tone.Transport.bpm.value / 120),
+					});
+				}
+			});
 
 			setFlashEvents(
 				Tone.Transport.scheduleRepeat(

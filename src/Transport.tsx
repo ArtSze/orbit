@@ -1,4 +1,6 @@
 import * as Tone from 'tone';
+import * as FileSaver from 'file-saver';
+import { Header, Midi } from '@tonejs/midi';
 import { useState, useEffect } from 'react';
 
 import Voice from './Voice';
@@ -25,21 +27,19 @@ const Transport = () => {
 	const source2 = new Tone.Synth().connect(limiter);
 	const source3 = new Tone.Synth().connect(limiter);
 
-	// const reverb = new Tone.Reverb(3).connect(limiter);
-	// const reverbChannel = new Tone.Channel({ volume: -60 }).connect(reverb);
-	// reverbChannel.receive('reverb');
+	const midi = new Midi();
 
-	// const chorus = new Tone.Chorus(4, 2.5, 0.5).start().connect(limiter);
-	// const chorusChannel = new Tone.Channel({ volume: -60 }).connect(chorus);
-	// chorusChannel.receive('chorus');
+	const track1 = midi.addTrack();
+	const track2 = midi.addTrack();
+	const track3 = midi.addTrack();
 
-	// channel1.send('reverb');
-	// channel2.send('reverb');
-	// channel3.send('reverb');
+	track1.instrument.number = 1;
+	track2.instrument.number = 1;
+	track3.instrument.number = 1;
 
-	// channel1.send('chorus');
-	// channel2.send('chorus');
-	// channel3.send('chorus');
+	track1.channel = 1;
+	track2.channel = 2;
+	track3.channel = 3;
 
 	const validTempo = bpm >= 20 && bpm <= 300 && !isNaN(bpm) ? true : false;
 
@@ -61,6 +61,7 @@ const Transport = () => {
 		if (validTempo) {
 			Tone.Transport.cancel();
 			Tone.Transport.bpm.value = bpm;
+			// midi.header.tempos = [{ ticks: 0, bpm: bpm }];
 			setPeriod(Tone.Time('1m').toSeconds());
 		} else if (!validTempo) {
 			if (Tone.Transport.state === 'started') {
@@ -82,10 +83,23 @@ const Transport = () => {
 			if (Tone.context.state === 'suspended') {
 				await Tone.start();
 			}
-
 			toggleTransport();
 		}
 	};
+
+	const encodeMidi = () => {
+		console.log(midi.header.ppq);
+		console.log(Tone.Transport.PPQ);
+		console.log(midi);
+
+		midi.header.tempos = [{ ticks: 0, bpm: bpm }];
+		const blob = new Blob([midi.toArray()], { type: 'audio/midi' });
+		FileSaver.saveAs(blob, 'test.mid');
+	};
+
+	useEffect(() => {
+		console.log(midi);
+	}, [midi]);
 
 	return (
 		<div className={`transport`}>
@@ -165,39 +179,6 @@ const Transport = () => {
 				</div>
 			</div>
 
-			{/* <div id={'fxContainer'}>
-				<div>
-					<label>verb level:</label>
-					<input
-						type="range"
-						defaultValue={-60}
-						max={0}
-						min={-60}
-						step={1}
-						onChange={(event) =>
-							(reverbChannel.volume.value = parseInt(
-								event.target.value
-							))
-						}
-					/>
-				</div>
-				<div>
-					<label>chorus level:</label>
-					<input
-						type="range"
-						defaultValue={-60}
-						max={0}
-						min={-60}
-						step={1}
-						onChange={(event) =>
-							(chorusChannel.volume.value = parseInt(
-								event.target.value
-							))
-						}
-					/>
-				</div>
-			</div> */}
-
 			<div id={'faderContainer'}>
 				<div>
 					<label>channel 1 level:</label>
@@ -242,6 +223,10 @@ const Transport = () => {
 				</div>
 			</div>
 
+			<div>
+				<button onClick={encodeMidi}>encode midi</button>
+			</div>
+
 			<div id={'voiceContainer'}>
 				<Voice
 					source={source1}
@@ -249,6 +234,7 @@ const Transport = () => {
 					voice={1}
 					pitch={pitch1}
 					numOfSteps={numOfSteps1}
+					track={track1}
 				/>
 				<Voice
 					source={source2}
@@ -256,6 +242,7 @@ const Transport = () => {
 					voice={2}
 					pitch={pitch2}
 					numOfSteps={numOfSteps2}
+					track={track2}
 				/>
 				<Voice
 					source={source3}
@@ -263,6 +250,7 @@ const Transport = () => {
 					voice={3}
 					pitch={pitch3}
 					numOfSteps={numOfSteps3}
+					track={track3}
 				/>
 			</div>
 		</div>

@@ -1,5 +1,3 @@
-import { listenerCount } from 'process';
-import { useEffect, useState } from 'react';
 import { PitchClass } from '../utils/types';
 
 type PitchControlProps = {
