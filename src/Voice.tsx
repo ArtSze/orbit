@@ -77,8 +77,9 @@ const Voice = ({
 	};
 
 	const resetPitch = () => {
-		const newPitchArgs = seqArgs.map(() => {
-			return `${pitch}4`;
+		const tempArgs = [...seqArgs];
+		const newPitchArgs = tempArgs.map((arg) => {
+			return arg === '' ? '' : `${pitch}4`;
 		});
 
 		setSeqArgs(newPitchArgs);

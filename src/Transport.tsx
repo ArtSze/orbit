@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react';
 import Voice from './Voice';
 import { PitchClass } from './utils/types';
 import PitchControl from './TransportSubControls/PitchControl';
-import { MidSideSplit } from 'tone';
 
 const Transport = () => {
 	const [bpm, setBpm] = useState(120);
@@ -34,9 +33,9 @@ const Transport = () => {
 	const track2 = midi.addTrack();
 	const track3 = midi.addTrack();
 
-	track1.instrument.number = 10;
-	track2.instrument.number = 10;
-	track3.instrument.number = 10;
+	track1.instrument.number = 1;
+	track2.instrument.number = 1;
+	track3.instrument.number = 1;
 
 	track1.channel = 1;
 	track2.channel = 2;
@@ -62,6 +61,7 @@ const Transport = () => {
 		if (validTempo) {
 			Tone.Transport.cancel();
 			Tone.Transport.bpm.value = bpm;
+			// midi.header.tempos = [{ ticks: 0, bpm: bpm }];
 			setPeriod(Tone.Time('1m').toSeconds());
 		} else if (!validTempo) {
 			if (Tone.Transport.state === 'started') {
@@ -87,10 +87,6 @@ const Transport = () => {
 			toggleTransport();
 		}
 	};
-
-	useEffect(() => {
-		console.log(midi);
-	}, [midi]);
 
 	const encodeMidi = () => {
 		const blob = new Blob([midi.toArray()], { type: 'audio/midi' });
@@ -221,15 +217,6 @@ const Transport = () => {
 
 			<div>
 				<button onClick={encodeMidi}>encode midi</button>
-				{/* <a
-					download="test.mid"
-					href={URL.createObjectURL(
-						new Blob([midi.toArray()], {
-							type: 'audio/midi',
-						})
-					)}>
-					encode midi
-				</a> */}
 			</div>
 
 			<div id={'voiceContainer'}>
