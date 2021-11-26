@@ -170,7 +170,7 @@ const Voice = ({
 			seqArgs.map((note, index) => {
 				if (note !== '') {
 					track.addNote({
-						name: note,
+						midi: Tone.Frequency(note).toMidi(),
 						time: interval * index,
 						duration: interval * 0.75,
 					});
