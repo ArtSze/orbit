@@ -205,7 +205,7 @@ const Voice = ({
 				}, time);
 			}, period - 0.01);
 		}
-	}, [period, interval, seqArgs, source]);
+	}, [period, interval, seqArgs]);
 
 	return (
 		<div className={`voice`}>

@@ -89,8 +89,13 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 	const encodeMidi = () => {
 		midi.header.tempos = [{ ticks: 0, bpm: bpm }];
 		const blob = new Blob([midi.toArray()], { type: 'audio/midi' });
+		console.log({ midi });
 		FileSaver.saveAs(blob, 'test.mid');
 	};
+
+	useEffect(() => {
+		console.log(midi);
+	}, [midi]);
 
 	return (
 		<div className={`transport`}>
