@@ -1,13 +1,19 @@
 import * as Tone from 'tone';
 import * as FileSaver from 'file-saver';
-import { Header, Midi } from '@tonejs/midi';
-import { useState, useEffect } from 'react';
+import { Midi } from '@tonejs/midi';
+import { useState, useEffect, useRef } from 'react';
 
 import Voice from './Voice';
 import { PitchClass } from './utils/types';
 import PitchControl from './TransportSubControls/PitchControl';
 
-const Transport = () => {
+type TransportProps = {
+	source1: Tone.Synth<Tone.SynthOptions>;
+	source2: Tone.Synth<Tone.SynthOptions>;
+	source3: Tone.Synth<Tone.SynthOptions>;
+};
+
+const Transport = ({ source1, source2, source3 }: TransportProps) => {
 	const [bpm, setBpm] = useState(120);
 	const [period, setPeriod] = useState(Tone.Time('1m').toSeconds());
 	const [numOfSteps1, setNumOfSteps1] = useState<number>(4);
@@ -20,24 +26,6 @@ const Transport = () => {
 
 	const [triggerText, setTriggerText] = useState('play');
 	const [bpmErrorMessage, setBpmErrorMessage] = useState('');
-
-	const limiter = new Tone.Limiter(-5).toDestination();
-
-	const channel1 = new Tone.Channel().connect(limiter);
-	const channel2 = new Tone.Channel().connect(limiter);
-	const channel3 = new Tone.Channel().connect(limiter);
-
-	const source1 = new Tone.Synth().connect(channel1);
-	const source2 = new Tone.Synth().connect(channel2);
-	const source3 = new Tone.Synth().connect(channel3);
-
-	const chorus = new Tone.Chorus(4, 2.5, 0.5).start().connect(limiter);
-	const chorusChannel = new Tone.Channel({ volume: -60 }).connect(chorus);
-	chorusChannel.receive('chorus');
-
-	channel1.send('chorus');
-	channel2.send('chorus');
-	channel3.send('chorus');
 
 	const midi = new Midi();
 
@@ -73,7 +61,6 @@ const Transport = () => {
 		if (validTempo) {
 			Tone.Transport.cancel();
 			Tone.Transport.bpm.value = bpm;
-			// midi.header.tempos = [{ ticks: 0, bpm: bpm }];
 			setPeriod(Tone.Time('1m').toSeconds());
 		} else if (!validTempo) {
 			if (Tone.Transport.state === 'started') {
@@ -100,18 +87,10 @@ const Transport = () => {
 	};
 
 	const encodeMidi = () => {
-		console.log(midi.header.ppq);
-		console.log(Tone.Transport.PPQ);
-		console.log(midi);
-
 		midi.header.tempos = [{ ticks: 0, bpm: bpm }];
 		const blob = new Blob([midi.toArray()], { type: 'audio/midi' });
 		FileSaver.saveAs(blob, 'test.mid');
 	};
-
-	useEffect(() => {
-		console.log(midi);
-	}, [midi]);
 
 	return (
 		<div className={`transport`}>
@@ -188,68 +167,6 @@ const Transport = () => {
 							defaultInd={11}
 						/>
 					</div>
-				</div>
-			</div>
-
-			<div id={'faderContainer'}>
-				<div>
-					<label>channel 1 level:</label>
-					<input
-						type="range"
-						max={0}
-						min={-21}
-						step={1}
-						onChange={(event) => {
-							source1.volume.value = parseInt(event.target.value);
-							console.log(source1.volume.value);
-						}}
-					/>
-				</div>
-				<div>
-					<label>channel 2 level:</label>
-					<input
-						type="range"
-						max={0}
-						min={-21}
-						step={1}
-						onChange={(event) =>
-							(source2.volume.value = parseInt(
-								event.target.value
-							))
-						}
-					/>
-				</div>
-				<div>
-					<label>channel 3 level:</label>
-					<input
-						type="range"
-						max={0}
-						min={-21}
-						step={1}
-						onChange={(event) =>
-							(source3.volume.value = parseInt(
-								event.target.value
-							))
-						}
-					/>
-				</div>
-			</div>
-
-			<div id={'fxContainer'}>
-				<div>
-					<label>chorus level:</label>
-					<input
-						type="range"
-						defaultValue={-60}
-						max={0}
-						min={-60}
-						step={1}
-						onChange={(event) =>
-							(chorusChannel.volume.value = parseInt(
-								event.target.value
-							))
-						}
-					/>
 				</div>
 			</div>
 
