@@ -17,13 +17,17 @@ const Mixer = () => {
 	const chorusChannel = new Tone.Channel({ volume: -60 }).connect(chorus);
 	chorusChannel.receive('chorus');
 
+	const crusher = new Tone.BitCrusher(5).connect(limiter);
+	const crusherChannel = new Tone.Channel({ volume: -60 }).connect(crusher);
+	crusherChannel.receive('crusher');
+
 	channel1.send('chorus');
 	channel2.send('chorus');
 	channel3.send('chorus');
 
-	let vol1 = useRef<number>().current;
-	const [vol2, setVol2] = useState<number>();
-	const [vol3, setVol3] = useState<number>();
+	channel1.send('crusher');
+	channel2.send('crusher');
+	channel3.send('crusher');
 
 	useEffect(() => {
 		console.log(channel1.volume.value);
@@ -36,12 +40,13 @@ const Mixer = () => {
 					<label>channel 1 level:</label>
 					<input
 						type="range"
-						max={0}
-						min={-21}
+						max={-2}
+						min={-40}
 						step={1}
 						onChange={(event) => {
-							vol1 = parseInt(event.target.value);
-							channel1.set({ volume: vol1 });
+							channel1.set({
+								volume: parseInt(event.target.value),
+							});
 						}}
 					/>
 				</div>
@@ -49,13 +54,13 @@ const Mixer = () => {
 					<label>channel 2 level:</label>
 					<input
 						type="range"
-						max={0}
-						min={-21}
+						max={-2}
+						min={-40}
 						step={1}
 						onChange={(event) =>
-							(source2.volume.value = parseInt(
-								event.target.value
-							))
+							channel2.set({
+								volume: parseInt(event.target.value),
+							})
 						}
 					/>
 				</div>
@@ -63,13 +68,13 @@ const Mixer = () => {
 					<label>channel 3 level:</label>
 					<input
 						type="range"
-						max={0}
-						min={-21}
+						max={-2}
+						min={-40}
 						step={1}
 						onChange={(event) =>
-							(source3.volume.value = parseInt(
-								event.target.value
-							))
+							channel3.set({
+								volume: parseInt(event.target.value),
+							})
 						}
 					/>
 				</div>
@@ -86,6 +91,22 @@ const Mixer = () => {
 						step={1}
 						onChange={(event) =>
 							(chorusChannel.volume.value = parseInt(
+								event.target.value
+							))
+						}
+					/>
+				</div>
+
+				<div>
+					<label>crusher level:</label>
+					<input
+						type="range"
+						defaultValue={-60}
+						max={0}
+						min={-60}
+						step={1}
+						onChange={(event) =>
+							(crusherChannel.volume.value = parseInt(
 								event.target.value
 							))
 						}
