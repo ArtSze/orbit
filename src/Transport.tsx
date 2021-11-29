@@ -1,8 +1,7 @@
 import * as Tone from 'tone';
-import * as FileSaver from 'file-saver';
-import { Midi } from '@tonejs/midi';
 import { useState, useEffect, useRef } from 'react';
 
+import { midi, encodeMidi } from './utils/midi';
 import Voice from './Voice';
 import { PitchClass } from './utils/types';
 import PitchControl from './TransportSubControls/PitchControl';
@@ -26,20 +25,6 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 
 	const [triggerText, setTriggerText] = useState('play');
 	const [bpmErrorMessage, setBpmErrorMessage] = useState('');
-
-	const midi = new Midi();
-
-	const track1 = midi.addTrack();
-	const track2 = midi.addTrack();
-	const track3 = midi.addTrack();
-
-	track1.instrument.number = 1;
-	track2.instrument.number = 1;
-	track3.instrument.number = 1;
-
-	track1.channel = 1;
-	track2.channel = 2;
-	track3.channel = 3;
 
 	const validTempo = bpm >= 20 && bpm <= 300 && !isNaN(bpm) ? true : false;
 
@@ -84,13 +69,6 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 			}
 			toggleTransport();
 		}
-	};
-
-	const encodeMidi = () => {
-		midi.header.tempos = [{ ticks: 0, bpm: bpm }];
-		const blob = new Blob([midi.toArray()], { type: 'audio/midi' });
-		console.log({ midi });
-		FileSaver.saveAs(blob, 'test.mid');
 	};
 
 	useEffect(() => {
@@ -176,7 +154,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 			</div>
 
 			<div>
-				<button onClick={encodeMidi}>encode midi</button>
+				<button onClick={() => encodeMidi(bpm)}>encode midi</button>
 			</div>
 
 			<div id={'voiceContainer'}>
@@ -186,7 +164,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 					voice={1}
 					pitch={pitch1}
 					numOfSteps={numOfSteps1}
-					track={track1}
+					track={midi.tracks[0]}
 				/>
 				<Voice
 					source={source2}
@@ -194,7 +172,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 					voice={2}
 					pitch={pitch2}
 					numOfSteps={numOfSteps2}
-					track={track2}
+					track={midi.tracks[1]}
 				/>
 				<Voice
 					source={source3}
@@ -202,7 +180,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 					voice={3}
 					pitch={pitch3}
 					numOfSteps={numOfSteps3}
-					track={track3}
+					track={midi.tracks[2]}
 				/>
 			</div>
 		</div>
