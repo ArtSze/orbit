@@ -1,12 +1,12 @@
 import React from 'react';
-import Transport from './Transport';
+import Mixer from './Mixer';
 
 const App = () => {
 	return (
 		<div>
 			<header></header>
 			<div>
-				<Transport />
+				<Mixer />
 			</div>
 		</div>
 	);

@@ -25,10 +25,7 @@ const StepContainer = ({
 		width: number | undefined;
 		height: number | undefined;
 	}>({ width: undefined, height: undefined });
-	const [movementTimer, setMovementTimer] = useState();
 	const [theta, setTheta] = useState<number[]>([]);
-
-	const RESET_TIMEOUT = 100;
 
 	const test_dimensions = () => {
 		if (targetRef.current) {
@@ -45,12 +42,6 @@ const StepContainer = ({
 		test_dimensions();
 		console.log(dimensions);
 	}, []);
-
-	window.addEventListener('resize', () => {
-		clearInterval(movementTimer);
-		// @ts-ignore
-		setMovementTimer(setTimeout(test_dimensions, RESET_TIMEOUT));
-	});
 
 	useEffect(() => {
 		const frags = 360 / steps.length;
