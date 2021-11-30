@@ -29,7 +29,7 @@ const Step = ({
 			setFlash(true);
 			setTimeout(() => {
 				setFlash(false);
-			}, 50);
+			}, 150);
 		}
 	});
 

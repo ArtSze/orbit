@@ -21,9 +21,11 @@ export const NumOfStepsControl = ({
 	};
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setNumOfSteps(
-			event.target.value === '' ? 0 : Number(event.target.value)
-		);
+		if (Number(event.target.value) < 33) {
+			setNumOfSteps(
+				event.target.value === '' ? 0 : Number(event.target.value)
+			);
+		}
 	};
 
 	const handleBlur = () => {
