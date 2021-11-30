@@ -8,20 +8,17 @@
 	display: flex;
 }
 
-#masterContainer {
+#paramsContainer {
 	display: flex;
-}
-
-#faderContainer {
-	display: flex;
-}
-
-#fxContainer {
-	display: flex;
+	flex-direction: column;
 }
 
 #voiceContainer {
 	display: flex;
+}
+
+.MuiContainer-root.MuiContainer-maxWidthLg.numOfStepsControl.css-adblrt-MuiContainer-root {
+	padding-left: 0px;
 }
 
 #controlContainer {
@@ -29,28 +26,16 @@
 	flex-direction: column;
 }
 
-#numOfStepsContainer {
-	display: flex;
-	flex-direction: column;
-}
-
 .voice {
 	display: flex;
 	justify-content: center;
-	// border-style: solid;
-	// border-width: 2px;
-	// padding: 20px;
-	// border-radius: 50%;
 }
 
 .voiceControls {
-	width: 350px;
+	width: 450px;
 	display: flex;
 	justify-content: space-around;
-	// border-style: solid;
-	// border-width: 2px;
-	// padding: 20px;
-	// border-radius: 50%;
+	align-items: center;
 }
 
 .stepContainer {
