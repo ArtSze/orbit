@@ -31,68 +31,60 @@ const Mixer = () => {
 	channel3.send('crusher');
 
 	return (
-		<div>
-			<div id={'faderContainer'}>
+		<div className={'container'}>
+			<div className={'container'}>
 				<Stack direction="row" spacing={2} height="350">
 					<ChannelFader
-						numLabel={1}
+						label={'1'}
 						onChange={(event, value) => {
 							channel1.set({
 								volume: value as number,
 							});
 						}}
+						defaultValue={-1}
 					/>
 					<ChannelFader
-						numLabel={2}
+						label={'2'}
 						onChange={(event, value) => {
 							channel2.set({
 								volume: value as number,
 							});
 						}}
+						defaultValue={-1}
 					/>
 					<ChannelFader
-						numLabel={3}
+						label={'3'}
 						onChange={(event, value) => {
 							channel3.set({
 								volume: value as number,
 							});
 						}}
+						defaultValue={-1}
 					/>
 				</Stack>
 			</div>
 
-			<div id={'fxContainer'}>
-				<div>
-					<label>chorus level:</label>
-					<input
-						type="range"
+			<div className={'container'}>
+				<Stack direction="row" spacing={2} height="350">
+					<ChannelFader
+						label={'chorus level'}
+						onChange={(event, value) => {
+							chorusChannel.set({
+								volume: value as number,
+							});
+						}}
 						defaultValue={-60}
-						max={0}
-						min={-60}
-						step={1}
-						onChange={(event) =>
-							(chorusChannel.volume.value = parseInt(
-								event.target.value
-							))
-						}
 					/>
-				</div>
-
-				<div>
-					<label>crusher level:</label>
-					<input
-						type="range"
+					<ChannelFader
+						label={'crusher level'}
+						onChange={(event, value) => {
+							crusherChannel.set({
+								volume: value as number,
+							});
+						}}
 						defaultValue={-60}
-						max={0}
-						min={-60}
-						step={1}
-						onChange={(event) =>
-							(crusherChannel.volume.value = parseInt(
-								event.target.value
-							))
-						}
 					/>
-				</div>
+				</Stack>
 			</div>
 
 			<Transport source1={source1} source2={source2} source3={source3} />

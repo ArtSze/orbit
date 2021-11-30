@@ -2,17 +2,22 @@ import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
 
 type ChannelFaderProps = {
-	numLabel: number;
+	label: string;
 	onChange: (
 		event: Event,
 		value: number | number[],
 		activeThumb: number
 	) => void;
+	defaultValue: number;
 };
 
-export const ChannelFader = ({ numLabel, onChange }: ChannelFaderProps) => {
+export const ChannelFader = ({
+	label,
+	onChange,
+	defaultValue,
+}: ChannelFaderProps) => {
 	const calculateValue = (value: number) => {
-		return Math.pow(value, 0.1);
+		return Math.pow(value, 0.8);
 	};
 
 	return (
@@ -20,7 +25,7 @@ export const ChannelFader = ({ numLabel, onChange }: ChannelFaderProps) => {
 			<Slider
 				onChange={onChange}
 				orientation="vertical"
-				defaultValue={-1}
+				defaultValue={defaultValue}
 				max={-1}
 				min={-60}
 				scale={calculateValue}
@@ -29,9 +34,9 @@ export const ChannelFader = ({ numLabel, onChange }: ChannelFaderProps) => {
 						borderRadius: '1px',
 					},
 				}}
-				aria-label={`Channel${numLabel}Fader`}
+				aria-label={`Channel${label}Fader`}
 			/>
-			<Typography variant="h3">{numLabel}</Typography>
+			<Typography variant="h4">{label}</Typography>
 		</div>
 	);
 };

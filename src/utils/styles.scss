@@ -4,6 +4,22 @@
 	align-items: center;
 }
 
+.container {
+	display: flex;
+}
+
+#masterContainer {
+	display: flex;
+}
+
+#faderContainer {
+	display: flex;
+}
+
+#fxContainer {
+	display: flex;
+}
+
 #voiceContainer {
 	display: flex;
 }
