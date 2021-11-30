@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import './utils/styles.scss';
 import Step from './Step';
-import { StepProps } from './Voice';
-import { PitchClass } from './utils/types';
+import { StepProps, PitchClass } from './utils/types';
 import * as Tone from 'tone';
 
 const StepContainer = ({

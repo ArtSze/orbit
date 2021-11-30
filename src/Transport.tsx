@@ -3,14 +3,8 @@ import { useState, useEffect, useRef } from 'react';
 
 import { midi, encodeMidi } from './utils/midi';
 import Voice from './Voice';
-import { PitchClass } from './utils/types';
-import PitchControl from './TransportSubControls/PitchControl';
-
-type TransportProps = {
-	source1: Tone.Synth<Tone.SynthOptions>;
-	source2: Tone.Synth<Tone.SynthOptions>;
-	source3: Tone.Synth<Tone.SynthOptions>;
-};
+import { PitchClass, TransportProps } from './utils/types';
+import PitchControl from './TransportSubComponents/PitchControl';
 
 const Transport = ({ source1, source2, source3 }: TransportProps) => {
 	const [bpm, setBpm] = useState(120);

@@ -1,8 +1,7 @@
 import * as Tone from 'tone';
 
 import './utils/styles.scss';
-import { StepProps } from './Voice';
-import { PitchClass } from './utils/types';
+import { StepProps, PitchClass } from './utils/types';
 import { useState } from 'react';
 
 const Step = ({

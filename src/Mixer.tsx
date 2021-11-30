@@ -29,10 +29,6 @@ const Mixer = () => {
 	channel2.send('crusher');
 	channel3.send('crusher');
 
-	useEffect(() => {
-		console.log(channel1.volume.value);
-	}, [channel1.volume]);
-
 	return (
 		<div>
 			<div id={'faderContainer'}>

@@ -1,10 +1,4 @@
-import { PitchClass } from '../utils/types';
-
-type PitchControlProps = {
-	pitch: PitchClass;
-	setPitch: React.Dispatch<React.SetStateAction<PitchClass>>;
-	defaultInd: number;
-};
+import { PitchClass, PitchControlProps } from '../utils/types';
 
 const PitchControl = ({ pitch, setPitch, defaultInd }: PitchControlProps) => {
 	const parsePitch = (pitchNum: number) => {
