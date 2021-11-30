@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
 import * as Tone from 'tone';
+import Stack from '@mui/material/Stack';
+import { ChannelFader } from './MixerSubComponents/ChannelFader';
 import Transport from './Transport';
 
 const Mixer = () => {
@@ -32,48 +33,32 @@ const Mixer = () => {
 	return (
 		<div>
 			<div id={'faderContainer'}>
-				<div>
-					<label>channel 1 level:</label>
-					<input
-						type="range"
-						max={-2}
-						min={-40}
-						step={1}
-						onChange={(event) => {
+				<Stack direction="row" spacing={2} height="350">
+					<ChannelFader
+						numLabel={1}
+						onChange={(event, value) => {
 							channel1.set({
-								volume: parseInt(event.target.value),
+								volume: value as number,
 							});
 						}}
 					/>
-				</div>
-				<div>
-					<label>channel 2 level:</label>
-					<input
-						type="range"
-						max={-2}
-						min={-40}
-						step={1}
-						onChange={(event) =>
+					<ChannelFader
+						numLabel={2}
+						onChange={(event, value) => {
 							channel2.set({
-								volume: parseInt(event.target.value),
-							})
-						}
+								volume: value as number,
+							});
+						}}
 					/>
-				</div>
-				<div>
-					<label>channel 3 level:</label>
-					<input
-						type="range"
-						max={-2}
-						min={-40}
-						step={1}
-						onChange={(event) =>
+					<ChannelFader
+						numLabel={3}
+						onChange={(event, value) => {
 							channel3.set({
-								volume: parseInt(event.target.value),
-							})
-						}
+								volume: value as number,
+							});
+						}}
 					/>
-				</div>
+				</Stack>
 			</div>
 
 			<div id={'fxContainer'}>
