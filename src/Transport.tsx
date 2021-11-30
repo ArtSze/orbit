@@ -31,6 +31,12 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 			: setTriggerText('play');
 	};
 
+	const resetNumOfSteps = () => {
+		setNumOfSteps1(4);
+		setNumOfSteps2(4);
+		setNumOfSteps3(4);
+	};
+
 	const flashBpmErrorMessage = () => {
 		setBpmErrorMessage('BPM must fall within range of 20 through 300 BPM');
 		setTimeout(() => setBpmErrorMessage(''), 4 * 1000);
@@ -149,6 +155,9 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 
 			<div>
 				<button onClick={() => encodeMidi(bpm)}>encode midi</button>
+				<button onClick={() => resetNumOfSteps()}>
+					reset step counts
+				</button>
 			</div>
 
 			<div id={'voiceContainer'}>
