@@ -7,7 +7,8 @@ import { midi, encodeMidi } from './utils/midi';
 import Voice from './Voice';
 import PitchControl from './TransportSubComponents/PitchControl';
 import { NumOfStepsControl } from './TransportSubComponents/NumOfStepsControl';
-import { BpmController } from './TransportSubComponents/BpmController';
+import { BpmKnob } from './TransportSubComponents/BpmKnob';
+import { NumOfStepsKnob } from './TransportSubComponents/NumOfStepsKnob';
 
 const Transport = ({ source1, source2, source3 }: TransportProps) => {
 	const [bpm, setBpm] = useState(120);
@@ -84,7 +85,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 			<div id={'controlContainer'}>
 				<button onClick={() => triggerLoop()}>{triggerText}</button>
 				<div>
-					<BpmController bpm={bpm} setBpm={setBpm} />
+					<BpmKnob bpm={bpm} setBpm={setBpm} />
 				</div>
 
 				<div id={'paramsContainer'}>
@@ -92,10 +93,14 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 						<Typography variant="body2" width="120px">
 							voice 1
 						</Typography>
-						<NumOfStepsControl
+						<NumOfStepsKnob
 							numOfSteps={numOfSteps1}
 							setNumOfSteps={setNumOfSteps1}
 						/>
+						{/* <NumOfStepsControl
+							numOfSteps={numOfSteps1}
+							setNumOfSteps={setNumOfSteps1}
+						/> */}
 						<PitchControl
 							pitch={pitch1}
 							setPitch={setPitch1}

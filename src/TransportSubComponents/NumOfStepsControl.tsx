@@ -3,7 +3,7 @@ import Slider from '@mui/material/Slider';
 import MuiInput from '@mui/material/Input';
 import Container from '@mui/material/Container';
 
-type NumOfStepsControlProps = {
+export type NumOfStepsControlProps = {
 	numOfSteps: number;
 	setNumOfSteps: (value: React.SetStateAction<number>) => void;
 };

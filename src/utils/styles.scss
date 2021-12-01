@@ -8,11 +8,21 @@
 	font-family: 'Work Sans', sans-serif;
 	fill: rgb(5, 136, 0);
 	font-size: 30px;
+	transition: 0.15s ease-in-out font-size;
 }
 
-// g[Attributes][Style] {
-// 	transform: rotate(347.8deg, 50, 50) translate(47.5, 5);
-// }
+.value:hover {
+	font-family: 'Work Sans', sans-serif;
+	fill: rgb(5, 136, 0);
+	font-size: 35px;
+	transition: 0.15s ease-in-out font-size;
+}
+
+.numOfStepsKnobContainer {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
 
 .container {
 	display: flex;
