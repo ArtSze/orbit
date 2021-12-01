@@ -7,6 +7,7 @@ import { midi, encodeMidi } from './utils/midi';
 import Voice from './Voice';
 import PitchControl from './TransportSubComponents/PitchControl';
 import { NumOfStepsControl } from './TransportSubComponents/NumOfStepsControl';
+import { BpmController } from './TransportSubComponents/BpmController';
 
 const Transport = ({ source1, source2, source3 }: TransportProps) => {
 	const [bpm, setBpm] = useState(120);
@@ -83,19 +84,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 			<div id={'controlContainer'}>
 				<button onClick={() => triggerLoop()}>{triggerText}</button>
 				<div>
-					{`bpm: ${bpm}`}
-
-					<input
-						type="range"
-						defaultValue={bpm}
-						max={300}
-						min={20}
-						step={1}
-						onChange={(event) =>
-							setBpm(parseInt(event.target.value))
-						}
-					/>
-					<div>{`${bpmErrorMessage}`}</div>
+					<BpmController bpm={bpm} setBpm={setBpm} />
 				</div>
 
 				<div id={'paramsContainer'}>

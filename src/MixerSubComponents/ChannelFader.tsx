@@ -17,7 +17,7 @@ export const ChannelFader = ({
 	defaultValue,
 }: ChannelFaderProps) => {
 	const calculateValue = (value: number) => {
-		return Math.pow(value, 0.8);
+		return (Math.pow(50, Math.abs(value)) - 1) / 49;
 	};
 
 	return (
