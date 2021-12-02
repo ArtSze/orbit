@@ -58,7 +58,9 @@ export const PitchControlKnob = ({
 				steps={11}
 				min={0}
 				max={11}
-				onChange={(value: number) => setPitch(parsePitch(value))}>
+				onChange={(value: number) =>
+					setPitch(parsePitch(parseInt(value.toFixed())))
+				}>
 				<Scale
 					tickWidth={1}
 					tickHeight={5}
