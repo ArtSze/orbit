@@ -2,6 +2,7 @@
 import { Knob, Scale, Pointer, Value } from 'rc-knob';
 import { NumOfStepsControlProps } from './NumOfStepsControl';
 import Input from '@mui/material/Input';
+import { useEffect } from 'react';
 
 export const NumOfStepsKnob = ({
 	numOfSteps,
@@ -41,22 +42,13 @@ export const NumOfStepsKnob = ({
 					radius={40}
 					type="rect"
 					color="#180094"
+					percentage={(numOfSteps - 0) / 32}
 				/>
-				<Value marginBottom={40} className="value" />
+				<Value value={numOfSteps} marginBottom={40} className="value" />
 			</Knob>
 			<div>
-				<button
-					onClick={() => {
-						setNumOfSteps(numOfSteps + 1);
-					}}>
-					up
-				</button>
-				<button
-					onClick={() => {
-						setNumOfSteps(numOfSteps - 1);
-					}}>
-					down
-				</button>
+				<button onClick={() => setNumOfSteps(numOfSteps + 1)}>+</button>
+				<button onClick={() => setNumOfSteps(numOfSteps - 1)}>-</button>
 			</div>
 		</div>
 	);
