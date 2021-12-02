@@ -15,7 +15,7 @@ export const BpmKnob = ({ bpm, setBpm }: BpmControllerProps) => {
 				angleRange={280}
 				min={20}
 				max={240}
-				onChange={(value: number) => setBpm(value)}
+				onChange={(value: number) => setBpm(Math.round(value))}
 				value={bpm}>
 				<Arc
 					arcWidth={3}

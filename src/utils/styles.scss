@@ -11,10 +11,7 @@
 	transition: 0.15s ease-in-out font-size;
 }
 
-.numOfStepsKnobContainer {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
+.numKnob {
 }
 
 .container {
@@ -49,6 +46,10 @@
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+}
+
+.pitchControlContainer {
+	transform: translate(0px, 22px);
 }
 
 .stepContainer {
@@ -99,5 +100,5 @@
 	max-width: 100%;
 	border-radius: 50%;
 	box-shadow: black;
-	transition: 0.25s ease-in-out all;
+	transition: 0.15s ease-in-out all;
 }

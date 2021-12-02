@@ -100,7 +100,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 							setNumOfSteps={setNumOfSteps1}
 						/>
 
-						<PitchControlToggle
+						<PitchControlKnob
 							pitch={pitch1}
 							setPitch={setPitch1}
 							defaultInd={0}
@@ -110,7 +110,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 						<Typography variant="body2" width="120px">
 							voice 2
 						</Typography>
-						<NumOfStepsControl
+						<NumOfStepsKnob
 							numOfSteps={numOfSteps2}
 							setNumOfSteps={setNumOfSteps2}
 						/>
@@ -124,11 +124,11 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 						<Typography variant="body2" width="120px">
 							voice 3
 						</Typography>
-						<NumOfStepsControl
+						<NumOfStepsKnob
 							numOfSteps={numOfSteps3}
 							setNumOfSteps={setNumOfSteps3}
 						/>
-						<PitchControl
+						<PitchControlKnob
 							pitch={pitch3}
 							setPitch={setPitch3}
 							defaultInd={11}

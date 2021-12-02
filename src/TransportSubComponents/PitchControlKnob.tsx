@@ -49,7 +49,7 @@ export const PitchControlKnob = ({
 	];
 
 	return (
-		<div>
+		<div className="pitchControlContainer">
 			<Knob
 				size={100}
 				angleOffset={220}
