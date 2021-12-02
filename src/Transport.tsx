@@ -9,6 +9,8 @@ import PitchControl from './TransportSubComponents/PitchControl';
 import { NumOfStepsControl } from './TransportSubComponents/NumOfStepsControl';
 import { BpmKnob } from './TransportSubComponents/BpmKnob';
 import { NumOfStepsKnob } from './TransportSubComponents/NumOfStepsKnob';
+import { PitchControlToggle } from './TransportSubComponents/PitchControlToggle';
+import { PitchControlKnob } from './TransportSubComponents/PitchControlKnob';
 
 const Transport = ({ source1, source2, source3 }: TransportProps) => {
 	const [bpm, setBpm] = useState(120);
@@ -97,11 +99,8 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 							numOfSteps={numOfSteps1}
 							setNumOfSteps={setNumOfSteps1}
 						/>
-						{/* <NumOfStepsControl
-							numOfSteps={numOfSteps1}
-							setNumOfSteps={setNumOfSteps1}
-						/> */}
-						<PitchControl
+
+						<PitchControlToggle
 							pitch={pitch1}
 							setPitch={setPitch1}
 							defaultInd={0}
@@ -115,7 +114,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 							numOfSteps={numOfSteps2}
 							setNumOfSteps={setNumOfSteps2}
 						/>
-						<PitchControl
+						<PitchControlKnob
 							pitch={pitch2}
 							setPitch={setPitch2}
 							defaultInd={5}
