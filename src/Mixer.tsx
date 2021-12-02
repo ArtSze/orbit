@@ -18,7 +18,7 @@ const Mixer = () => {
 	const chorusChannel = new Tone.Channel({ volume: -60 }).connect(chorus);
 	chorusChannel.receive('chorus');
 
-	const crusher = new Tone.BitCrusher(5).connect(limiter);
+	const crusher = new Tone.BitCrusher(6).connect(limiter);
 	const crusherChannel = new Tone.Channel({ volume: -60 }).connect(crusher);
 	crusherChannel.receive('crusher');
 
@@ -26,9 +26,9 @@ const Mixer = () => {
 	channel2.send('chorus');
 	channel3.send('chorus');
 
-	channel1.send('crusher');
-	channel2.send('crusher');
-	channel3.send('crusher');
+	channel1.send('crusher', -14);
+	channel2.send('crusher', -14);
+	channel3.send('crusher', -14);
 
 	return (
 		<div className={'container'}>
@@ -37,27 +37,39 @@ const Mixer = () => {
 					<ChannelFader
 						label={'1'}
 						onChange={(event, value) => {
-							channel1.set({
-								volume: value as number,
-							});
+							value < -14
+								? channel1.set({
+										volume: (value as number) * 2,
+								  })
+								: channel1.set({
+										volume: value as number,
+								  });
 						}}
 						defaultValue={-1}
 					/>
 					<ChannelFader
 						label={'2'}
 						onChange={(event, value) => {
-							channel2.set({
-								volume: value as number,
-							});
+							value < -14
+								? channel2.set({
+										volume: (value as number) * 2,
+								  })
+								: channel2.set({
+										volume: value as number,
+								  });
 						}}
 						defaultValue={-1}
 					/>
 					<ChannelFader
 						label={'3'}
 						onChange={(event, value) => {
-							channel3.set({
-								volume: value as number,
-							});
+							value < -14
+								? channel3.set({
+										volume: (value as number) * 2,
+								  })
+								: channel3.set({
+										volume: value as number,
+								  });
 						}}
 						defaultValue={-1}
 					/>
@@ -69,18 +81,26 @@ const Mixer = () => {
 					<ChannelFader
 						label={'chorus level'}
 						onChange={(event, value) => {
-							chorusChannel.set({
-								volume: value as number,
-							});
+							value < -14
+								? chorusChannel.set({
+										volume: (value as number) * 2,
+								  })
+								: chorusChannel.set({
+										volume: value as number,
+								  });
 						}}
 						defaultValue={-60}
 					/>
 					<ChannelFader
 						label={'crusher level'}
 						onChange={(event, value) => {
-							crusherChannel.set({
-								volume: value as number,
-							});
+							value < -14
+								? crusherChannel.set({
+										volume: (value as number) * 2,
+								  })
+								: crusherChannel.set({
+										volume: value as number,
+								  });
 						}}
 						defaultValue={-60}
 					/>

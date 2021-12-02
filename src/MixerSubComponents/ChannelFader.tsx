@@ -17,7 +17,7 @@ export const ChannelFader = ({
 	defaultValue,
 }: ChannelFaderProps) => {
 	const calculateValue = (value: number) => {
-		return (Math.pow(50, Math.abs(value)) - 1) / 49;
+		return value;
 	};
 
 	return (
@@ -26,8 +26,9 @@ export const ChannelFader = ({
 				onChange={onChange}
 				orientation="vertical"
 				defaultValue={defaultValue}
+				step={0.1}
 				max={-1}
-				min={-60}
+				min={-15}
 				scale={calculateValue}
 				sx={{
 					'.MuiSlider-thumb': {

@@ -1,5 +1,7 @@
 // @ts-ignore
-import { Knob, Scale } from 'rc-knob';
+import { Knob, Scale, Value } from 'rc-knob';
+import Typography from '@mui/material/Typography';
+
 import { PitchControlProps, PitchClass } from '../utils/types';
 
 export const PitchControlKnob = ({
@@ -34,28 +36,53 @@ export const PitchControlKnob = ({
 			case 11:
 				return PitchClass.B;
 			default:
-				return PitchClass.C;
+				return pitch;
 		}
 	};
 
+	const accidentals = [
+		PitchClass.A_sharp,
+		PitchClass.C_sharp,
+		PitchClass.D_sharp,
+		PitchClass.F_sharp,
+		PitchClass.G_sharp,
+	];
+
 	return (
-		<Knob
-			size={100}
-			angleOffset={220}
-			angleRange={280}
-			value={defaultInd}
-			steps={11}
-			min={0}
-			max={11}
-			onChange={(value: number) => setPitch(parsePitch(value))}>
-			<Scale
-				tickWidth={2}
-				tickHeight={2}
-				radius={45}
-				color="#180094"
-				activeColor="#FC5A96"
-			/>
-			<div>{pitch}</div>
-		</Knob>
+		<div>
+			<Knob
+				size={100}
+				angleOffset={220}
+				angleRange={280}
+				value={defaultInd}
+				steps={11}
+				min={0}
+				max={11}
+				onChange={(value: number) => setPitch(parsePitch(value))}>
+				<Scale
+					tickWidth={1}
+					tickHeight={5}
+					radius={45}
+					color="#52b02c"
+					activeColor="#180094"
+				/>
+			</Knob>
+
+			<Typography
+				style={
+					accidentals.includes(pitch)
+						? {
+								transform: `translateX(31px) translateY(-70px)`,
+								color: 'rgb(5, 136, 0)',
+						  }
+						: {
+								transform: `translateX(41px) translateY(-70px)`,
+								color: 'rgb(5, 136, 0)',
+						  }
+				}
+				variant="h4">
+				{pitch}
+			</Typography>
+		</div>
 	);
 };
