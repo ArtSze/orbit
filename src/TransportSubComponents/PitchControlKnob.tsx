@@ -49,7 +49,7 @@ export const PitchControlKnob = ({
 	];
 
 	return (
-		<div className="pitchControlContainer">
+		<div>
 			<Knob
 				size={100}
 				angleOffset={220}
@@ -60,7 +60,8 @@ export const PitchControlKnob = ({
 				max={11}
 				onChange={(value: number) =>
 					setPitch(parsePitch(parseInt(value.toFixed())))
-				}>
+				}
+				className="pitchControlContainer">
 				<Scale
 					tickWidth={1}
 					tickHeight={5}
@@ -74,11 +75,11 @@ export const PitchControlKnob = ({
 				style={
 					accidentals.includes(pitch)
 						? {
-								transform: `translateX(31px) translateY(-70px)`,
+								transform: `translateX(31px) translateY(-47px)`,
 								color: 'rgb(5, 136, 0)',
 						  }
 						: {
-								transform: `translateX(41px) translateY(-70px)`,
+								transform: `translateX(41px) translateY(-47px)`,
 								color: 'rgb(5, 136, 0)',
 						  }
 				}
