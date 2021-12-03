@@ -1,7 +1,9 @@
 import * as Tone from 'tone';
-import Stack from '@mui/material/Stack';
 import { ChannelFader } from './MixerSubComponents/ChannelFader';
 import Transport from './Transport';
+
+import Stack from '@mui/material/Stack';
+import SettingsInputComponentSharpIcon from '@mui/icons-material/SettingsInputComponentSharp';
 
 const Mixer = () => {
 	const limiter = new Tone.Limiter(-5).toDestination();
@@ -33,6 +35,7 @@ const Mixer = () => {
 	return (
 		<div className={'container'}>
 			<div className={'container'}>
+				<SettingsInputComponentSharpIcon />
 				<Stack direction="row" spacing={2} height="350">
 					<ChannelFader
 						label={'1'}

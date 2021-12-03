@@ -1,16 +1,20 @@
 import * as Tone from 'tone';
 import { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import PianoSharpIcon from '@mui/icons-material/PianoSharp';
+import SpokeSharpIcon from '@mui/icons-material/SpokeSharp';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
 
 import { PitchClass, TransportProps } from './utils/types';
 import { midi, encodeMidi } from './utils/midi';
 import Voice from './Voice';
-import PitchControl from './TransportSubComponents/PitchControl';
-import { NumOfStepsControl } from './TransportSubComponents/NumOfStepsControl';
 import { BpmKnob } from './TransportSubComponents/BpmKnob';
 import { NumOfStepsKnob } from './TransportSubComponents/NumOfStepsKnob';
-import { PitchControlToggle } from './TransportSubComponents/PitchControlToggle';
 import { PitchControlKnob } from './TransportSubComponents/PitchControlKnob';
+import { MetronomeIcon } from './utils/MetronomeIcon';
+import { PlayPauseTrigger } from './TransportSubComponents/PlayPauseTrigger';
 
 const Transport = ({ source1, source2, source3 }: TransportProps) => {
 	const [bpm, setBpm] = useState(120);
@@ -23,7 +27,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 	const [pitch2, setPitch2] = useState<PitchClass>(PitchClass.E);
 	const [pitch3, setPitch3] = useState<PitchClass>(PitchClass.B);
 
-	const [triggerText, setTriggerText] = useState('play');
+	const [playing, setPlaying] = useState<boolean>(false);
 	const [bpmErrorMessage, setBpmErrorMessage] = useState('');
 
 	const validTempo = bpm >= 20 && bpm <= 300 && !isNaN(bpm) ? true : false;
@@ -32,9 +36,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 
 	const toggleTransport = () => {
 		Tone.Transport.toggle();
-		triggerText === 'play'
-			? setTriggerText('stop')
-			: setTriggerText('play');
+		playing ? setPlaying(false) : setPlaying(true);
 	};
 
 	const resetNumOfSteps = () => {
@@ -85,8 +87,9 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 	return (
 		<div className={`transport`}>
 			<div id={'controlContainer'}>
-				<button onClick={() => triggerLoop()}>{triggerText}</button>
+				<PlayPauseTrigger playing={playing} triggerLoop={triggerLoop} />
 				<div>
+					<MetronomeIcon fontSize="large" />
 					<BpmKnob bpm={bpm} setBpm={setBpm} />
 				</div>
 
@@ -95,11 +98,12 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 						<Typography variant="body2" width="120px">
 							voice 1
 						</Typography>
+						<SpokeSharpIcon />
 						<NumOfStepsKnob
 							numOfSteps={numOfSteps1}
 							setNumOfSteps={setNumOfSteps1}
 						/>
-
+						<PianoSharpIcon />
 						<PitchControlKnob
 							pitch={pitch1}
 							setPitch={setPitch1}
@@ -138,10 +142,12 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 			</div>
 
 			<div>
-				<button onClick={() => encodeMidi(bpm)}>encode midi</button>
-				<button onClick={() => resetNumOfSteps()}>
-					reset step counts
-				</button>
+				<div onClick={() => encodeMidi(bpm)}>
+					<FileDownloadIcon />
+				</div>
+				<div onClick={() => resetNumOfSteps()}>
+					<DeleteSharpIcon />
+				</div>
 			</div>
 
 			<div id={'voiceContainer'}>
