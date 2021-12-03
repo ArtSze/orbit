@@ -21,7 +21,7 @@ export const BpmContainer = ({ bpm, setBpm }: BpmContainerProps) => {
 
 	return (
 		<Box sx={{ display: 'flex' }}>
-			<Tooltip title={`show controls for each voice's step count`}>
+			<Tooltip title={`tempo control`}>
 				<IconButton onClick={handleClick}>
 					<MetronomeIcon />
 				</IconButton>

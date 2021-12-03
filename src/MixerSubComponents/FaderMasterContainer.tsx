@@ -32,7 +32,7 @@ export const FaderMasterContainer = ({
 
 	return (
 		<Box sx={{ display: 'flex' }}>
-			<Tooltip title={`show mixer`}>
+			<Tooltip title={`mixer`}>
 				<IconButton onClick={handleClick}>
 					<SettingsInputComponentSharpIcon />
 				</IconButton>
