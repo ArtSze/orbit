@@ -4,17 +4,18 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import PianoSharpIcon from '@mui/icons-material/PianoSharp';
 import SpokeSharpIcon from '@mui/icons-material/SpokeSharp';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
 
 import { PitchClass, TransportProps } from './utils/types';
-import { midi, encodeMidi } from './utils/midi';
+import { midi } from './utils/midi';
 import Voice from './Voice';
 import { BpmKnob } from './TransportSubComponents/BpmKnob';
 import { NumOfStepsKnob } from './TransportSubComponents/NumOfStepsKnob';
 import { PitchControlKnob } from './TransportSubComponents/PitchControlKnob';
 import { MetronomeIcon } from './utils/MetronomeIcon';
 import { PlayPauseTrigger } from './TransportSubComponents/PlayPauseTrigger';
+import { MidiDownloadButton } from './TransportSubComponents/MidiDownloadButton';
+import { ResetStepCountButton } from './TransportSubComponents/ResetStepCountButton';
 
 const Transport = ({ source1, source2, source3 }: TransportProps) => {
 	const [bpm, setBpm] = useState(120);
@@ -142,9 +143,8 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 			</div>
 
 			<div>
-				<div onClick={() => encodeMidi(bpm)}>
-					<FileDownloadIcon />
-				</div>
+				<MidiDownloadButton bpm={bpm} />
+				<ResetStepCountButton resetNumOfSteps={resetNumOfSteps} />
 				<div onClick={() => resetNumOfSteps()}>
 					<DeleteSharpIcon />
 				</div>

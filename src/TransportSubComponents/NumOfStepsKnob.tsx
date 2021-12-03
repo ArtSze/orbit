@@ -1,6 +1,10 @@
 // @ts-ignore
 import { Knob, Scale, Pointer, Value } from 'rc-knob';
-import { NumOfStepsControlProps } from './NumOfStepsControl';
+
+export type NumOfStepsControlProps = {
+	numOfSteps: number;
+	setNumOfSteps: (value: React.SetStateAction<number>) => void;
+};
 
 export const NumOfStepsKnob = ({
 	numOfSteps,
