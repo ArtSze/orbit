@@ -99,7 +99,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 						setPitch1={setPitch1}
 						defaultPitchInd1={0}
 						pitch2={pitch2}
-						setPitch2={setPitch1}
+						setPitch2={setPitch2}
 						defaultPitchInd2={5}
 						pitch3={pitch3}
 						setPitch3={setPitch3}
