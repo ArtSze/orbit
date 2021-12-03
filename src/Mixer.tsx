@@ -1,9 +1,7 @@
 import * as Tone from 'tone';
-import { ChannelFader } from './MixerSubComponents/ChannelFader';
-import Transport from './Transport';
 
-import Stack from '@mui/material/Stack';
-import SettingsInputComponentSharpIcon from '@mui/icons-material/SettingsInputComponentSharp';
+import Transport from './Transport';
+import { FaderMasterContainer } from './MixerSubComponents/FaderMasterContainer';
 
 const Mixer = () => {
 	const limiter = new Tone.Limiter(-5).toDestination();
@@ -34,81 +32,13 @@ const Mixer = () => {
 
 	return (
 		<div className={'container'}>
-			<div className={'container'}>
-				<SettingsInputComponentSharpIcon />
-				<Stack direction="row" spacing={2} height="350">
-					<ChannelFader
-						label={'1'}
-						onChange={(event, value) => {
-							value < -14
-								? channel1.set({
-										volume: (value as number) * 2,
-								  })
-								: channel1.set({
-										volume: value as number,
-								  });
-						}}
-						defaultValue={-1}
-					/>
-					<ChannelFader
-						label={'2'}
-						onChange={(event, value) => {
-							value < -14
-								? channel2.set({
-										volume: (value as number) * 2,
-								  })
-								: channel2.set({
-										volume: value as number,
-								  });
-						}}
-						defaultValue={-1}
-					/>
-					<ChannelFader
-						label={'3'}
-						onChange={(event, value) => {
-							value < -14
-								? channel3.set({
-										volume: (value as number) * 2,
-								  })
-								: channel3.set({
-										volume: value as number,
-								  });
-						}}
-						defaultValue={-1}
-					/>
-				</Stack>
-			</div>
-
-			<div className={'container'}>
-				<Stack direction="row" spacing={2} height="350">
-					<ChannelFader
-						label={'chorus level'}
-						onChange={(event, value) => {
-							value < -14
-								? chorusChannel.set({
-										volume: (value as number) * 2,
-								  })
-								: chorusChannel.set({
-										volume: value as number,
-								  });
-						}}
-						defaultValue={-60}
-					/>
-					<ChannelFader
-						label={'crusher level'}
-						onChange={(event, value) => {
-							value < -14
-								? crusherChannel.set({
-										volume: (value as number) * 2,
-								  })
-								: crusherChannel.set({
-										volume: value as number,
-								  });
-						}}
-						defaultValue={-60}
-					/>
-				</Stack>
-			</div>
+			<FaderMasterContainer
+				channel1={channel1}
+				channel2={channel2}
+				channel3={channel3}
+				chorusChannel={chorusChannel}
+				crusherChannel={crusherChannel}
+			/>
 
 			<Transport source1={source1} source2={source2} source3={source3} />
 		</div>

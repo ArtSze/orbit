@@ -1,5 +1,7 @@
 import Button from '@mui/material/Button';
 import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
 
 export const ResetStepCountButton = ({
 	resetNumOfSteps,
@@ -7,12 +9,10 @@ export const ResetStepCountButton = ({
 	resetNumOfSteps: () => void;
 }) => {
 	return (
-		<Button
-			variant="outlined"
-			onClick={() => resetNumOfSteps()}
-			color="info"
-			startIcon={<DeleteSharpIcon />}>
-			Reset step counts
-		</Button>
+		<Tooltip title="Reset step counts">
+			<IconButton onClick={() => resetNumOfSteps()}>
+				<DeleteSharpIcon />
+			</IconButton>
+		</Tooltip>
 	);
 };

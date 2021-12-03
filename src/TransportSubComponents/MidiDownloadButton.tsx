@@ -1,15 +1,15 @@
 import Button from '@mui/material/Button';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
 import { encodeMidi } from '../utils/midi';
 
 export const MidiDownloadButton = ({ bpm }: { bpm: number }) => {
 	return (
-		<Button
-			variant="outlined"
-			onClick={() => encodeMidi(bpm)}
-			color="info"
-			startIcon={<FileDownloadIcon />}>
-			Download MIDI
-		</Button>
+		<Tooltip title="Download MIDI">
+			<IconButton onClick={() => encodeMidi(bpm)}>
+				<FileDownloadIcon />
+			</IconButton>
+		</Tooltip>
 	);
 };

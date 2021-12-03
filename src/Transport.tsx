@@ -1,21 +1,15 @@
 import * as Tone from 'tone';
 import { useState, useEffect } from 'react';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import PianoSharpIcon from '@mui/icons-material/PianoSharp';
-import SpokeSharpIcon from '@mui/icons-material/SpokeSharp';
-import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
 
 import { PitchClass, TransportProps } from './utils/types';
 import { midi } from './utils/midi';
 import Voice from './Voice';
-import { BpmKnob } from './TransportSubComponents/BpmKnob';
-import { NumOfStepsKnob } from './TransportSubComponents/NumOfStepsKnob';
-import { PitchControlKnob } from './TransportSubComponents/PitchControlKnob';
-import { MetronomeIcon } from './utils/MetronomeIcon';
 import { PlayPauseTrigger } from './TransportSubComponents/PlayPauseTrigger';
 import { MidiDownloadButton } from './TransportSubComponents/MidiDownloadButton';
 import { ResetStepCountButton } from './TransportSubComponents/ResetStepCountButton';
+import { NumOfStepsMaster } from './TransportSubComponents/NumOfStepsMaster';
+import { PitchControlMaster } from './TransportSubComponents/PitchControlMaster';
+import { BpmContainer } from './TransportSubComponents/BpmContainer';
 
 const Transport = ({ source1, source2, source3 }: TransportProps) => {
 	const [bpm, setBpm] = useState(120);
@@ -89,65 +83,34 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 		<div className={`transport`}>
 			<div id={'controlContainer'}>
 				<PlayPauseTrigger playing={playing} triggerLoop={triggerLoop} />
-				<div>
-					<MetronomeIcon fontSize="large" />
-					<BpmKnob bpm={bpm} setBpm={setBpm} />
-				</div>
+				<BpmContainer bpm={bpm} setBpm={setBpm} />
 
 				<div id={'paramsContainer'}>
-					<div className={'voiceControls'}>
-						<Typography variant="body2" width="120px">
-							voice 1
-						</Typography>
-						<SpokeSharpIcon />
-						<NumOfStepsKnob
-							numOfSteps={numOfSteps1}
-							setNumOfSteps={setNumOfSteps1}
-						/>
-						<PianoSharpIcon />
-						<PitchControlKnob
-							pitch={pitch1}
-							setPitch={setPitch1}
-							defaultInd={0}
-						/>
-					</div>
-					<div className={'voiceControls'}>
-						<Typography variant="body2" width="120px">
-							voice 2
-						</Typography>
-						<NumOfStepsKnob
-							numOfSteps={numOfSteps2}
-							setNumOfSteps={setNumOfSteps2}
-						/>
-						<PitchControlKnob
-							pitch={pitch2}
-							setPitch={setPitch2}
-							defaultInd={5}
-						/>
-					</div>
-					<div className={'voiceControls'}>
-						<Typography variant="body2" width="120px">
-							voice 3
-						</Typography>
-						<NumOfStepsKnob
-							numOfSteps={numOfSteps3}
-							setNumOfSteps={setNumOfSteps3}
-						/>
-						<PitchControlKnob
-							pitch={pitch3}
-							setPitch={setPitch3}
-							defaultInd={11}
-						/>
-					</div>
+					<NumOfStepsMaster
+						numOfSteps1={numOfSteps1}
+						setNumOfSteps1={setNumOfSteps1}
+						numOfSteps2={numOfSteps2}
+						setNumOfSteps2={setNumOfSteps2}
+						numOfSteps3={numOfSteps3}
+						setNumOfSteps3={setNumOfSteps3}
+					/>
+					<PitchControlMaster
+						pitch1={pitch1}
+						setPitch1={setPitch1}
+						defaultPitchInd1={0}
+						pitch2={pitch2}
+						setPitch2={setPitch1}
+						defaultPitchInd2={5}
+						pitch3={pitch3}
+						setPitch3={setPitch3}
+						defaultPitchInd3={11}
+					/>
 				</div>
 			</div>
 
 			<div>
 				<MidiDownloadButton bpm={bpm} />
 				<ResetStepCountButton resetNumOfSteps={resetNumOfSteps} />
-				<div onClick={() => resetNumOfSteps()}>
-					<DeleteSharpIcon />
-				</div>
 			</div>
 
 			<div id={'voiceContainer'}>
