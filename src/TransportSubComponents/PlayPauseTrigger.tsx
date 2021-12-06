@@ -14,8 +14,11 @@ export const PlayPauseTrigger = ({
 	triggerLoop,
 }: PlayPauseTriggerProps) => {
 	return (
-		<Tooltip title={`play/pause`} placement="right">
-			<IconButton onClick={triggerLoop} sx={{ width: '42px' }}>
+		<Tooltip title={`play/pause`}>
+			<IconButton
+				onClick={triggerLoop}
+				sx={{ width: '42px' }}
+				id={'playButton'}>
 				{playing ? <PauseCircleIcon /> : <PlayCircleIcon />}
 			</IconButton>
 		</Tooltip>

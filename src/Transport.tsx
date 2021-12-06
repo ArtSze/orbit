@@ -82,6 +82,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 	return (
 		<div className={`transport`}>
 			<div id={'controlContainer'}>
+				<PlayPauseTrigger playing={playing} triggerLoop={triggerLoop} />
 				<BpmContainer bpm={bpm} setBpm={setBpm} />
 
 				<div id={'paramsContainer'}>
@@ -108,10 +109,6 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 				<div id={'downloadResetPlayDiv'}>
 					<MidiDownloadButton bpm={bpm} />
 					<ResetStepCountButton resetNumOfSteps={resetNumOfSteps} />
-					<PlayPauseTrigger
-						playing={playing}
-						triggerLoop={triggerLoop}
-					/>
 				</div>
 			</div>
 

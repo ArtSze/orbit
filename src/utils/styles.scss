@@ -14,6 +14,7 @@
 
 .container {
 	display: flex;
+	flex-direction: column;
 }
 
 #paramsContainer {
@@ -28,16 +29,17 @@
 #controlContainer {
 	display: flex;
 	flex-direction: column;
-	margin-left: 75px;
+	align-items: flex-start;
+	margin-left: 115px;
 	margin-top: 100px;
 }
 
 #mixerControls {
 	display: flex;
-	align-items: center;
 	height: 100px;
-	margin-right: 75px;
-	margin-top: 100px;
+	align-self: end;
+	margin-right: 115px;
+	transform: translate(0px, -560px);
 }
 
 .controlRow {
@@ -49,6 +51,13 @@
 #downloadResetPlayDiv {
 	display: flex;
 	flex-direction: column;
+	justify-content: space-evenly;
+	height: 225px;
+	margin-top: -25px;
+}
+
+#playButton {
+	transform: translate(-3px, -20px);
 }
 
 .icon {
@@ -68,7 +77,8 @@
 }
 
 #voiceContainer {
-	transform: translate(100px, -485px);
+	align-self: center;
+	transform: translate(0px, -600px);
 }
 
 .pitchControlContainer {
