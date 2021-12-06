@@ -37,8 +37,7 @@ export const FaderMasterContainer = ({
 					sx={{
 						display: 'flex',
 						flexDirection: 'row',
-						marginLeft: '20px',
-						height: '120px',
+						marginTop: '12px',
 					}}>
 					<FaderContainer
 						channel={channel1}

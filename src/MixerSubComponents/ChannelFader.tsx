@@ -21,7 +21,7 @@ export const ChannelFader = ({
 	};
 
 	return (
-		<div>
+		<div className={'channelFader'}>
 			<Slider
 				onChange={onChange}
 				orientation="vertical"
@@ -31,8 +31,14 @@ export const ChannelFader = ({
 				min={-15}
 				scale={calculateValue}
 				sx={{
+					padding: '16px',
+					marginBottom: '10px',
 					'.MuiSlider-thumb': {
 						borderRadius: '1px',
+					},
+					'.MuiSlider-rail': {
+						top: '-4px',
+						padding: '1px',
 					},
 				}}
 				aria-label={`Channel${label}Fader`}
