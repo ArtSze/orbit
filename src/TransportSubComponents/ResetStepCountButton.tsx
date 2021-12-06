@@ -10,7 +10,9 @@ export const ResetStepCountButton = ({
 }) => {
 	return (
 		<Tooltip title="Reset step counts">
-			<IconButton onClick={() => resetNumOfSteps()}>
+			<IconButton
+				onClick={() => resetNumOfSteps()}
+				sx={{ width: '42px' }}>
 				<DeleteSharpIcon />
 			</IconButton>
 		</Tooltip>

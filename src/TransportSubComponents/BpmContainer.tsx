@@ -20,14 +20,19 @@ export const BpmContainer = ({ bpm, setBpm }: BpmContainerProps) => {
 	};
 
 	return (
-		<Box sx={{ display: 'flex' }}>
+		<Box sx={{ display: 'flex' }} className={'controlRow'}>
 			<Tooltip title={`tempo control`}>
-				<IconButton onClick={handleClick}>
+				<IconButton onClick={handleClick} className={'icon'}>
 					<MetronomeIcon />
 				</IconButton>
 			</Tooltip>
 			<Grow in={display}>
-				<Box sx={{ display: 'flex', flexDirection: 'row' }}>
+				<Box
+					sx={{
+						display: 'flex',
+						flexDirection: 'row',
+						marginLeft: '20px',
+					}}>
 					<BpmKnob bpm={bpm} setBpm={setBpm} />
 				</Box>
 			</Grow>

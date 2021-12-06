@@ -191,7 +191,6 @@ const Voice = ({
 
 	return (
 		<div className={`voice`}>
-			<div>{`${stepsErrorMessage}`}</div>
 			{steps ? (
 				<StepContainer
 					steps={steps}

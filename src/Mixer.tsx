@@ -32,6 +32,8 @@ const Mixer = () => {
 
 	return (
 		<div className={'container'}>
+			<Transport source1={source1} source2={source2} source3={source3} />
+
 			<FaderMasterContainer
 				channel1={channel1}
 				channel2={channel2}
@@ -39,8 +41,6 @@ const Mixer = () => {
 				chorusChannel={chorusChannel}
 				crusherChannel={crusherChannel}
 			/>
-
-			<Transport source1={source1} source2={source2} source3={source3} />
 		</div>
 	);
 };

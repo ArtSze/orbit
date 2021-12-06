@@ -38,14 +38,19 @@ export const PitchControlMaster = ({
 	};
 
 	return (
-		<Box sx={{ display: 'flex' }}>
+		<Box sx={{ display: 'flex' }} className={'controlRow'}>
 			<Tooltip title={`controls for each voice's pitch`}>
-				<IconButton onClick={handleClick}>
+				<IconButton onClick={handleClick} className={'icon'}>
 					<PianoSharpIcon />
 				</IconButton>
 			</Tooltip>
 			<Grow in={display}>
-				<Box sx={{ display: 'flex', flexDirection: 'row' }}>
+				<Box
+					sx={{
+						display: 'flex',
+						flexDirection: 'row',
+						marginLeft: '20px',
+					}}>
 					<PitchControlKnob
 						pitch={pitch1}
 						setPitch={setPitch1}

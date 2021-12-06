@@ -1,7 +1,8 @@
 .transport {
+	width: 100%;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	// align-items: center;
 }
 
 .value {
@@ -20,10 +21,6 @@
 	flex-direction: column;
 }
 
-#voiceContainer {
-	display: flex;
-}
-
 .MuiContainer-root.MuiContainer-maxWidthLg.numOfStepsControl.css-adblrt-MuiContainer-root {
 	padding-left: 0px;
 }
@@ -31,6 +28,31 @@
 #controlContainer {
 	display: flex;
 	flex-direction: column;
+	margin-left: 75px;
+	margin-top: 100px;
+}
+
+#mixerControls {
+	display: flex;
+	align-items: center;
+	height: 100px;
+	margin-right: 75px;
+	margin-top: 100px;
+}
+
+.controlRow {
+	display: flex;
+	align-items: center;
+	height: 100px;
+}
+
+#downloadResetPlayDiv {
+	display: flex;
+	flex-direction: column;
+}
+
+.icon {
+	height: 42px;
 }
 
 .voice {
@@ -45,6 +67,10 @@
 	align-items: center;
 }
 
+#voiceContainer {
+	transform: translate(100px, -485px);
+}
+
 .pitchControlContainer {
 	transform: translate(0px, 22px);
 }
@@ -56,20 +82,17 @@
 }
 
 #voice1 {
-	display: flex;
 	height: 90px;
 	margin-top: 300px;
 	margin-right: 33px;
 }
 
 #voice2 {
-	display: flex;
 	height: 150px;
 	margin-top: 282px;
 	margin-left: 44px;
 }
 #voice3 {
-	display: flex;
 	height: 210px;
 	margin-top: 265px;
 	margin-left: 81px;

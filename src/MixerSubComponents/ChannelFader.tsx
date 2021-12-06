@@ -37,7 +37,7 @@ export const ChannelFader = ({
 				}}
 				aria-label={`Channel${label}Fader`}
 			/>
-			<Typography variant="h4">{label}</Typography>
+			<Typography variant="body1">{label}</Typography>
 		</div>
 	);
 };

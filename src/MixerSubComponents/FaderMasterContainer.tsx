@@ -31,14 +31,15 @@ export const FaderMasterContainer = ({
 	};
 
 	return (
-		<Box sx={{ display: 'flex' }}>
-			<Tooltip title={`mixer`}>
-				<IconButton onClick={handleClick}>
-					<SettingsInputComponentSharpIcon />
-				</IconButton>
-			</Tooltip>
+		<Box sx={{ display: 'flex' }} id={'mixerControls'}>
 			<Grow in={display}>
-				<Box sx={{ display: 'flex', flexDirection: 'row' }}>
+				<Box
+					sx={{
+						display: 'flex',
+						flexDirection: 'row',
+						marginLeft: '20px',
+						height: '120px',
+					}}>
 					<FaderContainer
 						channel={channel1}
 						defaultValue={-1}
@@ -66,6 +67,12 @@ export const FaderMasterContainer = ({
 					/>
 				</Box>
 			</Grow>
+
+			<Tooltip title={`mixer`}>
+				<IconButton onClick={handleClick} className={'icon'}>
+					<SettingsInputComponentSharpIcon />
+				</IconButton>
+			</Tooltip>
 		</Box>
 	);
 };
