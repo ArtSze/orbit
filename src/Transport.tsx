@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { PitchClass, TransportProps } from './utils/types';
 import { midi } from './utils/midi';
 import Voice from './Voice';
+import { useTheme } from '@mui/material/styles';
+import { ThemeColors } from './utils/Theme';
 import { PlayPauseTrigger } from './TransportSubComponents/PlayPauseTrigger';
 import { MidiDownloadButton } from './TransportSubComponents/MidiDownloadButton';
 import { ResetStepCountButton } from './TransportSubComponents/ResetStepCountButton';
@@ -22,8 +24,9 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 	const [pitch2, setPitch2] = useState<PitchClass>(PitchClass.E);
 	const [pitch3, setPitch3] = useState<PitchClass>(PitchClass.B);
 
+	const theme = useTheme();
+
 	const [playing, setPlaying] = useState<boolean>(false);
-	const [bpmErrorMessage, setBpmErrorMessage] = useState('');
 
 	const validTempo = bpm >= 20 && bpm <= 300 && !isNaN(bpm) ? true : false;
 
@@ -41,11 +44,6 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 		// will need to include code to change value for sliders to correspond as well
 	};
 
-	const flashBpmErrorMessage = () => {
-		setBpmErrorMessage('BPM must fall within range of 20 through 300 BPM');
-		setTimeout(() => setBpmErrorMessage(''), 4 * 1000);
-	};
-
 	useEffect(() => {
 		if (validTempo) {
 			Tone.Transport.cancel();
@@ -55,7 +53,6 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 			if (Tone.Transport.state === 'started') {
 				toggleTransport();
 			}
-			flashBpmErrorMessage();
 		}
 	}, [bpm]);
 
@@ -120,6 +117,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 					pitch={pitch1}
 					numOfSteps={numOfSteps1}
 					track={midi.tracks[0]}
+					color={theme.palette.primary.main as ThemeColors}
 				/>
 				<Voice
 					source={source2}
@@ -128,6 +126,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 					pitch={pitch2}
 					numOfSteps={numOfSteps2}
 					track={midi.tracks[1]}
+					color={theme.palette.secondary.main as ThemeColors}
 				/>
 				<Voice
 					source={source3}
@@ -136,6 +135,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 					pitch={pitch3}
 					numOfSteps={numOfSteps3}
 					track={midi.tracks[2]}
+					color={theme.palette.success.main as ThemeColors}
 				/>
 			</div>
 		</div>

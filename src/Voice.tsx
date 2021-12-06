@@ -12,6 +12,7 @@ const Voice = ({
 	pitch,
 	numOfSteps,
 	track,
+	color,
 }: VoiceProps) => {
 	const [interval, setInterval] = useState<number>(1);
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
@@ -199,6 +200,7 @@ const Voice = ({
 					pitch={pitch}
 					voice={voice}
 					emitter={myEmitter}
+					color={color}
 				/>
 			) : (
 				<div />

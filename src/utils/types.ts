@@ -1,5 +1,6 @@
 import * as Tone from 'tone';
 import { Track } from '@tonejs/midi';
+import { ThemeColors } from './Theme';
 
 export enum PitchClass {
 	C = 'C',
@@ -23,6 +24,7 @@ export type VoiceProps = {
 	pitch: PitchClass;
 	numOfSteps: number;
 	track: Track;
+	color: ThemeColors;
 };
 
 export type StepProps = {
