@@ -1,16 +1,20 @@
 import * as Tone from 'tone';
 import { ChannelFader } from './ChannelFader';
 
+import { ThemeColors } from '../utils/Theme';
+
 type FaderContainerProps = {
 	channel: Tone.Channel;
 	defaultValue: number;
 	label: string;
+	color: ThemeColors;
 };
 
 export const FaderContainer = ({
 	channel,
 	defaultValue,
 	label,
+	color,
 }: FaderContainerProps) => {
 	return (
 		<ChannelFader
@@ -25,6 +29,7 @@ export const FaderContainer = ({
 					  });
 			}}
 			defaultValue={defaultValue}
+			color={color}
 		/>
 	);
 };

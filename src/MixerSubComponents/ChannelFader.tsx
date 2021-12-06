@@ -1,5 +1,6 @@
 import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
+import { ThemeColors } from '../utils/Theme';
 
 type ChannelFaderProps = {
 	label: string;
@@ -9,12 +10,14 @@ type ChannelFaderProps = {
 		activeThumb: number
 	) => void;
 	defaultValue: number;
+	color: ThemeColors;
 };
 
 export const ChannelFader = ({
 	label,
 	onChange,
 	defaultValue,
+	color,
 }: ChannelFaderProps) => {
 	const calculateValue = (value: number) => {
 		return value;
@@ -40,6 +43,7 @@ export const ChannelFader = ({
 						top: '-4px',
 						padding: '1px',
 					},
+					color: `${color}`,
 				}}
 				aria-label={`Channel${label}Fader`}
 			/>

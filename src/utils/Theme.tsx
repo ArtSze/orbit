@@ -19,3 +19,10 @@ const themeOptions = {
 };
 
 export const theme = createTheme(themeOptions);
+
+type blue = '#3696fe';
+type orange = '#fca52b';
+type green = '#00c000';
+type grey = ' #020202';
+
+export type ThemeColors = blue | orange | green | grey;

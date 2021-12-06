@@ -1,6 +1,6 @@
 import React from 'react';
 import Mixer from './Mixer';
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material';
 import { theme } from './utils/Theme';
 
 const App = () => {
