@@ -31,7 +31,7 @@ export const NumOfStepsMaster = ({
 
 	return (
 		<Box sx={{ display: 'flex' }} className={'controlRow'}>
-			<Tooltip title={`controls for each voice's step count`}>
+			<Tooltip title={`voice step counts`}>
 				<IconButton onClick={handleClick} className={'icon'}>
 					<SpokeSharpIcon />
 				</IconButton>

@@ -39,7 +39,7 @@ export const PitchControlMaster = ({
 
 	return (
 		<Box sx={{ display: 'flex' }} className={'controlRow'}>
-			<Tooltip title={`controls for each voice's pitch`}>
+			<Tooltip title={`pitches`}>
 				<IconButton onClick={handleClick} className={'icon'}>
 					<PianoSharpIcon />
 				</IconButton>

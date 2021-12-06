@@ -6,7 +6,7 @@ import { encodeMidi } from '../utils/midi';
 
 export const MidiDownloadButton = ({ bpm }: { bpm: number }) => {
 	return (
-		<Tooltip title="Download MIDI">
+		<Tooltip title="Download MIDI" placement="right">
 			<IconButton onClick={() => encodeMidi(bpm)} sx={{ width: '42px' }}>
 				<FileDownloadIcon />
 			</IconButton>

@@ -9,7 +9,7 @@ export const ResetStepCountButton = ({
 	resetNumOfSteps: () => void;
 }) => {
 	return (
-		<Tooltip title="Reset step counts">
+		<Tooltip title="Reset step counts" placement="right">
 			<IconButton
 				onClick={() => resetNumOfSteps()}
 				sx={{ width: '42px' }}>
