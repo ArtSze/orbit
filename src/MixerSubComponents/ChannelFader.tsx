@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import { ThemeColors } from '../utils/Theme';
 
 type ChannelFaderProps = {
-	label: string;
+	label?: string;
 	onChange: (
 		event: Event,
 		value: number | number[],

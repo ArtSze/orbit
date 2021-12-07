@@ -6,7 +6,7 @@ import { ThemeColors } from '../utils/Theme';
 type FaderContainerProps = {
 	channel: Tone.Channel;
 	defaultValue: number;
-	label: string;
+	label?: string;
 	color: ThemeColors;
 };
 

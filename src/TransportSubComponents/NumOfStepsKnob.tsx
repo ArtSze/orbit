@@ -45,23 +45,17 @@ export const NumOfStepsKnob = ({
 					color="#180094"
 					percentage={(numOfSteps - 0) / 32}
 				/>
-				{/* <Value
-					value={numOfSteps}
-					marginBottom={40}
-					color={color}
-					// className="value"
-				/> */}
 			</Knob>
 
 			<Typography
 				style={
 					numOfSteps > 9
 						? {
-								transform: `translateX(32px) translateY(-69px)`,
+								transform: `translateX(31px) translateY(-47px)`,
 								color: color,
 						  }
 						: {
-								transform: `translateX(41px) translateY(-69px)`,
+								transform: `translateX(41px) translateY(-47px)`,
 								color: color,
 						  }
 				}

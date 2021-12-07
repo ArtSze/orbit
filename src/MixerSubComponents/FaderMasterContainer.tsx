@@ -46,19 +46,16 @@ export const FaderMasterContainer = ({
 					<FaderContainer
 						channel={channel1}
 						defaultValue={-1}
-						label="1"
 						color={theme.palette.primary.main as ThemeColors}
 					/>
 					<FaderContainer
 						channel={channel2}
 						defaultValue={-1}
-						label="2"
 						color={theme.palette.secondary.main as ThemeColors}
 					/>
 					<FaderContainer
 						channel={channel3}
 						defaultValue={-1}
-						label="3"
 						color={theme.palette.success.main as ThemeColors}
 					/>
 					<FaderContainer

@@ -26,9 +26,9 @@ const Mixer = () => {
 	channel2.send('chorus');
 	channel3.send('chorus');
 
-	channel1.send('crusher', -14);
-	channel2.send('crusher', -14);
-	channel3.send('crusher', -14);
+	channel1.send('crusher', -8);
+	channel2.send('crusher', -8);
+	channel3.send('crusher', -8);
 
 	return (
 		<div className={'container'}>

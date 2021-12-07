@@ -1,5 +1,7 @@
 // @ts-ignore
 import { Knob, Arc, Pointer, Value } from 'rc-knob';
+import { useTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 
 type BpmControllerProps = {
 	bpm: number;
@@ -7,25 +9,49 @@ type BpmControllerProps = {
 };
 
 export const BpmKnob = ({ bpm, setBpm }: BpmControllerProps) => {
+	const theme = useTheme();
+
 	return (
-		<div className="styledBpmKnob">
+		<div>
 			<Knob
 				size={100}
 				angleOffset={220}
 				angleRange={280}
 				min={20}
 				max={240}
-				onChange={(value: number) => setBpm(Math.round(value))}
-				value={bpm}>
+				onChange={(value: number) => setBpm(parseInt(value.toFixed()))}
+				value={bpm}
+				className="styledBpmKnob">
 				<Arc
-					arcWidth={3}
-					background="#058800"
-					color="#B1FF92"
+					arcWidth={2}
+					background={theme.palette.grey[200]}
+					color={theme.palette.grey[500]}
 					radius={47.5}
 				/>
-				<Pointer width={5} radius={40} type="circle" color="#B1FF92" />
-				<Value marginBottom={40} className="value" />
+				<Pointer
+					width={1}
+					height={7}
+					radius={40}
+					type="rect"
+					color={theme.palette.info}
+					percentage={(bpm - 20) / 220}
+				/>
 			</Knob>
+			<Typography
+				style={
+					bpm > 99
+						? {
+								transform: `translateX(22px) translateY(-47px)`,
+								color: `${theme.palette.grey[500]}`,
+						  }
+						: {
+								transform: `translateX(31px) translateY(-47px)`,
+								color: `${theme.palette.grey[500]}`,
+						  }
+				}
+				variant="h4">
+				{bpm}
+			</Typography>
 		</div>
 	);
 };
