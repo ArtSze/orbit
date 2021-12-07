@@ -1,16 +1,17 @@
 import * as Tone from 'tone';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
-import { midi, encodeMidi } from './utils/midi';
+import { PitchClass, TransportProps } from './utils/types';
+import { midi } from './utils/midi';
 import Voice from './Voice';
-import { PitchClass } from './utils/types';
-import PitchControl from './TransportSubControls/PitchControl';
-
-type TransportProps = {
-	source1: Tone.Synth<Tone.SynthOptions>;
-	source2: Tone.Synth<Tone.SynthOptions>;
-	source3: Tone.Synth<Tone.SynthOptions>;
-};
+import { useTheme } from '@mui/material/styles';
+import { ThemeColors } from './utils/Theme';
+import { PlayPauseTrigger } from './TransportSubComponents/PlayPauseTrigger';
+import { MidiDownloadButton } from './TransportSubComponents/MidiDownloadButton';
+import { ResetStepCountButton } from './TransportSubComponents/ResetStepCountButton';
+import { NumOfStepsMaster } from './TransportSubComponents/NumOfStepsMaster';
+import { PitchControlMaster } from './TransportSubComponents/PitchControlMaster';
+import { BpmContainer } from './TransportSubComponents/BpmContainer';
 
 const Transport = ({ source1, source2, source3 }: TransportProps) => {
 	const [bpm, setBpm] = useState(120);
@@ -23,23 +24,19 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 	const [pitch2, setPitch2] = useState<PitchClass>(PitchClass.E);
 	const [pitch3, setPitch3] = useState<PitchClass>(PitchClass.B);
 
-	const [triggerText, setTriggerText] = useState('play');
-	const [bpmErrorMessage, setBpmErrorMessage] = useState('');
+	const theme = useTheme();
+
+	const [playing, setPlaying] = useState<boolean>(false);
 
 	const validTempo = bpm >= 20 && bpm <= 300 && !isNaN(bpm) ? true : false;
 
 	// implement midi export of loop
 
-	const toggleTransport = () => {
-		Tone.Transport.toggle();
-		triggerText === 'play'
-			? setTriggerText('stop')
-			: setTriggerText('play');
-	};
-
-	const flashBpmErrorMessage = () => {
-		setBpmErrorMessage('BPM must fall within range of 20 through 300 BPM');
-		setTimeout(() => setBpmErrorMessage(''), 4 * 1000);
+	const resetNumOfSteps = () => {
+		setNumOfSteps1(4);
+		setNumOfSteps2(4);
+		setNumOfSteps3(4);
+		// will need to include code to change value for sliders to correspond as well
 	};
 
 	useEffect(() => {
@@ -51,7 +48,6 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 			if (Tone.Transport.state === 'started') {
 				toggleTransport();
 			}
-			flashBpmErrorMessage();
 		}
 	}, [bpm]);
 
@@ -62,6 +58,11 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 		Tone.Transport.loop = true;
 	}, [bpm, period]);
 
+	const toggleTransport = () => {
+		Tone.Transport.toggle();
+		playing ? setPlaying(false) : setPlaying(true);
+	};
+
 	const triggerLoop = async () => {
 		if (validTempo) {
 			if (Tone.context.state === 'suspended') {
@@ -71,90 +72,61 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 		}
 	};
 
+	const checkKeyPress = useCallback(
+		(e) => {
+			console.log(e);
+			if (e.key === ' ' && e.target === document.body) {
+				e.preventDefault();
+				triggerLoop();
+			}
+		},
+		[playing]
+	);
+
 	useEffect(() => {
-		console.log(midi);
-	}, [midi]);
+		window.addEventListener('keydown', checkKeyPress);
+		return () => {
+			window.removeEventListener('keydown', checkKeyPress);
+		};
+	}, [checkKeyPress]);
 
 	return (
 		<div className={`transport`}>
 			<div id={'controlContainer'}>
-				<button onClick={() => triggerLoop()}>{triggerText}</button>
-				<div>
-					{`bpm: ${bpm}`}
-
-					<input
-						type="range"
-						defaultValue={bpm}
-						max={300}
-						min={20}
-						step={1}
-						onChange={(event) =>
-							setBpm(parseInt(event.target.value))
-						}
-					/>
-					<div>{`${bpmErrorMessage}`}</div>
-				</div>
+				<PlayPauseTrigger playing={playing} triggerLoop={triggerLoop} />
+				<BpmContainer bpm={bpm} setBpm={setBpm} />
 
 				<div id={'paramsContainer'}>
-					<div className={'voiceControls'}>
-						<label>voice 1:</label>
-						<label>{numOfSteps1}</label>
-						<input
-							type="range"
-							defaultValue={numOfSteps1}
-							max={32}
-							step={1}
-							onChange={(event) =>
-								setNumOfSteps1(parseInt(event.target.value))
-							}
-						/>
-						<PitchControl
-							pitch={pitch1}
-							setPitch={setPitch1}
-							defaultInd={0}
-						/>
-					</div>
-					<div className={'voiceControls'}>
-						<label>voice 2:</label>
-						<label>{numOfSteps2}</label>
-						<input
-							type="range"
-							defaultValue={numOfSteps2}
-							max={32}
-							step={1}
-							onChange={(event) =>
-								setNumOfSteps2(parseInt(event.target.value))
-							}
-						/>
-						<PitchControl
-							pitch={pitch2}
-							setPitch={setPitch2}
-							defaultInd={5}
-						/>
-					</div>
-					<div className={'voiceControls'}>
-						<label>voice 3:</label>
-						<label>{numOfSteps3}</label>
-						<input
-							type="range"
-							defaultValue={numOfSteps3}
-							max={32}
-							step={1}
-							onChange={(event) =>
-								setNumOfSteps3(parseInt(event.target.value))
-							}
-						/>
-						<PitchControl
-							pitch={pitch3}
-							setPitch={setPitch3}
-							defaultInd={11}
-						/>
-					</div>
+					<NumOfStepsMaster
+						numOfSteps1={numOfSteps1}
+						setNumOfSteps1={setNumOfSteps1}
+						numOfSteps2={numOfSteps2}
+						setNumOfSteps2={setNumOfSteps2}
+						numOfSteps3={numOfSteps3}
+						setNumOfSteps3={setNumOfSteps3}
+						color1={theme.palette.primary.main as ThemeColors}
+						color2={theme.palette.secondary.main as ThemeColors}
+						color3={theme.palette.success.main as ThemeColors}
+					/>
+					<PitchControlMaster
+						pitch1={pitch1}
+						setPitch1={setPitch1}
+						defaultPitchInd1={0}
+						pitch2={pitch2}
+						setPitch2={setPitch2}
+						defaultPitchInd2={5}
+						pitch3={pitch3}
+						setPitch3={setPitch3}
+						defaultPitchInd3={11}
+						color1={theme.palette.primary.main as ThemeColors}
+						color2={theme.palette.secondary.main as ThemeColors}
+						color3={theme.palette.success.main as ThemeColors}
+					/>
 				</div>
-			</div>
-
-			<div>
-				<button onClick={() => encodeMidi(bpm)}>encode midi</button>
+				<div id={'downloadResetPlayDiv'}>
+					<MidiDownloadButton bpm={bpm} />
+					<ResetStepCountButton resetNumOfSteps={resetNumOfSteps} />
+				</div>
 			</div>
 
 			<div id={'voiceContainer'}>
@@ -165,6 +137,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 					pitch={pitch1}
 					numOfSteps={numOfSteps1}
 					track={midi.tracks[0]}
+					color={theme.palette.primary.main as ThemeColors}
 				/>
 				<Voice
 					source={source2}
@@ -173,6 +146,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 					pitch={pitch2}
 					numOfSteps={numOfSteps2}
 					track={midi.tracks[1]}
+					color={theme.palette.secondary.main as ThemeColors}
 				/>
 				<Voice
 					source={source3}
@@ -181,6 +155,7 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 					pitch={pitch3}
 					numOfSteps={numOfSteps3}
 					track={midi.tracks[2]}
+					color={theme.palette.success.main as ThemeColors}
 				/>
 			</div>
 		</div>

@@ -2,21 +2,8 @@ import * as Tone from 'tone';
 import { Track } from '@tonejs/midi';
 import { useState, useEffect, useRef } from 'react';
 
-import { PitchClass } from './utils/types';
+import { StepProps, VoiceProps } from './utils/types';
 import StepContainer from './StepContainer';
-
-type VoiceProps = {
-	source: Tone.Synth<Tone.SynthOptions>;
-	period: number;
-	voice: number;
-	pitch: PitchClass;
-	numOfSteps: number;
-	track: Track;
-};
-
-export type StepProps = {
-	isActive: boolean;
-};
 
 const Voice = ({
 	source,
@@ -25,24 +12,18 @@ const Voice = ({
 	pitch,
 	numOfSteps,
 	track,
+	color,
 }: VoiceProps) => {
 	const [interval, setInterval] = useState<number>(1);
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
-
-	const synth = source;
-
 	const initialSteps: StepProps[] = [
 		{ isActive: true },
 		{ isActive: true },
 		{ isActive: true },
 		{ isActive: true },
 	];
-
-	let headIndex = useRef<number>(0);
-
 	const [steps, setSteps] = useState<StepProps[]>(initialSteps);
 	const [pitchTimer, setPitchTimer] = useState();
-
 	const [seqArgs, setSeqArgs] = useState<string[]>([
 		`${pitch}4`,
 		`${pitch}4`,
@@ -51,6 +32,8 @@ const Voice = ({
 	]);
 	const [seq, setSeq] = useState<Tone.Sequence<string>>();
 	const [flashEvents, setFlashEvents] = useState<number>();
+	const synth = source;
+	let headIndex = useRef<number>(0);
 
 	const myEmitter = new Tone.Emitter();
 
@@ -201,7 +184,6 @@ const Voice = ({
 			Tone.Transport.schedule((time) => {
 				Tone.Draw.schedule(() => {
 					resetHeadIndex();
-					// console.log(Tone.Transport);
 				}, time);
 			}, period - 0.01);
 		}
@@ -209,7 +191,6 @@ const Voice = ({
 
 	return (
 		<div className={`voice`}>
-			<div>{`${stepsErrorMessage}`}</div>
 			{steps ? (
 				<StepContainer
 					steps={steps}
@@ -218,6 +199,7 @@ const Voice = ({
 					pitch={pitch}
 					voice={voice}
 					emitter={myEmitter}
+					color={color}
 				/>
 			) : (
 				<div />

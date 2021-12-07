@@ -1,9 +1,9 @@
 import * as Tone from 'tone';
 
 import './utils/styles.scss';
-import { StepProps } from './Voice';
-import { PitchClass } from './utils/types';
+import { StepProps, PitchClass } from './utils/types';
 import { useState } from 'react';
+import { ThemeColors } from './utils/Theme';
 
 const Step = ({
 	step,
@@ -30,13 +30,12 @@ const Step = ({
 			setFlash(true);
 			setTimeout(() => {
 				setFlash(false);
-			}, 50);
+			}, 150);
 		}
 	});
 
 	return (
 		<div
-			style={circleProps}
 			className={
 				step.isActive && flash
 					? 'stepPlaying'
@@ -44,6 +43,7 @@ const Step = ({
 					? 'stepActive'
 					: 'stepInactive'
 			}
+			style={circleProps}
 			onClick={() => {
 				const tempSeqArgs = [...seqArgs];
 				tempSeqArgs[ind] = step.isActive ? '' : `${pitch}4`;

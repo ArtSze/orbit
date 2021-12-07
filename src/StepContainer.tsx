@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import './utils/styles.scss';
 import Step from './Step';
-import { StepProps } from './Voice';
-import { PitchClass } from './utils/types';
+import { StepProps, PitchClass } from './utils/types';
 import * as Tone from 'tone';
+import { ThemeColors } from './utils/Theme';
 
 const StepContainer = ({
 	steps,
@@ -12,6 +12,7 @@ const StepContainer = ({
 	pitch,
 	voice,
 	emitter,
+	color,
 }: {
 	steps: StepProps[];
 	seqArgs: string[];
@@ -19,6 +20,7 @@ const StepContainer = ({
 	pitch: PitchClass;
 	voice: number;
 	emitter: Tone.Emitter<string>;
+	color: ThemeColors;
 }) => {
 	const targetRef = useRef<HTMLDivElement & undefined>(null);
 	const [dimensions, setDimensions] = useState<{
@@ -64,8 +66,12 @@ const StepContainer = ({
 
 				const style: React.CSSProperties = {
 					position: 'absolute',
-					top: height! / 5 + parseInt(posY.slice(0, -2)) + 'px',
-					left: height! / 5 + parseInt(posX.slice(0, -2)) + 'px',
+					transform: `translateX(${
+						height! / 5 + parseInt(posX.slice(0, -2))
+					}px) translateY(${
+						height! / 5 + parseInt(posY.slice(0, -2))
+					}px)`,
+					backgroundColor: color,
 				};
 
 				return (

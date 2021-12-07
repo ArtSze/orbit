@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
 import * as Tone from 'tone';
+
 import Transport from './Transport';
+import { FaderMasterContainer } from './MixerSubComponents/FaderMasterContainer';
 
 const Mixer = () => {
 	const limiter = new Tone.Limiter(-5).toDestination();
@@ -17,7 +18,7 @@ const Mixer = () => {
 	const chorusChannel = new Tone.Channel({ volume: -60 }).connect(chorus);
 	chorusChannel.receive('chorus');
 
-	const crusher = new Tone.BitCrusher(5).connect(limiter);
+	const crusher = new Tone.BitCrusher(6).connect(limiter);
 	const crusherChannel = new Tone.Channel({ volume: -60 }).connect(crusher);
 	crusherChannel.receive('crusher');
 
@@ -25,96 +26,21 @@ const Mixer = () => {
 	channel2.send('chorus');
 	channel3.send('chorus');
 
-	channel1.send('crusher');
-	channel2.send('crusher');
-	channel3.send('crusher');
-
-	useEffect(() => {
-		console.log(channel1.volume.value);
-	}, [channel1.volume]);
+	channel1.send('crusher', -8);
+	channel2.send('crusher', -8);
+	channel3.send('crusher', -8);
 
 	return (
-		<div>
-			<div id={'faderContainer'}>
-				<div>
-					<label>channel 1 level:</label>
-					<input
-						type="range"
-						max={-2}
-						min={-40}
-						step={1}
-						onChange={(event) => {
-							channel1.set({
-								volume: parseInt(event.target.value),
-							});
-						}}
-					/>
-				</div>
-				<div>
-					<label>channel 2 level:</label>
-					<input
-						type="range"
-						max={-2}
-						min={-40}
-						step={1}
-						onChange={(event) =>
-							channel2.set({
-								volume: parseInt(event.target.value),
-							})
-						}
-					/>
-				</div>
-				<div>
-					<label>channel 3 level:</label>
-					<input
-						type="range"
-						max={-2}
-						min={-40}
-						step={1}
-						onChange={(event) =>
-							channel3.set({
-								volume: parseInt(event.target.value),
-							})
-						}
-					/>
-				</div>
-			</div>
-
-			<div id={'fxContainer'}>
-				<div>
-					<label>chorus level:</label>
-					<input
-						type="range"
-						defaultValue={-60}
-						max={0}
-						min={-60}
-						step={1}
-						onChange={(event) =>
-							(chorusChannel.volume.value = parseInt(
-								event.target.value
-							))
-						}
-					/>
-				</div>
-
-				<div>
-					<label>crusher level:</label>
-					<input
-						type="range"
-						defaultValue={-60}
-						max={0}
-						min={-60}
-						step={1}
-						onChange={(event) =>
-							(crusherChannel.volume.value = parseInt(
-								event.target.value
-							))
-						}
-					/>
-				</div>
-			</div>
-
+		<div className={'container'}>
 			<Transport source1={source1} source2={source2} source3={source3} />
+
+			<FaderMasterContainer
+				channel1={channel1}
+				channel2={channel2}
+				channel3={channel3}
+				chorusChannel={chorusChannel}
+				crusherChannel={crusherChannel}
+			/>
 		</div>
 	);
 };
