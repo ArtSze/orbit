@@ -7,6 +7,8 @@ import IconButton from '@mui/material/IconButton';
 import Grow from '@mui/material/Grow';
 import Tooltip from '@mui/material/Tooltip';
 import SettingsInputComponentSharpIcon from '@mui/icons-material/SettingsInputComponentSharp';
+import CompressIcon from '@mui/icons-material/Compress';
+import WavesIcon from '@mui/icons-material/Waves';
 
 import { FaderContainer } from './FaderContainer';
 import { ThemeColors } from '../utils/Theme';
@@ -37,39 +39,57 @@ export const FaderMasterContainer = ({
 	return (
 		<Box sx={{ display: 'flex' }} id={'mixerControls'}>
 			<Grow in={display}>
-				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'row',
-						marginTop: '12px',
-					}}>
-					<FaderContainer
-						channel={channel1}
-						defaultValue={-1}
-						color={theme.palette.primary.main as ThemeColors}
-					/>
-					<FaderContainer
-						channel={channel2}
-						defaultValue={-1}
-						color={theme.palette.secondary.main as ThemeColors}
-					/>
-					<FaderContainer
-						channel={channel3}
-						defaultValue={-1}
-						color={theme.palette.success.main as ThemeColors}
-					/>
-					<FaderContainer
-						channel={chorusChannel}
-						defaultValue={-60}
-						label="chorus"
-						color={theme.palette.info.main as ThemeColors}
-					/>
-					<FaderContainer
-						channel={crusherChannel}
-						defaultValue={-60}
-						label="crusher"
-						color={theme.palette.info.main as ThemeColors}
-					/>
+				<Box>
+					<Box
+						sx={{
+							display: 'flex',
+							flexDirection: 'row',
+							marginTop: '12px',
+						}}>
+						<FaderContainer
+							channel={channel1}
+							defaultValue={-1}
+							color={theme.palette.primary.main as ThemeColors}
+						/>
+						<FaderContainer
+							channel={channel2}
+							defaultValue={-1}
+							color={theme.palette.secondary.main as ThemeColors}
+						/>
+						<FaderContainer
+							channel={channel3}
+							defaultValue={-1}
+							color={theme.palette.success.main as ThemeColors}
+						/>
+						<FaderContainer
+							channel={chorusChannel}
+							defaultValue={-60}
+							color={theme.palette.info.main as ThemeColors}
+						/>
+
+						<FaderContainer
+							channel={crusherChannel}
+							defaultValue={-60}
+							color={theme.palette.info.main as ThemeColors}
+						/>
+					</Box>
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'end',
+							marginTop: '6px',
+						}}>
+						<WavesIcon
+							sx={{
+								transform: `translateX(-18px) translateY(-4px);`,
+							}}
+						/>
+						<CompressIcon
+							sx={{
+								transform: `translateX(-6px) translateY(-4px);`,
+							}}
+						/>
+					</Box>
 				</Box>
 			</Grow>
 
