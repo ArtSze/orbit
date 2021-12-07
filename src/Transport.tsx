@@ -1,5 +1,5 @@
 import * as Tone from 'tone';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { PitchClass, TransportProps } from './utils/types';
 import { midi } from './utils/midi';
@@ -32,11 +32,6 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 
 	// implement midi export of loop
 
-	const toggleTransport = () => {
-		Tone.Transport.toggle();
-		playing ? setPlaying(false) : setPlaying(true);
-	};
-
 	const resetNumOfSteps = () => {
 		setNumOfSteps1(4);
 		setNumOfSteps2(4);
@@ -63,6 +58,11 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 		Tone.Transport.loop = true;
 	}, [bpm, period]);
 
+	const toggleTransport = () => {
+		Tone.Transport.toggle();
+		playing ? setPlaying(false) : setPlaying(true);
+	};
+
 	const triggerLoop = async () => {
 		if (validTempo) {
 			if (Tone.context.state === 'suspended') {
@@ -72,9 +72,23 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 		}
 	};
 
+	const checkKeyPress = useCallback(
+		(e) => {
+			console.log(e);
+			if (e.key === ' ' && e.target === document.body) {
+				e.preventDefault();
+				triggerLoop();
+			}
+		},
+		[playing]
+	);
+
 	useEffect(() => {
-		console.log(midi);
-	}, [midi]);
+		window.addEventListener('keydown', checkKeyPress);
+		return () => {
+			window.removeEventListener('keydown', checkKeyPress);
+		};
+	}, [checkKeyPress]);
 
 	return (
 		<div className={`transport`}>

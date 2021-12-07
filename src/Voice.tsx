@@ -184,7 +184,6 @@ const Voice = ({
 			Tone.Transport.schedule((time) => {
 				Tone.Draw.schedule(() => {
 					resetHeadIndex();
-					// console.log(Tone.Transport);
 				}, time);
 			}, period - 0.01);
 		}
