@@ -66,9 +66,11 @@ const StepContainer = ({
 
 				const style: React.CSSProperties = {
 					position: 'absolute',
-					// transform: translate(`${height! / 5 + parseInt(posX.slice(0, -2))} px`, `${height! / 5 + parseInt(posY.slice(0, -2))} px`,
-					top: height! / 5 + parseInt(posY.slice(0, -2)) + 'px',
-					left: height! / 5 + parseInt(posX.slice(0, -2)) + 'px',
+					transform: `translateX(${
+						height! / 5 + parseInt(posX.slice(0, -2))
+					}px) translateY(${
+						height! / 5 + parseInt(posY.slice(0, -2))
+					}px)`,
 					backgroundColor: color,
 				};
 

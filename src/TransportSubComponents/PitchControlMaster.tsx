@@ -7,6 +7,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { PitchControlKnob } from './PitchControlKnob';
 
 import { PitchClass } from '../utils/types';
+import { ThemeColors } from '../utils/Theme';
 
 type PitchControlMasterProps = {
 	pitch1: PitchClass;
@@ -18,6 +19,9 @@ type PitchControlMasterProps = {
 	pitch3: PitchClass;
 	setPitch3: React.Dispatch<React.SetStateAction<PitchClass>>;
 	defaultPitchInd3: number;
+	color1: ThemeColors;
+	color2: ThemeColors;
+	color3: ThemeColors;
 };
 
 export const PitchControlMaster = ({
@@ -30,6 +34,9 @@ export const PitchControlMaster = ({
 	defaultPitchInd1,
 	defaultPitchInd2,
 	defaultPitchInd3,
+	color1,
+	color2,
+	color3,
 }: PitchControlMasterProps) => {
 	const [display, setDisplay] = useState(false);
 
@@ -55,16 +62,19 @@ export const PitchControlMaster = ({
 						pitch={pitch1}
 						setPitch={setPitch1}
 						defaultInd={defaultPitchInd1}
+						color={color1}
 					/>
 					<PitchControlKnob
 						pitch={pitch2}
 						setPitch={setPitch2}
 						defaultInd={defaultPitchInd2}
+						color={color2}
 					/>
 					<PitchControlKnob
 						pitch={pitch3}
 						setPitch={setPitch3}
 						defaultInd={defaultPitchInd3}
+						color={color3}
 					/>
 				</Box>
 			</Grow>

@@ -90,6 +90,9 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 						setNumOfSteps2={setNumOfSteps2}
 						numOfSteps3={numOfSteps3}
 						setNumOfSteps3={setNumOfSteps3}
+						color1={theme.palette.primary.main as ThemeColors}
+						color2={theme.palette.secondary.main as ThemeColors}
+						color3={theme.palette.success.main as ThemeColors}
 					/>
 					<PitchControlMaster
 						pitch1={pitch1}
@@ -101,6 +104,9 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 						pitch3={pitch3}
 						setPitch3={setPitch3}
 						defaultPitchInd3={11}
+						color1={theme.palette.primary.main as ThemeColors}
+						color2={theme.palette.secondary.main as ThemeColors}
+						color3={theme.palette.success.main as ThemeColors}
 					/>
 				</div>
 				<div id={'downloadResetPlayDiv'}>

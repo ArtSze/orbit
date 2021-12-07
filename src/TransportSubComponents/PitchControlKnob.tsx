@@ -8,6 +8,7 @@ export const PitchControlKnob = ({
 	pitch,
 	setPitch,
 	defaultInd,
+	color,
 }: PitchControlProps) => {
 	const parsePitch = (pitchNum: number) => {
 		switch (pitchNum) {
@@ -66,7 +67,7 @@ export const PitchControlKnob = ({
 					tickWidth={1}
 					tickHeight={5}
 					radius={45}
-					color="#52b02c"
+					color={color}
 					activeColor="#180094"
 				/>
 			</Knob>
@@ -76,11 +77,11 @@ export const PitchControlKnob = ({
 					accidentals.includes(pitch)
 						? {
 								transform: `translateX(31px) translateY(-47px)`,
-								color: 'rgb(5, 136, 0)',
+								color: color,
 						  }
 						: {
 								transform: `translateX(41px) translateY(-47px)`,
-								color: 'rgb(5, 136, 0)',
+								color: color,
 						  }
 				}
 				variant="h4">

@@ -41,4 +41,5 @@ export type PitchControlProps = {
 	pitch: PitchClass;
 	setPitch: React.Dispatch<React.SetStateAction<PitchClass>>;
 	defaultInd: number;
+	color: ThemeColors;
 };
