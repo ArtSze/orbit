@@ -3,7 +3,6 @@ import * as Tone from 'tone';
 import './utils/styles.scss';
 import { StepProps, PitchClass } from './utils/types';
 import { useState } from 'react';
-import { ThemeColors } from './utils/Theme';
 
 const Step = ({
 	step,

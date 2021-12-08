@@ -1,7 +1,6 @@
 import * as Tone from 'tone';
 
 import Transport from './Transport';
-import { FaderMasterContainer } from './MixerSubComponents/FaderMasterContainer';
 
 const Mixer = () => {
 	const limiter = new Tone.Limiter(-5).toDestination();
@@ -31,17 +30,16 @@ const Mixer = () => {
 	channel3.send('crusher', -8);
 
 	return (
-		<div className={'container'}>
-			<Transport source1={source1} source2={source2} source3={source3} />
-
-			<FaderMasterContainer
-				channel1={channel1}
-				channel2={channel2}
-				channel3={channel3}
-				chorusChannel={chorusChannel}
-				crusherChannel={crusherChannel}
-			/>
-		</div>
+		<Transport
+			source1={source1}
+			source2={source2}
+			source3={source3}
+			channel1={channel1}
+			channel2={channel2}
+			channel3={channel3}
+			chorusChannel={chorusChannel}
+			crusherChannel={crusherChannel}
+		/>
 	);
 };
 

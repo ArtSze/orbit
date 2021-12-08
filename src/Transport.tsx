@@ -12,8 +12,18 @@ import { ResetStepCountButton } from './TransportSubComponents/ResetStepCountBut
 import { NumOfStepsMaster } from './TransportSubComponents/NumOfStepsMaster';
 import { PitchControlMaster } from './TransportSubComponents/PitchControlMaster';
 import { BpmContainer } from './TransportSubComponents/BpmContainer';
+import { FaderMasterContainer } from './MixerSubComponents/FaderMasterContainer';
 
-const Transport = ({ source1, source2, source3 }: TransportProps) => {
+const Transport = ({
+	source1,
+	source2,
+	source3,
+	channel1,
+	channel2,
+	channel3,
+	chorusChannel,
+	crusherChannel,
+}: TransportProps) => {
 	const [bpm, setBpm] = useState(120);
 	const [period, setPeriod] = useState(Tone.Time('1m').toSeconds());
 	const [numOfSteps1, setNumOfSteps1] = useState<number>(4);
@@ -158,6 +168,14 @@ const Transport = ({ source1, source2, source3 }: TransportProps) => {
 					color={theme.palette.success.main as ThemeColors}
 				/>
 			</div>
+
+			<FaderMasterContainer
+				channel1={channel1}
+				channel2={channel2}
+				channel3={channel3}
+				chorusChannel={chorusChannel}
+				crusherChannel={crusherChannel}
+			/>
 		</div>
 	);
 };

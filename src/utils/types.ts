@@ -35,6 +35,11 @@ export type TransportProps = {
 	source1: Tone.Synth<Tone.SynthOptions>;
 	source2: Tone.Synth<Tone.SynthOptions>;
 	source3: Tone.Synth<Tone.SynthOptions>;
+	channel1: Tone.Channel;
+	channel2: Tone.Channel;
+	channel3: Tone.Channel;
+	chorusChannel: Tone.Channel;
+	crusherChannel: Tone.Channel;
 };
 
 export type PitchControlProps = {
