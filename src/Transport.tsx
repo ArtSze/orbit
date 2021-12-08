@@ -13,6 +13,8 @@ import { NumOfStepsMaster } from './TransportSubComponents/NumOfStepsMaster';
 import { PitchControlMaster } from './TransportSubComponents/PitchControlMaster';
 import { BpmContainer } from './TransportSubComponents/BpmContainer';
 import { FaderMasterContainer } from './MixerSubComponents/FaderMasterContainer';
+import Grid from '@mui/material/Grid';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const Transport = ({
 	source1,
@@ -100,46 +102,48 @@ const Transport = ({
 		};
 	}, [checkKeyPress]);
 
+	const fullScreen = useMediaQuery('(min-width:800px)', { noSsr: true });
+
 	return (
-		<div className={`transport`}>
-			<div id={'controlContainer'}>
+		<Grid
+			container
+			direction="row"
+			justifyContent="space-between"
+			alignItems="start"
+			sx={fullScreen ? { padding: '70px' } : {}}>
+			<Grid item sx={fullScreen ? {} : { transform: `scale(0.7)` }}>
 				<PlayPauseTrigger playing={playing} triggerLoop={triggerLoop} />
 				<BpmContainer bpm={bpm} setBpm={setBpm} />
+				<NumOfStepsMaster
+					numOfSteps1={numOfSteps1}
+					setNumOfSteps1={setNumOfSteps1}
+					numOfSteps2={numOfSteps2}
+					setNumOfSteps2={setNumOfSteps2}
+					numOfSteps3={numOfSteps3}
+					setNumOfSteps3={setNumOfSteps3}
+					color1={theme.palette.primary.main as ThemeColors}
+					color2={theme.palette.secondary.main as ThemeColors}
+					color3={theme.palette.success.main as ThemeColors}
+				/>
+				<PitchControlMaster
+					pitch1={pitch1}
+					setPitch1={setPitch1}
+					defaultPitchInd1={0}
+					pitch2={pitch2}
+					setPitch2={setPitch2}
+					defaultPitchInd2={5}
+					pitch3={pitch3}
+					setPitch3={setPitch3}
+					defaultPitchInd3={11}
+					color1={theme.palette.primary.main as ThemeColors}
+					color2={theme.palette.secondary.main as ThemeColors}
+					color3={theme.palette.success.main as ThemeColors}
+				/>
+				<MidiDownloadButton bpm={bpm} />
+				<ResetStepCountButton resetNumOfSteps={resetNumOfSteps} />
+			</Grid>
 
-				<div id={'paramsContainer'}>
-					<NumOfStepsMaster
-						numOfSteps1={numOfSteps1}
-						setNumOfSteps1={setNumOfSteps1}
-						numOfSteps2={numOfSteps2}
-						setNumOfSteps2={setNumOfSteps2}
-						numOfSteps3={numOfSteps3}
-						setNumOfSteps3={setNumOfSteps3}
-						color1={theme.palette.primary.main as ThemeColors}
-						color2={theme.palette.secondary.main as ThemeColors}
-						color3={theme.palette.success.main as ThemeColors}
-					/>
-					<PitchControlMaster
-						pitch1={pitch1}
-						setPitch1={setPitch1}
-						defaultPitchInd1={0}
-						pitch2={pitch2}
-						setPitch2={setPitch2}
-						defaultPitchInd2={5}
-						pitch3={pitch3}
-						setPitch3={setPitch3}
-						defaultPitchInd3={11}
-						color1={theme.palette.primary.main as ThemeColors}
-						color2={theme.palette.secondary.main as ThemeColors}
-						color3={theme.palette.success.main as ThemeColors}
-					/>
-				</div>
-				<div id={'downloadResetPlayDiv'}>
-					<MidiDownloadButton bpm={bpm} />
-					<ResetStepCountButton resetNumOfSteps={resetNumOfSteps} />
-				</div>
-			</div>
-
-			<div id={'voiceContainer'}>
+			<Grid item>
 				<Voice
 					source={source1}
 					period={period}
@@ -167,16 +171,18 @@ const Transport = ({
 					track={midi.tracks[2]}
 					color={theme.palette.success.main as ThemeColors}
 				/>
-			</div>
+			</Grid>
 
-			<FaderMasterContainer
-				channel1={channel1}
-				channel2={channel2}
-				channel3={channel3}
-				chorusChannel={chorusChannel}
-				crusherChannel={crusherChannel}
-			/>
-		</div>
+			<Grid item>
+				<FaderMasterContainer
+					channel1={channel1}
+					channel2={channel2}
+					channel3={channel3}
+					chorusChannel={chorusChannel}
+					crusherChannel={crusherChannel}
+				/>
+			</Grid>
+		</Grid>
 	);
 };
 

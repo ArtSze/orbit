@@ -1,9 +1,9 @@
 import * as Tone from 'tone';
-import { Track } from '@tonejs/midi';
 import { useState, useEffect, useRef } from 'react';
 
 import { StepProps, VoiceProps } from './utils/types';
 import StepContainer from './StepContainer';
+import Box from '@mui/material/Box';
 
 const Voice = ({
 	source,
@@ -190,7 +190,7 @@ const Voice = ({
 	}, [period, interval, seqArgs]);
 
 	return (
-		<div className={`voice`}>
+		<Box display="flex" justifyContent="center">
 			{steps ? (
 				<StepContainer
 					steps={steps}
@@ -204,7 +204,7 @@ const Voice = ({
 			) : (
 				<div />
 			)}
-		</div>
+		</Box>
 	);
 };
 

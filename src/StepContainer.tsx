@@ -4,6 +4,8 @@ import Step from './Step';
 import { StepProps, PitchClass } from './utils/types';
 import * as Tone from 'tone';
 import { ThemeColors } from './utils/Theme';
+import Box from '@mui/material/Box';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const StepContainer = ({
 	steps,
@@ -28,6 +30,8 @@ const StepContainer = ({
 		height: number | undefined;
 	}>({ width: undefined, height: undefined });
 	const [theta, setTheta] = useState<number[]>([]);
+
+	const fullScreen = useMediaQuery('(min-width:800px)', { noSsr: true });
 
 	const test_dimensions = () => {
 		if (targetRef.current) {
@@ -55,7 +59,21 @@ const StepContainer = ({
 	}, [steps]);
 
 	return (
-		<div ref={targetRef} className="stepContainer" id={`voice${voice}`}>
+		<Box
+			ref={targetRef}
+			sx={
+				fullScreen
+					? {
+							position: 'absolute',
+							transform: 'rotate(-90deg)',
+							marginLeft: '40px',
+					  }
+					: {
+							position: 'absolute',
+							transform: ` scale(0.5)`,
+					  }
+			}
+			id={`voice${voice}${fullScreen}`}>
 			{steps.map((step, index) => {
 				const height = dimensions.height;
 
@@ -86,7 +104,7 @@ const StepContainer = ({
 						emitter={emitter}></Step>
 				);
 			})}
-		</div>
+		</Box>
 	);
 };
 

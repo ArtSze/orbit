@@ -3,6 +3,7 @@ import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/material/Box';
 
 type PlayPauseTriggerProps = {
 	playing: boolean;
@@ -14,13 +15,12 @@ export const PlayPauseTrigger = ({
 	triggerLoop,
 }: PlayPauseTriggerProps) => {
 	return (
-		<Tooltip title={`play/pause`}>
-			<IconButton
-				onClick={triggerLoop}
-				sx={{ width: '42px' }}
-				id={'playButton'}>
-				{playing ? <PauseCircleIcon /> : <PlayCircleIcon />}
-			</IconButton>
-		</Tooltip>
+		<Box className={'controlRow'}>
+			<Tooltip title={`play/pause`}>
+				<IconButton onClick={triggerLoop} sx={{ width: '42px' }}>
+					{playing ? <PauseCircleIcon /> : <PlayCircleIcon />}
+				</IconButton>
+			</Tooltip>
+		</Box>
 	);
 };

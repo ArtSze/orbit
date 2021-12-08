@@ -37,7 +37,7 @@ export const FaderMasterContainer = ({
 	const theme = useTheme();
 
 	return (
-		<Box sx={{ display: 'flex' }} id={'mixerControls'}>
+		<Box sx={{ display: 'flex' }} className={'controlRow'}>
 			<Grow in={display}>
 				<Box>
 					<Box
