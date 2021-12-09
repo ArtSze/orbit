@@ -13,6 +13,8 @@ import WavesIcon from '@mui/icons-material/Waves';
 import { FaderContainer } from './FaderContainer';
 import { ThemeColors } from '../utils/Theme';
 
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 type FaderMasterContainerProps = {
 	channel1: Tone.Channel;
 	channel2: Tone.Channel;
@@ -36,8 +38,10 @@ export const FaderMasterContainer = ({
 
 	const theme = useTheme();
 
-	return (
-		<Box sx={{ display: 'flex' }} className={'controlRow'}>
+	const fullScreen = useMediaQuery('(min-width:800px)', { noSsr: true });
+
+	return fullScreen ? (
+		<Box sx={{ display: 'flex' }} id={'mixer'}>
 			<Grow in={display}>
 				<Box>
 					<Box
@@ -98,6 +102,70 @@ export const FaderMasterContainer = ({
 					<SettingsInputComponentSharpIcon />
 				</IconButton>
 			</Tooltip>
+		</Box>
+	) : (
+		<Box
+			sx={{ display: 'flex', transform: 'translate(-30px, -250px)' }}
+			id={'mixer'}>
+			<Tooltip title={`mixer`}>
+				<IconButton onClick={handleClick} className={'icon'}>
+					<SettingsInputComponentSharpIcon />
+				</IconButton>
+			</Tooltip>
+			<Grow in={display}>
+				<Box>
+					<Box
+						sx={{
+							display: 'flex',
+							flexDirection: 'row',
+							marginTop: '12px',
+						}}>
+						<FaderContainer
+							channel={channel1}
+							defaultValue={-1}
+							color={theme.palette.primary.main as ThemeColors}
+						/>
+						<FaderContainer
+							channel={channel2}
+							defaultValue={-1}
+							color={theme.palette.secondary.main as ThemeColors}
+						/>
+						<FaderContainer
+							channel={channel3}
+							defaultValue={-1}
+							color={theme.palette.success.main as ThemeColors}
+						/>
+						<FaderContainer
+							channel={chorusChannel}
+							defaultValue={-60}
+							color={theme.palette.info.main as ThemeColors}
+						/>
+
+						<FaderContainer
+							channel={crusherChannel}
+							defaultValue={-60}
+							color={theme.palette.info.main as ThemeColors}
+						/>
+					</Box>
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'end',
+							marginTop: '6px',
+						}}>
+						<WavesIcon
+							sx={{
+								transform: `translateX(-18px) translateY(-4px);`,
+							}}
+						/>
+						<CompressIcon
+							sx={{
+								transform: `translateX(-6px) translateY(-4px);`,
+							}}
+						/>
+					</Box>
+				</Box>
+			</Grow>
 		</Box>
 	);
 };

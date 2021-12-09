@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import Grow from '@mui/material/Grow';
 import Tooltip from '@mui/material/Tooltip';
 import { PitchControlKnob } from './PitchControlKnob';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { PitchClass } from '../utils/types';
 import { ThemeColors } from '../utils/Theme';
@@ -44,6 +45,8 @@ export const PitchControlMaster = ({
 		setDisplay((prev: boolean) => !prev);
 	};
 
+	const fullScreen = useMediaQuery('(min-width:800px)', { noSsr: true });
+
 	return (
 		<Box sx={{ display: 'flex' }} className={'controlRow'}>
 			<Tooltip title={`pitches`}>
@@ -53,11 +56,19 @@ export const PitchControlMaster = ({
 			</Tooltip>
 			<Grow in={display}>
 				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'row',
-						marginLeft: '20px',
-					}}>
+					sx={
+						fullScreen
+							? {
+									display: 'flex',
+									flexDirection: 'row',
+									marginLeft: '20px',
+							  }
+							: {
+									display: 'flex',
+									flexDirection: 'column',
+									marginLeft: '20px',
+							  }
+					}>
 					<PitchControlKnob
 						pitch={pitch1}
 						setPitch={setPitch1}

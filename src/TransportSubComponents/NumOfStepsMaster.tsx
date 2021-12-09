@@ -6,6 +6,7 @@ import Grow from '@mui/material/Grow';
 import Tooltip from '@mui/material/Tooltip';
 import { NumOfStepsKnob } from './NumOfStepsKnob';
 import { ThemeColors } from '../utils/Theme';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 type NumOfStepsMasterProps = {
 	numOfSteps1: number;
@@ -36,6 +37,8 @@ export const NumOfStepsMaster = ({
 		setDisplay((prev: boolean) => !prev);
 	};
 
+	const fullScreen = useMediaQuery('(min-width:800px)', { noSsr: true });
+
 	return (
 		<Box sx={{ display: 'flex' }} className={'controlRow'}>
 			<Tooltip title={`voice step counts`}>
@@ -45,11 +48,19 @@ export const NumOfStepsMaster = ({
 			</Tooltip>
 			<Grow in={display}>
 				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'row',
-						marginLeft: '20px',
-					}}>
+					sx={
+						fullScreen
+							? {
+									display: 'flex',
+									flexDirection: 'row',
+									marginLeft: '20px',
+							  }
+							: {
+									display: 'flex',
+									flexDirection: 'column',
+									marginLeft: '20px',
+							  }
+					}>
 					<NumOfStepsKnob
 						numOfSteps={numOfSteps1}
 						setNumOfSteps={setNumOfSteps1}

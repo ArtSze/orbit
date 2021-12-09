@@ -70,7 +70,7 @@ const StepContainer = ({
 					  }
 					: {
 							position: 'absolute',
-							transform: ` scale(0.5)`,
+							transform: `scale(0.5)`,
 					  }
 			}
 			id={`voice${voice}${fullScreen}`}>

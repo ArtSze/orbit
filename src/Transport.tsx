@@ -102,7 +102,7 @@ const Transport = ({
 		};
 	}, [checkKeyPress]);
 
-	const fullScreen = useMediaQuery('(min-width:800px)', { noSsr: true });
+	const fullScreen = useMediaQuery('(min-width:700px)', { noSsr: true });
 
 	return (
 		<Grid
@@ -110,8 +110,23 @@ const Transport = ({
 			direction="row"
 			justifyContent="space-between"
 			alignItems="start"
-			sx={fullScreen ? { padding: '70px' } : {}}>
-			<Grid item sx={fullScreen ? {} : { transform: `scale(0.7)` }}>
+			sx={
+				fullScreen
+					? {
+							paddingLeft: '80px',
+							paddingRight: '80px',
+					  }
+					: {}
+			}>
+			<Grid
+				item
+				sx={
+					fullScreen
+						? {}
+						: {
+								transform: `scale(0.6) translate(-50px, -110px)`,
+						  }
+				}>
 				<PlayPauseTrigger playing={playing} triggerLoop={triggerLoop} />
 				<BpmContainer bpm={bpm} setBpm={setBpm} />
 				<NumOfStepsMaster
@@ -143,7 +158,15 @@ const Transport = ({
 				<ResetStepCountButton resetNumOfSteps={resetNumOfSteps} />
 			</Grid>
 
-			<Grid item>
+			<Grid
+				item
+				sx={
+					fullScreen
+						? {}
+						: {
+								transform: `scale(0.7) translate(-260px, 40px);`,
+						  }
+				}>
 				<Voice
 					source={source1}
 					period={period}
@@ -173,7 +196,15 @@ const Transport = ({
 				/>
 			</Grid>
 
-			<Grid item>
+			<Grid
+				item
+				sx={
+					fullScreen
+						? {}
+						: {
+								transform: `scale(0.6) translate(-50px, -110px)`,
+						  }
+				}>
 				<FaderMasterContainer
 					channel1={channel1}
 					channel2={channel2}
