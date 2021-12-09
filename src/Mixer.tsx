@@ -18,14 +18,18 @@ const Mixer = () => {
 	const synth3 = new Tone.Synth().connect(channel3);
 
 	const player1 = new Tone.Player(
-		'https://tonejs.github.io/audio/berklee/gong_1.mp3'
+		'https://archive.org/download/JeanLucCohen/JeanLucCohen22.zip/JeanLucCohen22%2FKick_15.wav'
 	).connect(channel1);
 	const player2 = new Tone.Player(
-		'https://tonejs.github.io/audio/berklee/gong_1.mp3'
+		'https://archive.org/download/JeanLucCohen/JeanLucCohen22.zip/JeanLucCohen22%2FSnare_11.wav'
 	).connect(channel2);
 	const player3 = new Tone.Player(
-		'https://tonejs.github.io/audio/berklee/gong_1.mp3'
+		'https://archive.org/download/JeanLucCohen/JeanLucCohen22.zip/JeanLucCohen22%2FHat_01.wav'
 	).connect(channel3);
+
+	player1.volume.value = 4;
+	player2.volume.value = 0;
+	player3.volume.value = -7;
 
 	const chorus = new Tone.Chorus(4, 2.5, 0.5).start().connect(limiter);
 	const chorusChannel = new Tone.Channel({ volume: -60 }).connect(chorus);

@@ -144,7 +144,6 @@ const Transport = ({
 					color2={theme.palette.secondary.main as ThemeColors}
 					color3={theme.palette.success.main as ThemeColors}
 				/>
-				<ModeSwitch tonal={tonal} setTonal={setTonal} />
 				{tonal ? (
 					<PitchControlMaster
 						pitch1={pitch1}
@@ -161,7 +160,7 @@ const Transport = ({
 						color3={theme.palette.success.main as ThemeColors}
 					/>
 				) : null}
-
+				<ModeSwitch tonal={tonal} setTonal={setTonal} />
 				<MidiDownloadButton bpm={bpm} />
 				<ResetStepCountButton resetNumOfSteps={resetNumOfSteps} />
 			</Grid>
