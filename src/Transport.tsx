@@ -13,8 +13,10 @@ import { NumOfStepsMaster } from './TransportSubComponents/NumOfStepsMaster';
 import { PitchControlMaster } from './TransportSubComponents/PitchControlMaster';
 import { BpmContainer } from './TransportSubComponents/BpmContainer';
 import { FaderMasterContainer } from './MixerSubComponents/FaderMasterContainer';
+import { ModeSwitch } from './TransportSubComponents/ModeSwitch';
 import Grid from '@mui/material/Grid';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import Button from '@mui/material/Button';
 
 const Transport = ({
 	source1,
@@ -25,6 +27,8 @@ const Transport = ({
 	channel3,
 	chorusChannel,
 	crusherChannel,
+	tonal,
+	setTonal,
 }: TransportProps) => {
 	const [bpm, setBpm] = useState(120);
 	const [period, setPeriod] = useState(Tone.Time('1m').toSeconds());
@@ -140,20 +144,24 @@ const Transport = ({
 					color2={theme.palette.secondary.main as ThemeColors}
 					color3={theme.palette.success.main as ThemeColors}
 				/>
-				<PitchControlMaster
-					pitch1={pitch1}
-					setPitch1={setPitch1}
-					defaultPitchInd1={0}
-					pitch2={pitch2}
-					setPitch2={setPitch2}
-					defaultPitchInd2={5}
-					pitch3={pitch3}
-					setPitch3={setPitch3}
-					defaultPitchInd3={11}
-					color1={theme.palette.primary.main as ThemeColors}
-					color2={theme.palette.secondary.main as ThemeColors}
-					color3={theme.palette.success.main as ThemeColors}
-				/>
+				<ModeSwitch tonal={tonal} setTonal={setTonal} />
+				{tonal ? (
+					<PitchControlMaster
+						pitch1={pitch1}
+						setPitch1={setPitch1}
+						defaultPitchInd1={0}
+						pitch2={pitch2}
+						setPitch2={setPitch2}
+						defaultPitchInd2={5}
+						pitch3={pitch3}
+						setPitch3={setPitch3}
+						defaultPitchInd3={11}
+						color1={theme.palette.primary.main as ThemeColors}
+						color2={theme.palette.secondary.main as ThemeColors}
+						color3={theme.palette.success.main as ThemeColors}
+					/>
+				) : null}
+
 				<MidiDownloadButton bpm={bpm} />
 				<ResetStepCountButton resetNumOfSteps={resetNumOfSteps} />
 			</Grid>

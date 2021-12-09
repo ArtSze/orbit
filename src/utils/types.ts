@@ -18,7 +18,7 @@ export enum PitchClass {
 }
 
 export type VoiceProps = {
-	source: Tone.Synth<Tone.SynthOptions>;
+	source: Tone.Synth<Tone.SynthOptions> | Tone.Player;
 	period: number;
 	voice: number;
 	pitch: PitchClass;
@@ -32,14 +32,16 @@ export type StepProps = {
 };
 
 export type TransportProps = {
-	source1: Tone.Synth<Tone.SynthOptions>;
-	source2: Tone.Synth<Tone.SynthOptions>;
-	source3: Tone.Synth<Tone.SynthOptions>;
+	source1: Tone.Synth<Tone.SynthOptions> | Tone.Player;
+	source2: Tone.Synth<Tone.SynthOptions> | Tone.Player;
+	source3: Tone.Synth<Tone.SynthOptions> | Tone.Player;
 	channel1: Tone.Channel;
 	channel2: Tone.Channel;
 	channel3: Tone.Channel;
 	chorusChannel: Tone.Channel;
 	crusherChannel: Tone.Channel;
+	tonal: boolean;
+	setTonal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type PitchControlProps = {

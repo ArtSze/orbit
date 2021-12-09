@@ -32,7 +32,7 @@ const Voice = ({
 	]);
 	const [seq, setSeq] = useState<Tone.Sequence<string>>();
 	const [flashEvents, setFlashEvents] = useState<number>();
-	const synth = source;
+
 	let headIndex = useRef<number>(0);
 
 	const myEmitter = new Tone.Emitter();
@@ -77,7 +77,7 @@ const Voice = ({
 	// handle changes in numOfSteps
 	useEffect(() => {
 		if (seq && flashEvents) {
-			seq.clear();
+			seq.dispose();
 			Tone.Transport.clear(flashEvents);
 		}
 		if (validTimeParams && stepsWithinRange) {
@@ -97,7 +97,7 @@ const Voice = ({
 		} else if (!stepsWithinRange) {
 			flashStepsErrorMessage();
 		}
-	}, [period, numOfSteps]);
+	}, [period, numOfSteps, source]);
 
 	// updates steps to correspond to changes in seqArgs
 	useEffect(() => {
@@ -130,7 +130,7 @@ const Voice = ({
 	useEffect(() => {
 		if (seq && flashEvents) {
 			track.notes = [];
-			seq.clear();
+			seq.dispose();
 			Tone.Transport.clear(flashEvents);
 		}
 		if (validTimeParams) {
@@ -140,7 +140,9 @@ const Voice = ({
 					(time, note) => {
 						note === ''
 							? (seq!.mute = true)
-							: synth.triggerAttackRelease(
+							: source instanceof Tone.Player
+							? source.start(time)
+							: source.triggerAttackRelease(
 									note,
 									interval * 0.75,
 									time
