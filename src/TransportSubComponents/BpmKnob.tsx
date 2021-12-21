@@ -14,7 +14,7 @@ export const BpmKnob = ({ bpm, setBpm }: BpmControllerProps) => {
 	const [displayBpm, setDisplayBpm] = useState(120);
 	const [bpmTimer, setBpmTimer] = useState();
 
-	useEffect(() => {
+	const setTempoWithBuffer = () => {
 		clearInterval(bpmTimer);
 		setBpmTimer(
 			// @ts-ignore
@@ -22,6 +22,10 @@ export const BpmKnob = ({ bpm, setBpm }: BpmControllerProps) => {
 				setBpm(displayBpm);
 			}, 200)
 		);
+	};
+
+	useEffect(() => {
+		setTempoWithBuffer();
 	}, [displayBpm]);
 
 	return (

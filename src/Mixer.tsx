@@ -66,9 +66,9 @@ const Mixer = () => {
 	}, []);
 	crusherChannel.receive('crusher');
 
-	channel1.send('chorus');
-	channel2.send('chorus');
-	channel3.send('chorus');
+	channel1.send('chorus', -2);
+	channel2.send('chorus', -2);
+	channel3.send('chorus', -2);
 
 	channel1.send('crusher', -8);
 	channel2.send('crusher', -8);
