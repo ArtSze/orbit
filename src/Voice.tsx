@@ -13,6 +13,7 @@ const Voice = ({
 	numOfSteps,
 	track,
 	color,
+	seqArgsDefault,
 }: VoiceProps) => {
 	const [interval, setInterval] = useState<number>(1);
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
@@ -24,12 +25,7 @@ const Voice = ({
 	];
 	const [steps, setSteps] = useState<StepProps[]>(initialSteps);
 	const [pitchTimer, setPitchTimer] = useState();
-	const [seqArgs, setSeqArgs] = useState<string[]>([
-		`${pitch}4`,
-		`${pitch}4`,
-		`${pitch}4`,
-		`${pitch}4`,
-	]);
+	const [seqArgs, setSeqArgs] = useState<string[]>(seqArgsDefault);
 	const [seq, setSeq] = useState<Tone.Sequence<string>>();
 	const [flashEvents, setFlashEvents] = useState<number>();
 
@@ -98,6 +94,10 @@ const Voice = ({
 			flashStepsErrorMessage();
 		}
 	}, [period, numOfSteps, source]);
+
+	useEffect(() => {
+		setSeqArgs(seqArgsDefault);
+	}, [seqArgsDefault]);
 
 	// updates steps to correspond to changes in seqArgs
 	useEffect(() => {

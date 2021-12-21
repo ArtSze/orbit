@@ -16,6 +16,7 @@ import { FaderMasterContainer } from './MixerSubComponents/FaderMasterContainer'
 import { ModeSwitch } from './TransportSubComponents/ModeSwitch';
 import Grid from '@mui/material/Grid';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { Button } from '@mui/material';
 
 const Transport = ({
 	source1,
@@ -31,6 +32,7 @@ const Transport = ({
 }: TransportProps) => {
 	const [bpm, setBpm] = useState(120);
 	const [period, setPeriod] = useState(Tone.Time('1m').toSeconds());
+
 	const [numOfSteps1, setNumOfSteps1] = useState<number>(4);
 	const [numOfSteps2, setNumOfSteps2] = useState<number>(4);
 	const [numOfSteps3, setNumOfSteps3] = useState<number>(4);
@@ -38,6 +40,25 @@ const Transport = ({
 	const [pitch1, setPitch1] = useState<PitchClass>(PitchClass.C);
 	const [pitch2, setPitch2] = useState<PitchClass>(PitchClass.E);
 	const [pitch3, setPitch3] = useState<PitchClass>(PitchClass.B);
+
+	const [seqArgsDefault1, setSeqArgsDefault1] = useState<string[]>([
+		`${pitch1}4`,
+		`${pitch1}4`,
+		`${pitch1}4`,
+		`${pitch1}4`,
+	]);
+	const [seqArgsDefault2, setSeqArgsDefault2] = useState<string[]>([
+		`${pitch2}4`,
+		`${pitch2}4`,
+		`${pitch2}4`,
+		`${pitch2}4`,
+	]);
+	const [seqArgsDefault3, setSeqArgsDefault3] = useState<string[]>([
+		`${pitch3}4`,
+		`${pitch3}4`,
+		`${pitch3}4`,
+		`${pitch3}4`,
+	]);
 
 	const theme = useTheme();
 
@@ -107,6 +128,26 @@ const Transport = ({
 
 	const fullScreen = useMediaQuery('(min-width:700px)', { noSsr: true });
 
+	const triggerPreset1 = () => {
+		setTonal(false);
+		setBpm(90);
+		setNumOfSteps1(4);
+		setNumOfSteps2(4);
+		setNumOfSteps3(8);
+		setSeqArgsDefault1([`${pitch1}4`, ``, `${pitch1}4`, ``]);
+		setSeqArgsDefault2([``, `${pitch2}4`, ``, `${pitch2}4`]);
+		setSeqArgsDefault3([
+			`${pitch3}4`,
+			`${pitch3}4`,
+			`${pitch3}4`,
+			`${pitch3}4`,
+			`${pitch3}4`,
+			`${pitch3}4`,
+			`${pitch3}4`,
+			`${pitch3}4`,
+		]);
+	};
+
 	return (
 		<Grid
 			container
@@ -162,6 +203,7 @@ const Transport = ({
 				<ModeSwitch tonal={tonal} setTonal={setTonal} />
 				<MidiDownloadButton bpm={bpm} />
 				<ResetStepCountButton resetNumOfSteps={resetNumOfSteps} />
+				<Button onClick={triggerPreset1}>Preset 1</Button>
 			</Grid>
 
 			<Grid
@@ -179,6 +221,7 @@ const Transport = ({
 					voice={1}
 					pitch={pitch1}
 					numOfSteps={numOfSteps1}
+					seqArgsDefault={seqArgsDefault1}
 					track={midi.tracks[0]}
 					color={theme.palette.primary.main as ThemeColors}
 				/>
@@ -188,6 +231,7 @@ const Transport = ({
 					voice={2}
 					pitch={pitch2}
 					numOfSteps={numOfSteps2}
+					seqArgsDefault={seqArgsDefault2}
 					track={midi.tracks[1]}
 					color={theme.palette.secondary.main as ThemeColors}
 				/>
@@ -197,6 +241,7 @@ const Transport = ({
 					voice={3}
 					pitch={pitch3}
 					numOfSteps={numOfSteps3}
+					seqArgsDefault={seqArgsDefault3}
 					track={midi.tracks[2]}
 					color={theme.palette.success.main as ThemeColors}
 				/>

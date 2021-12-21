@@ -25,6 +25,7 @@ export type VoiceProps = {
 	numOfSteps: number;
 	track: Track;
 	color: ThemeColors;
+	seqArgsDefault: string[];
 };
 
 export type StepProps = {
