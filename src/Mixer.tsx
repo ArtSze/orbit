@@ -74,24 +74,11 @@ const Mixer = () => {
 	channel2.send('crusher', -8);
 	channel3.send('crusher', -8);
 
-	return tonal ? (
+	return (
 		<Transport
-			source1={synth1}
-			source2={synth2}
-			source3={synth3}
-			channel1={channel1}
-			channel2={channel2}
-			channel3={channel3}
-			chorusChannel={chorusChannel}
-			crusherChannel={crusherChannel}
-			tonal={tonal}
-			setTonal={setTonal}
-		/>
-	) : (
-		<Transport
-			source1={player1}
-			source2={player2}
-			source3={player3}
+			source1={tonal ? synth1 : player1}
+			source2={tonal ? synth2 : player2}
+			source3={tonal ? synth3 : player3}
 			channel1={channel1}
 			channel2={channel2}
 			channel3={channel3}
