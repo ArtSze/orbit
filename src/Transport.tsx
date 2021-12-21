@@ -130,20 +130,155 @@ const Transport = ({
 
 	const triggerPreset1 = () => {
 		setTonal(false);
-		setBpm(90);
+		setBpm(75);
 		setNumOfSteps1(4);
 		setNumOfSteps2(4);
-		setNumOfSteps3(8);
+		setNumOfSteps3(16);
 		setSeqArgsDefault1([`${pitch1}4`, ``, `${pitch1}4`, ``]);
 		setSeqArgsDefault2([``, `${pitch2}4`, ``, `${pitch2}4`]);
 		setSeqArgsDefault3([
 			`${pitch3}4`,
+			``,
+			`${pitch3}4`,
+			``,
+			`${pitch3}4`,
+			``,
 			`${pitch3}4`,
 			`${pitch3}4`,
+			``,
 			`${pitch3}4`,
 			`${pitch3}4`,
+			``,
+			`${pitch3}4`,
+			``,
 			`${pitch3}4`,
 			`${pitch3}4`,
+		]);
+	};
+
+	const triggerPreset2 = () => {
+		setTonal(false);
+		setBpm(90);
+		setNumOfSteps1(32);
+		setNumOfSteps2(32);
+		setNumOfSteps3(16);
+		setSeqArgsDefault1([
+			`${pitch1}4`,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			`${pitch1}4`,
+			``,
+			``,
+			``,
+			`${pitch1}4`,
+			``,
+			`${pitch1}4`,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+		]);
+		setSeqArgsDefault2([
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			`${pitch1}4`,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			``,
+			`${pitch1}4`,
+			``,
+			`${pitch1}4`,
+			``,
+			``,
+			``,
+			`${pitch1}4`,
+			``,
+		]);
+		setSeqArgsDefault3([
+			`${pitch3}4`,
+			``,
+			`${pitch3}4`,
+			``,
+			`${pitch3}4`,
+			``,
+			`${pitch3}4`,
+			``,
+			`${pitch3}4`,
+			``,
+			`${pitch3}4`,
+			``,
+			`${pitch3}4`,
+			``,
+			`${pitch3}4`,
+			``,
+		]);
+	};
+
+	const triggerPreset3 = () => {
+		setTonal(true);
+		setBpm(85);
+		setNumOfSteps1(5);
+		setNumOfSteps2(4);
+		setNumOfSteps3(10);
+		setSeqArgsDefault1([
+			`${pitch1}4`,
+			`${pitch1}4`,
+			`${pitch1}4`,
+			`${pitch1}4`,
+			`${pitch1}4`,
+		]);
+		setSeqArgsDefault2([
+			`${pitch2}4`,
+			`${pitch2}4`,
+			`${pitch2}4`,
+			`${pitch2}4`,
+		]);
+		setSeqArgsDefault3([
+			``,
+			`${pitch3}4`,
+			``,
+			`${pitch3}4`,
+			``,
+			`${pitch3}4`,
+			``,
+			`${pitch3}4`,
+			``,
 			`${pitch3}4`,
 		]);
 	};
@@ -204,6 +339,8 @@ const Transport = ({
 				<MidiDownloadButton bpm={bpm} />
 				<ResetStepCountButton resetNumOfSteps={resetNumOfSteps} />
 				<Button onClick={triggerPreset1}>Preset 1</Button>
+				<Button onClick={triggerPreset2}>Preset 2</Button>
+				<Button onClick={triggerPreset3}>Preset 3</Button>
 			</Grid>
 
 			<Grid
