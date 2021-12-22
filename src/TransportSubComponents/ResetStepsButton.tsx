@@ -3,17 +3,15 @@ import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 
-export const ResetStepCountButton = ({
-	resetNumOfSteps,
+export const ResetStepsButton = ({
+	resetSteps,
 }: {
-	resetNumOfSteps: () => void;
+	resetSteps: () => void;
 }) => {
 	return (
 		<Box className={'controlRow'}>
-			<Tooltip title="Reset step counts">
-				<IconButton
-					onClick={() => resetNumOfSteps()}
-					sx={{ width: '42px' }}>
+			<Tooltip title="reset steps/step counts">
+				<IconButton onClick={() => resetSteps()} sx={{ width: '42px' }}>
 					<DeleteSharpIcon />
 				</IconButton>
 			</Tooltip>

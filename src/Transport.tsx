@@ -8,7 +8,7 @@ import { useTheme } from '@mui/material/styles';
 import { ThemeColors } from './utils/Theme';
 import { PlayPauseTrigger } from './TransportSubComponents/PlayPauseTrigger';
 import { MidiDownloadButton } from './TransportSubComponents/MidiDownloadButton';
-import { ResetStepCountButton } from './TransportSubComponents/ResetStepCountButton';
+import { ResetStepsButton } from './TransportSubComponents/ResetStepsButton';
 import { NumOfStepsMaster } from './TransportSubComponents/NumOfStepsMaster';
 import { PitchControlMaster } from './TransportSubComponents/PitchControlMaster';
 import { BpmContainer } from './TransportSubComponents/BpmContainer';
@@ -70,10 +70,29 @@ const Transport = ({
 
 	// implement midi export of loop
 
-	const resetNumOfSteps = () => {
+	const resetSteps = () => {
 		setNumOfSteps1(4);
 		setNumOfSteps2(4);
 		setNumOfSteps3(4);
+		setSeqArgsDefault1([
+			`${pitch1}4`,
+			`${pitch1}4`,
+			`${pitch1}4`,
+			`${pitch1}4`,
+		]);
+		setSeqArgsDefault2([
+			`${pitch2}4`,
+			`${pitch2}4`,
+			`${pitch2}4`,
+			`${pitch2}4`,
+		]);
+		setSeqArgsDefault3([
+			`${pitch3}4`,
+			`${pitch3}4`,
+			`${pitch3}4`,
+			`${pitch3}4`,
+		]);
+
 		// will need to include code to change value for sliders to correspond as well
 	};
 
@@ -340,7 +359,7 @@ const Transport = ({
 				) : null}
 
 				<MidiDownloadButton bpm={bpm} />
-				<ResetStepCountButton resetNumOfSteps={resetNumOfSteps} />
+				<ResetStepsButton resetSteps={resetSteps} />
 			</Grid>
 
 			<Grid

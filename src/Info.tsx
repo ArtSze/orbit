@@ -45,6 +45,14 @@ const Info = ({ openInfo, setOpenInfo }: InfoContainerProps) => {
 					variant={'body2'}
 					marginTop={'8px'}
 					marginBottom={'8px'}>
+					If you find yourself listening to nonsensical noise after a
+					bit of tinkering, fear not! You can reset the step counts
+					and sequences by clicking on the garbage can icon.
+				</Typography>
+				<Typography
+					variant={'body2'}
+					marginTop={'8px'}
+					marginBottom={'8px'}>
 					There are two modes available: 'tonal', which uses three
 					triangle-wave oscillators and allows control of each voice's
 					pitch, and 'percussive' which features drum samples.
