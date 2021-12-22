@@ -2,12 +2,7 @@ import { Box, Tooltip, Stack, IconButton } from '@mui/material';
 import LooksOneSharpIcon from '@mui/icons-material/LooksOneSharp';
 import LooksTwoSharpIcon from '@mui/icons-material/LooksTwoSharp';
 import LooksThreeSharpIcon from '@mui/icons-material/Looks3Sharp';
-
-type PresetProps = {
-	triggerPreset1: () => void;
-	triggerPreset2: () => void;
-	triggerPreset3: () => void;
-};
+import { PresetProps } from './utils/types';
 
 const Presets = ({
 	triggerPreset1,

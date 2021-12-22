@@ -1,13 +1,7 @@
 // @ts-ignore
-import { Knob, Scale, Pointer, Value } from 'rc-knob';
-import { ThemeColors } from '../utils/Theme';
+import { Knob, Scale, Pointer } from 'rc-knob';
 import Typography from '@mui/material/Typography';
-
-export type NumOfStepsControlProps = {
-	numOfSteps: number;
-	setNumOfSteps: (value: React.SetStateAction<number>) => void;
-	color: ThemeColors;
-};
+import { NumOfStepsControlProps } from '../utils/types';
 
 export const NumOfStepsKnob = ({
 	numOfSteps,

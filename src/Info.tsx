@@ -1,8 +1,9 @@
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import { InfoContainerProps } from './InfoContainer';
+
 import { Typography, Divider, Link } from '@mui/material';
+import { InfoContainerProps } from './utils/types';
 
 const Info = ({ openInfo, setOpenInfo }: InfoContainerProps) => {
 	return (
@@ -39,9 +40,9 @@ const Info = ({ openInfo, setOpenInfo }: InfoContainerProps) => {
 					marginTop={'8px'}
 					marginBottom={'8px'}>
 					When working with sequences that have high step counts, it's
-					possible to toggle steps on or off by clicking your mouse
-					and dragging over multiple steps in one smooth motion.
-					Easier than clicking on each individual step yeah?
+					possible to toggle steps on/off by clicking your mouse and
+					dragging over multiple steps in one smooth motion. Easier
+					than clicking on each individual step yeah?
 				</Typography>
 				<Typography
 					variant={'body2'}

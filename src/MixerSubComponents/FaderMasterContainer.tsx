@@ -14,14 +14,7 @@ import { FaderContainer } from './FaderContainer';
 import { ThemeColors } from '../utils/Theme';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
-
-type FaderMasterContainerProps = {
-	channel1: Tone.Channel;
-	channel2: Tone.Channel;
-	channel3: Tone.Channel;
-	chorusChannel: Tone.Channel;
-	crusherChannel: Tone.Channel;
-};
+import { FaderMasterContainerProps } from '../utils/types';
 
 export const FaderMasterContainer = ({
 	channel1,

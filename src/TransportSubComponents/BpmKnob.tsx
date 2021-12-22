@@ -3,11 +3,7 @@ import { useState, useEffect } from 'react';
 import { Knob, Arc, Pointer, Value } from 'rc-knob';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-
-type BpmControllerProps = {
-	bpm: number;
-	setBpm: React.Dispatch<React.SetStateAction<number>>;
-};
+import { BpmControllerProps } from '../utils/types';
 
 export const BpmKnob = ({ bpm, setBpm }: BpmControllerProps) => {
 	const theme = useTheme();

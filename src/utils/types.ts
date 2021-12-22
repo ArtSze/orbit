@@ -51,3 +51,88 @@ export type PitchControlProps = {
 	defaultInd: number;
 	color: ThemeColors;
 };
+
+export type ChannelFaderProps = {
+	label?: string;
+	onChange: (
+		event: Event,
+		value: number | number[],
+		activeThumb: number
+	) => void;
+	defaultValue: number;
+	color: ThemeColors;
+};
+
+export type FaderContainerProps = {
+	channel: Tone.Channel;
+	defaultValue: number;
+	label?: string;
+	color: ThemeColors;
+};
+
+export type FaderMasterContainerProps = {
+	channel1: Tone.Channel;
+	channel2: Tone.Channel;
+	channel3: Tone.Channel;
+	chorusChannel: Tone.Channel;
+	crusherChannel: Tone.Channel;
+};
+
+export type BpmContainerProps = {
+	bpm: number;
+	setBpm: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export type BpmControllerProps = {
+	bpm: number;
+	setBpm: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export type NumOfStepsControlProps = {
+	numOfSteps: number;
+	setNumOfSteps: (value: React.SetStateAction<number>) => void;
+	color: ThemeColors;
+};
+
+export type NumOfStepsMasterProps = {
+	numOfSteps1: number;
+	setNumOfSteps1: React.Dispatch<React.SetStateAction<number>>;
+	numOfSteps2: number;
+	setNumOfSteps2: React.Dispatch<React.SetStateAction<number>>;
+	numOfSteps3: number;
+	setNumOfSteps3: React.Dispatch<React.SetStateAction<number>>;
+	color1: ThemeColors;
+	color2: ThemeColors;
+	color3: ThemeColors;
+};
+
+export type PitchControlMasterProps = {
+	pitch1: PitchClass;
+	setPitch1: React.Dispatch<React.SetStateAction<PitchClass>>;
+	defaultPitchInd1: number;
+	pitch2: PitchClass;
+	setPitch2: React.Dispatch<React.SetStateAction<PitchClass>>;
+	defaultPitchInd2: number;
+	pitch3: PitchClass;
+	setPitch3: React.Dispatch<React.SetStateAction<PitchClass>>;
+	defaultPitchInd3: number;
+	color1: ThemeColors;
+	color2: ThemeColors;
+	color3: ThemeColors;
+};
+
+export type PlayPauseTriggerProps = {
+	playing: boolean;
+	triggerLoop: () => Promise<void>;
+};
+
+export type InfoContainerProps = {
+	openInfo: boolean;
+	setOpenInfo: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export type PresetProps = {
+	triggerPreset1: () => void;
+	triggerPreset2: () => void;
+	triggerPreset3: () => void;
+};

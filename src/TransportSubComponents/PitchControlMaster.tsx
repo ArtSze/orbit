@@ -7,23 +7,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { PitchControlKnob } from './PitchControlKnob';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { PitchClass } from '../utils/types';
-import { ThemeColors } from '../utils/Theme';
-
-type PitchControlMasterProps = {
-	pitch1: PitchClass;
-	setPitch1: React.Dispatch<React.SetStateAction<PitchClass>>;
-	defaultPitchInd1: number;
-	pitch2: PitchClass;
-	setPitch2: React.Dispatch<React.SetStateAction<PitchClass>>;
-	defaultPitchInd2: number;
-	pitch3: PitchClass;
-	setPitch3: React.Dispatch<React.SetStateAction<PitchClass>>;
-	defaultPitchInd3: number;
-	color1: ThemeColors;
-	color2: ThemeColors;
-	color3: ThemeColors;
-};
+import { PitchClass, PitchControlMasterProps } from '../utils/types';
 
 export const PitchControlMaster = ({
 	pitch1,

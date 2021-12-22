@@ -1,14 +1,9 @@
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import PauseCircleIcon from '@mui/icons-material/PauseCircle';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
-
-type PlayPauseTriggerProps = {
-	playing: boolean;
-	triggerLoop: () => Promise<void>;
-};
+import { PlayPauseTriggerProps } from '../utils/types';
 
 export const PlayPauseTrigger = ({
 	playing,

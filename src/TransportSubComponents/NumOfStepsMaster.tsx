@@ -5,20 +5,8 @@ import IconButton from '@mui/material/IconButton';
 import Grow from '@mui/material/Grow';
 import Tooltip from '@mui/material/Tooltip';
 import { NumOfStepsKnob } from './NumOfStepsKnob';
-import { ThemeColors } from '../utils/Theme';
 import useMediaQuery from '@mui/material/useMediaQuery';
-
-type NumOfStepsMasterProps = {
-	numOfSteps1: number;
-	setNumOfSteps1: React.Dispatch<React.SetStateAction<number>>;
-	numOfSteps2: number;
-	setNumOfSteps2: React.Dispatch<React.SetStateAction<number>>;
-	numOfSteps3: number;
-	setNumOfSteps3: React.Dispatch<React.SetStateAction<number>>;
-	color1: ThemeColors;
-	color2: ThemeColors;
-	color3: ThemeColors;
-};
+import { NumOfStepsMasterProps } from '../utils/types';
 
 export const NumOfStepsMaster = ({
 	numOfSteps1,

@@ -1,11 +1,7 @@
 import { Box, Tooltip, IconButton } from '@mui/material';
 import HelpSharpIcon from '@mui/icons-material/HelpSharp';
 import Info from './Info';
-
-export type InfoContainerProps = {
-	openInfo: boolean;
-	setOpenInfo: React.Dispatch<React.SetStateAction<boolean>>;
-};
+import { InfoContainerProps } from './utils/types';
 
 const InfoContainer = ({ openInfo, setOpenInfo }: InfoContainerProps) => {
 	return (
