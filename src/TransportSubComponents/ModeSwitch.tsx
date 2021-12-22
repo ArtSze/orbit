@@ -1,5 +1,5 @@
-import MicExternalOnIcon from '@mui/icons-material/MicExternalOn';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import SwitchLeftIcon from '@mui/icons-material/SwitchLeft';
+import SwitchRightIcon from '@mui/icons-material/SwitchRight';
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
@@ -14,11 +14,11 @@ export const ModeSwitch = ({
 	return (
 		<Box className={'controlRow'}>
 			{tonal ? (
-				<Tooltip title="switch to perc mode">
+				<Tooltip title="switch to percussive mode">
 					<IconButton
 						onClick={() => setTonal(!tonal)}
 						sx={{ width: '42px' }}>
-						<MusicNoteIcon />
+						<SwitchLeftIcon />
 					</IconButton>
 				</Tooltip>
 			) : (
@@ -26,7 +26,7 @@ export const ModeSwitch = ({
 					<IconButton
 						onClick={() => setTonal(!tonal)}
 						sx={{ width: '42px' }}>
-						<MicExternalOnIcon />
+						<SwitchRightIcon />
 					</IconButton>
 				</Tooltip>
 			)}

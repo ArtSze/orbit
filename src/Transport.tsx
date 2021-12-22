@@ -16,11 +16,8 @@ import { FaderMasterContainer } from './MixerSubComponents/FaderMasterContainer'
 import { ModeSwitch } from './TransportSubComponents/ModeSwitch';
 import Grid from '@mui/material/Grid';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Box, Tooltip, Stack, IconButton, Typography } from '@mui/material';
-import LooksOneSharpIcon from '@mui/icons-material/LooksOneSharp';
-import LooksTwoSharpIcon from '@mui/icons-material/LooksTwoSharp';
-import LooksThreeSharpIcon from '@mui/icons-material/Looks3Sharp';
 import Presets from './Presets';
+import InfoContainer from './InfoContainer';
 
 const Transport = ({
 	source1,
@@ -67,6 +64,7 @@ const Transport = ({
 	const theme = useTheme();
 
 	const [playing, setPlaying] = useState<boolean>(false);
+	const [openInfo, setOpenInfo] = useState<boolean>(false);
 
 	const validTempo = bpm >= 20 && bpm <= 300 && !isNaN(bpm) ? true : false;
 
@@ -311,6 +309,7 @@ const Transport = ({
 						  }
 				}>
 				<PlayPauseTrigger playing={playing} triggerLoop={triggerLoop} />
+				<ModeSwitch tonal={tonal} setTonal={setTonal} />
 				<BpmContainer bpm={bpm} setBpm={setBpm} />
 				<NumOfStepsMaster
 					numOfSteps1={numOfSteps1}
@@ -339,7 +338,7 @@ const Transport = ({
 						color3={theme.palette.success.main as ThemeColors}
 					/>
 				) : null}
-				<ModeSwitch tonal={tonal} setTonal={setTonal} />
+
 				<MidiDownloadButton bpm={bpm} />
 				<ResetStepCountButton resetNumOfSteps={resetNumOfSteps} />
 			</Grid>
@@ -408,6 +407,7 @@ const Transport = ({
 					triggerPreset2={triggerPreset2}
 					triggerPreset3={triggerPreset3}
 				/>
+				<InfoContainer setOpenInfo={setOpenInfo} openInfo={openInfo} />
 			</Grid>
 		</Grid>
 	);

@@ -1,4 +1,4 @@
-import { Box, Tooltip, Stack, IconButton, Typography } from '@mui/material';
+import { Box, Tooltip, Stack, IconButton } from '@mui/material';
 import LooksOneSharpIcon from '@mui/icons-material/LooksOneSharp';
 import LooksTwoSharpIcon from '@mui/icons-material/LooksTwoSharp';
 import LooksThreeSharpIcon from '@mui/icons-material/Looks3Sharp';
@@ -15,7 +15,7 @@ const Presets = ({
 	triggerPreset3,
 }: PresetProps) => {
 	return (
-		<Box marginTop={'260px'}>
+		<Box marginTop={'180px'}>
 			<Stack flexDirection={'column'} alignItems={'flex-end'}>
 				<Box className={'controlRow'}>
 					<Tooltip title={`preset 1`}>
