@@ -3,7 +3,6 @@ import * as Tone from 'tone';
 import './utils/styles.scss';
 import { StepProps, PitchClass } from './utils/types';
 import { useState } from 'react';
-import { ThemeColors } from './utils/Theme';
 
 const Step = ({
 	step,
@@ -44,10 +43,17 @@ const Step = ({
 					: 'stepInactive'
 			}
 			style={circleProps}
-			onClick={() => {
+			onPointerDown={() => {
 				const tempSeqArgs = [...seqArgs];
 				tempSeqArgs[ind] = step.isActive ? '' : `${pitch}4`;
 				setSeqArgs(tempSeqArgs);
+			}}
+			onPointerOver={(e) => {
+				if (e.buttons === 1) {
+					const tempSeqArgs = [...seqArgs];
+					tempSeqArgs[ind] = step.isActive ? '' : `${pitch}4`;
+					setSeqArgs(tempSeqArgs);
+				}
 			}}></div>
 	);
 };

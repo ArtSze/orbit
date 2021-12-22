@@ -6,11 +6,7 @@ import Tooltip from '@mui/material/Tooltip';
 
 import { MetronomeIcon } from '../utils/MetronomeIcon';
 import { BpmKnob } from './BpmKnob';
-
-type BpmContainerProps = {
-	bpm: number;
-	setBpm: React.Dispatch<React.SetStateAction<number>>;
-};
+import { BpmContainerProps } from '../utils/types';
 
 export const BpmContainer = ({ bpm, setBpm }: BpmContainerProps) => {
 	const [display, setDisplay] = useState(false);

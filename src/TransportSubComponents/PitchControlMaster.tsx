@@ -5,24 +5,9 @@ import IconButton from '@mui/material/IconButton';
 import Grow from '@mui/material/Grow';
 import Tooltip from '@mui/material/Tooltip';
 import { PitchControlKnob } from './PitchControlKnob';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { PitchClass } from '../utils/types';
-import { ThemeColors } from '../utils/Theme';
-
-type PitchControlMasterProps = {
-	pitch1: PitchClass;
-	setPitch1: React.Dispatch<React.SetStateAction<PitchClass>>;
-	defaultPitchInd1: number;
-	pitch2: PitchClass;
-	setPitch2: React.Dispatch<React.SetStateAction<PitchClass>>;
-	defaultPitchInd2: number;
-	pitch3: PitchClass;
-	setPitch3: React.Dispatch<React.SetStateAction<PitchClass>>;
-	defaultPitchInd3: number;
-	color1: ThemeColors;
-	color2: ThemeColors;
-	color3: ThemeColors;
-};
+import { PitchClass, PitchControlMasterProps } from '../utils/types';
 
 export const PitchControlMaster = ({
 	pitch1,
@@ -44,6 +29,8 @@ export const PitchControlMaster = ({
 		setDisplay((prev: boolean) => !prev);
 	};
 
+	const fullScreen = useMediaQuery('(min-width:800px)', { noSsr: true });
+
 	return (
 		<Box sx={{ display: 'flex' }} className={'controlRow'}>
 			<Tooltip title={`pitches`}>
@@ -53,11 +40,19 @@ export const PitchControlMaster = ({
 			</Tooltip>
 			<Grow in={display}>
 				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'row',
-						marginLeft: '20px',
-					}}>
+					sx={
+						fullScreen
+							? {
+									display: 'flex',
+									flexDirection: 'row',
+									marginLeft: '20px',
+							  }
+							: {
+									display: 'flex',
+									flexDirection: 'column',
+									marginLeft: '20px',
+							  }
+					}>
 					<PitchControlKnob
 						pitch={pitch1}
 						setPitch={setPitch1}

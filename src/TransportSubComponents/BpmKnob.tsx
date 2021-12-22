@@ -1,15 +1,32 @@
+import { useState, useEffect } from 'react';
 // @ts-ignore
 import { Knob, Arc, Pointer, Value } from 'rc-knob';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-
-type BpmControllerProps = {
-	bpm: number;
-	setBpm: React.Dispatch<React.SetStateAction<number>>;
-};
+import { BpmControllerProps } from '../utils/types';
 
 export const BpmKnob = ({ bpm, setBpm }: BpmControllerProps) => {
 	const theme = useTheme();
+	const [displayBpm, setDisplayBpm] = useState(120);
+	const [bpmTimer, setBpmTimer] = useState();
+
+	const setTempoWithBuffer = () => {
+		clearInterval(bpmTimer);
+		setBpmTimer(
+			// @ts-ignore
+			setTimeout(() => {
+				setBpm(displayBpm);
+			}, 200)
+		);
+	};
+
+	useEffect(() => {
+		setTempoWithBuffer();
+	}, [displayBpm]);
+
+	useEffect(() => {
+		setDisplayBpm(bpm);
+	}, [bpm]);
 
 	return (
 		<div>
@@ -19,7 +36,9 @@ export const BpmKnob = ({ bpm, setBpm }: BpmControllerProps) => {
 				angleRange={280}
 				min={20}
 				max={240}
-				onChange={(value: number) => setBpm(parseInt(value.toFixed()))}
+				onChange={(value: number) => {
+					setDisplayBpm(parseInt(value.toFixed()));
+				}}
 				value={bpm}
 				className="styledBpmKnob">
 				<Arc
@@ -27,6 +46,7 @@ export const BpmKnob = ({ bpm, setBpm }: BpmControllerProps) => {
 					background={theme.palette.grey[200]}
 					color={theme.palette.grey[500]}
 					radius={47.5}
+					percentage={(displayBpm - 20) / 220}
 				/>
 				<Pointer
 					width={1}
@@ -34,12 +54,12 @@ export const BpmKnob = ({ bpm, setBpm }: BpmControllerProps) => {
 					radius={40}
 					type="rect"
 					color={theme.palette.info}
-					percentage={(bpm - 20) / 220}
+					percentage={(displayBpm - 20) / 220}
 				/>
 			</Knob>
 			<Typography
 				style={
-					bpm > 99
+					displayBpm > 99
 						? {
 								transform: `translateX(22px) translateY(-47px)`,
 								color: `${theme.palette.grey[500]}`,
@@ -50,7 +70,7 @@ export const BpmKnob = ({ bpm, setBpm }: BpmControllerProps) => {
 						  }
 				}
 				variant="h4">
-				{bpm}
+				{displayBpm}
 			</Typography>
 		</div>
 	);

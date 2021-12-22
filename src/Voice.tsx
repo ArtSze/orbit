@@ -1,9 +1,9 @@
 import * as Tone from 'tone';
-import { Track } from '@tonejs/midi';
 import { useState, useEffect, useRef } from 'react';
 
 import { StepProps, VoiceProps } from './utils/types';
 import StepContainer from './StepContainer';
+import Box from '@mui/material/Box';
 
 const Voice = ({
 	source,
@@ -13,6 +13,7 @@ const Voice = ({
 	numOfSteps,
 	track,
 	color,
+	seqArgsDefault,
 }: VoiceProps) => {
 	const [interval, setInterval] = useState<number>(1);
 	const [stepsErrorMessage, setStepsErrorMessage] = useState<string>('');
@@ -24,15 +25,10 @@ const Voice = ({
 	];
 	const [steps, setSteps] = useState<StepProps[]>(initialSteps);
 	const [pitchTimer, setPitchTimer] = useState();
-	const [seqArgs, setSeqArgs] = useState<string[]>([
-		`${pitch}4`,
-		`${pitch}4`,
-		`${pitch}4`,
-		`${pitch}4`,
-	]);
+	const [seqArgs, setSeqArgs] = useState<string[]>(seqArgsDefault);
 	const [seq, setSeq] = useState<Tone.Sequence<string>>();
 	const [flashEvents, setFlashEvents] = useState<number>();
-	const synth = source;
+
 	let headIndex = useRef<number>(0);
 
 	const myEmitter = new Tone.Emitter();
@@ -77,7 +73,7 @@ const Voice = ({
 	// handle changes in numOfSteps
 	useEffect(() => {
 		if (seq && flashEvents) {
-			seq.clear();
+			seq.dispose();
 			Tone.Transport.clear(flashEvents);
 		}
 		if (validTimeParams && stepsWithinRange) {
@@ -97,7 +93,11 @@ const Voice = ({
 		} else if (!stepsWithinRange) {
 			flashStepsErrorMessage();
 		}
-	}, [period, numOfSteps]);
+	}, [period, numOfSteps, source]);
+
+	useEffect(() => {
+		setSeqArgs(seqArgsDefault);
+	}, [seqArgsDefault]);
 
 	// updates steps to correspond to changes in seqArgs
 	useEffect(() => {
@@ -130,7 +130,7 @@ const Voice = ({
 	useEffect(() => {
 		if (seq && flashEvents) {
 			track.notes = [];
-			seq.clear();
+			seq.dispose();
 			Tone.Transport.clear(flashEvents);
 		}
 		if (validTimeParams) {
@@ -140,7 +140,9 @@ const Voice = ({
 					(time, note) => {
 						note === ''
 							? (seq!.mute = true)
-							: synth.triggerAttackRelease(
+							: source instanceof Tone.Player
+							? source.start(time)
+							: source.triggerAttackRelease(
 									note,
 									interval * 0.75,
 									time
@@ -190,7 +192,7 @@ const Voice = ({
 	}, [period, interval, seqArgs]);
 
 	return (
-		<div className={`voice`}>
+		<Box display="flex" justifyContent="center">
 			{steps ? (
 				<StepContainer
 					steps={steps}
@@ -204,7 +206,7 @@ const Voice = ({
 			) : (
 				<div />
 			)}
-		</div>
+		</Box>
 	);
 };
 

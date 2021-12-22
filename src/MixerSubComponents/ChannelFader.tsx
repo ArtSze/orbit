@@ -1,17 +1,6 @@
 import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
-import { ThemeColors } from '../utils/Theme';
-
-type ChannelFaderProps = {
-	label?: string;
-	onChange: (
-		event: Event,
-		value: number | number[],
-		activeThumb: number
-	) => void;
-	defaultValue: number;
-	color: ThemeColors;
-};
+import { ChannelFaderProps } from '../utils/types';
 
 export const ChannelFader = ({
 	label,

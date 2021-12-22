@@ -1,4 +1,3 @@
-import React from 'react';
 import Mixer from './Mixer';
 import { ThemeProvider } from '@mui/material';
 import { theme } from './utils/Theme';
