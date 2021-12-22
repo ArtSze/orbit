@@ -16,7 +16,11 @@ import { FaderMasterContainer } from './MixerSubComponents/FaderMasterContainer'
 import { ModeSwitch } from './TransportSubComponents/ModeSwitch';
 import Grid from '@mui/material/Grid';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Button } from '@mui/material';
+import { Box, Tooltip, Stack, IconButton, Typography } from '@mui/material';
+import LooksOneSharpIcon from '@mui/icons-material/LooksOneSharp';
+import LooksTwoSharpIcon from '@mui/icons-material/LooksTwoSharp';
+import LooksThreeSharpIcon from '@mui/icons-material/Looks3Sharp';
+import Presets from './Presets';
 
 const Transport = ({
 	source1,
@@ -338,9 +342,6 @@ const Transport = ({
 				<ModeSwitch tonal={tonal} setTonal={setTonal} />
 				<MidiDownloadButton bpm={bpm} />
 				<ResetStepCountButton resetNumOfSteps={resetNumOfSteps} />
-				<Button onClick={triggerPreset1}>Preset 1</Button>
-				<Button onClick={triggerPreset2}>Preset 2</Button>
-				<Button onClick={triggerPreset3}>Preset 3</Button>
 			</Grid>
 
 			<Grid
@@ -383,22 +384,29 @@ const Transport = ({
 					color={theme.palette.success.main as ThemeColors}
 				/>
 			</Grid>
+			<Grid>
+				<Grid
+					item
+					sx={
+						fullScreen
+							? {}
+							: {
+									transform: `scale(0.6) translate(-50px, -110px)`,
+							  }
+					}>
+					<FaderMasterContainer
+						channel1={channel1}
+						channel2={channel2}
+						channel3={channel3}
+						chorusChannel={chorusChannel}
+						crusherChannel={crusherChannel}
+					/>
+				</Grid>
 
-			<Grid
-				item
-				sx={
-					fullScreen
-						? {}
-						: {
-								transform: `scale(0.6) translate(-50px, -110px)`,
-						  }
-				}>
-				<FaderMasterContainer
-					channel1={channel1}
-					channel2={channel2}
-					channel3={channel3}
-					chorusChannel={chorusChannel}
-					crusherChannel={crusherChannel}
+				<Presets
+					triggerPreset1={triggerPreset1}
+					triggerPreset2={triggerPreset2}
+					triggerPreset3={triggerPreset3}
 				/>
 			</Grid>
 		</Grid>
