@@ -7,10 +7,12 @@ import { Typography, Divider, Link } from '@mui/material';
 const Info = ({ openInfo, setOpenInfo }: InfoContainerProps) => {
 	return (
 		<Dialog open={openInfo} onClose={() => setOpenInfo(false)}>
-			<DialogTitle>Info</DialogTitle>
+			<DialogTitle>
+				<Typography variant={'h5'}>Info</Typography>{' '}
+			</DialogTitle>
 			<Divider />
 			<DialogContent>
-				<Typography variant={'body2'}>
+				<Typography variant={'body1'}>
 					This is a Euclidean sequencer. This means that the period of
 					the loop is divided evenly by each voice's step count. This
 					allows for exploration of interesting rhythmic relationships
@@ -26,8 +28,8 @@ const Info = ({ openInfo, setOpenInfo }: InfoContainerProps) => {
 				</Typography>
 
 				<Typography
-					variant={'subtitle1'}
-					marginTop={'20px'}
+					variant={'h6'}
+					marginTop={'30px'}
 					marginBottom={'10px'}>
 					handy features/tips
 				</Typography>

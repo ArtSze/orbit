@@ -70,9 +70,9 @@ const Mixer = () => {
 	channel2.send('chorus', -2);
 	channel3.send('chorus', -2);
 
-	channel1.send('crusher', -8);
-	channel2.send('crusher', -8);
-	channel3.send('crusher', -8);
+	channel1.send('crusher', -4);
+	channel2.send('crusher', -4);
+	channel3.send('crusher', -4);
 
 	return (
 		<Transport
