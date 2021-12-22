@@ -28,6 +28,10 @@ export const BpmKnob = ({ bpm, setBpm }: BpmControllerProps) => {
 		setTempoWithBuffer();
 	}, [displayBpm]);
 
+	useEffect(() => {
+		setDisplayBpm(bpm);
+	}, [bpm]);
+
 	return (
 		<div>
 			<Knob
@@ -46,6 +50,7 @@ export const BpmKnob = ({ bpm, setBpm }: BpmControllerProps) => {
 					background={theme.palette.grey[200]}
 					color={theme.palette.grey[500]}
 					radius={47.5}
+					percentage={(displayBpm - 20) / 220}
 				/>
 				<Pointer
 					width={1}
