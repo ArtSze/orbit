@@ -9,6 +9,7 @@ export const BpmKnob = ({ bpm, setBpm }: BpmControllerProps) => {
 	const theme = useTheme();
 	const [displayBpm, setDisplayBpm] = useState(120);
 	const [bpmTimer, setBpmTimer] = useState();
+	const [y, setY] = useState<number>();
 
 	const setTempoWithBuffer = () => {
 		clearInterval(bpmTimer);
@@ -19,6 +20,11 @@ export const BpmKnob = ({ bpm, setBpm }: BpmControllerProps) => {
 			}, 200)
 		);
 	};
+
+	useEffect(() => {
+		const dragTemp = Math.round(240 * ((y! + 1) / 43));
+		dragTemp < 20 ? setDisplayBpm(20) : setDisplayBpm(dragTemp);
+	}, [y]);
 
 	useEffect(() => {
 		setTempoWithBuffer();
@@ -57,21 +63,29 @@ export const BpmKnob = ({ bpm, setBpm }: BpmControllerProps) => {
 					percentage={(displayBpm - 20) / 220}
 				/>
 			</Knob>
-			<Typography
-				style={
-					displayBpm > 99
-						? {
-								transform: `translateX(22px) translateY(-47px)`,
-								color: `${theme.palette.grey[500]}`,
-						  }
-						: {
-								transform: `translateX(31px) translateY(-47px)`,
-								color: `${theme.palette.grey[500]}`,
-						  }
-				}
-				variant="h4">
-				{displayBpm}
-			</Typography>
+			<div
+				onMouseMove={(e) => {
+					e.preventDefault();
+					if (e.buttons == 1) {
+						setY(e.nativeEvent.offsetY);
+					}
+				}}>
+				<Typography
+					style={
+						displayBpm > 99
+							? {
+									transform: `translateX(22px) translateY(-47px)`,
+									color: `${theme.palette.grey[500]}`,
+							  }
+							: {
+									transform: `translateX(31px) translateY(-47px)`,
+									color: `${theme.palette.grey[500]}`,
+							  }
+					}
+					variant="h4">
+					{displayBpm}
+				</Typography>
+			</div>
 		</div>
 	);
 };

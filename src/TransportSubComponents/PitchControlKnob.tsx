@@ -1,8 +1,9 @@
 // @ts-ignore
-import { Knob, Scale, Value } from 'rc-knob';
+import { Knob, Scale, Pointer } from 'rc-knob';
 import Typography from '@mui/material/Typography';
 
 import { PitchControlProps, PitchClass } from '../utils/types';
+import { useEffect, useState } from 'react';
 
 export const PitchControlKnob = ({
 	pitch,
@@ -10,6 +11,9 @@ export const PitchControlKnob = ({
 	defaultInd,
 	color,
 }: PitchControlProps) => {
+	const [pitchNumVal, setPitchNumVal] = useState<number>(defaultInd);
+	const [y, setY] = useState<number>();
+
 	const parsePitch = (pitchNum: number) => {
 		switch (pitchNum) {
 			case 0:
@@ -49,44 +53,65 @@ export const PitchControlKnob = ({
 		PitchClass.G_sharp,
 	];
 
+	useEffect(() => {
+		const dragPitch = Math.round(11 * (y! / 43));
+		setPitchNumVal(dragPitch);
+	}, [y]);
+
+	useEffect(() => {
+		setPitch(parsePitch(pitchNumVal));
+	}, [pitchNumVal]);
+
 	return (
 		<div>
 			<Knob
 				size={100}
 				angleOffset={220}
 				angleRange={280}
-				value={defaultInd}
 				steps={11}
 				min={0}
 				max={11}
+				value={pitchNumVal}
 				onChange={(value: number) =>
-					setPitch(parsePitch(parseInt(value.toFixed())))
+					setPitchNumVal(parseInt(value.toFixed()))
 				}
+				snap={true}
 				className="pitchControlContainer">
-				<Scale
-					tickWidth={1}
-					tickHeight={5}
-					radius={45}
-					color={color}
-					activeColor="#180094"
+				<Scale tickWidth={1} tickHeight={5} radius={45} color={color} />
+				<Pointer
+					width={1}
+					height={7}
+					radius={38}
+					type="rect"
+					color="#180094"
+					percentage={
+						pitchNumVal ? pitchNumVal / 11 : defaultInd / 11
+					}
 				/>
 			</Knob>
-
-			<Typography
-				style={
-					accidentals.includes(pitch)
-						? {
-								transform: `translateX(31px) translateY(-47px)`,
-								color: color,
-						  }
-						: {
-								transform: `translateX(41px) translateY(-47px)`,
-								color: color,
-						  }
-				}
-				variant="h4">
-				{pitch}
-			</Typography>
+			<div
+				onMouseMove={(e) => {
+					e.preventDefault();
+					if (e.buttons == 1) {
+						setY(e.nativeEvent.offsetY);
+					}
+				}}>
+				<Typography
+					style={
+						accidentals.includes(pitch)
+							? {
+									transform: `translateX(31px) translateY(-47px)`,
+									color: color,
+							  }
+							: {
+									transform: `translateX(41px) translateY(-47px)`,
+									color: color,
+							  }
+					}
+					variant="h4">
+					{pitch}
+				</Typography>
+			</div>
 		</div>
 	);
 };

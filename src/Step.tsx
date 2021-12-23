@@ -43,12 +43,14 @@ const Step = ({
 					: 'stepInactive'
 			}
 			style={circleProps}
-			onPointerDown={() => {
+			onPointerDown={(e) => {
+				e.preventDefault();
 				const tempSeqArgs = [...seqArgs];
 				tempSeqArgs[ind] = step.isActive ? '' : `${pitch}4`;
 				setSeqArgs(tempSeqArgs);
 			}}
 			onPointerOver={(e) => {
+				e.preventDefault();
 				if (e.buttons === 1) {
 					const tempSeqArgs = [...seqArgs];
 					tempSeqArgs[ind] = step.isActive ? '' : `${pitch}4`;

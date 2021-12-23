@@ -2,12 +2,40 @@
 import { Knob, Scale, Pointer } from 'rc-knob';
 import Typography from '@mui/material/Typography';
 import { NumOfStepsControlProps } from '../utils/types';
+import { useState, useEffect } from 'react';
 
 export const NumOfStepsKnob = ({
 	numOfSteps,
 	setNumOfSteps,
 	color,
 }: NumOfStepsControlProps) => {
+	const [y, setY] = useState<number>();
+	const [displayStepCount, setDisplayStepCount] = useState(4);
+	const [stepCountTimer, setStepCountTimer] = useState();
+
+	const setStepCountWithBuffer = () => {
+		clearInterval(stepCountTimer);
+		setStepCountTimer(
+			// @ts-ignore
+			setTimeout(() => {
+				setNumOfSteps(displayStepCount);
+			}, 200)
+		);
+	};
+
+	useEffect(() => {
+		const dragStepCount = Math.round(32 * ((y! + 1) / 43));
+		setDisplayStepCount(dragStepCount);
+	}, [y]);
+
+	useEffect(() => {
+		setStepCountWithBuffer();
+	}, [displayStepCount]);
+
+	useEffect(() => {
+		setDisplayStepCount(numOfSteps);
+	}, [numOfSteps]);
+
 	return (
 		<div>
 			<Knob
@@ -37,25 +65,32 @@ export const NumOfStepsKnob = ({
 					radius={38}
 					type="rect"
 					color="#180094"
-					percentage={(numOfSteps - 0) / 32}
+					percentage={(displayStepCount - 0) / 32}
 				/>
 			</Knob>
-
-			<Typography
-				style={
-					numOfSteps > 9
-						? {
-								transform: `translateX(31px) translateY(-47px)`,
-								color: color,
-						  }
-						: {
-								transform: `translateX(41px) translateY(-47px)`,
-								color: color,
-						  }
-				}
-				variant="h4">
-				{numOfSteps}
-			</Typography>
+			<div
+				onMouseMove={(e) => {
+					e.preventDefault();
+					if (e.buttons == 1) {
+						setY(e.nativeEvent.offsetY);
+					}
+				}}>
+				<Typography
+					style={
+						displayStepCount > 9
+							? {
+									transform: `translateX(31px) translateY(-47px)`,
+									color: color,
+							  }
+							: {
+									transform: `translateX(41px) translateY(-47px)`,
+									color: color,
+							  }
+					}
+					variant="h4">
+					{displayStepCount}
+				</Typography>
+			</div>
 		</div>
 	);
 };

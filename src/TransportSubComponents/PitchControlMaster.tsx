@@ -7,7 +7,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { PitchControlKnob } from './PitchControlKnob';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { PitchClass, PitchControlMasterProps } from '../utils/types';
+import { PitchControlMasterProps } from '../utils/types';
 
 export const PitchControlMaster = ({
 	pitch1,
