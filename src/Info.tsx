@@ -65,8 +65,8 @@ const Info = ({ openInfo, setOpenInfo }: InfoContainerProps) => {
 					marginTop={'8px'}
 					marginBottom={'8px'}>
 					There is a mixer that contains faders corresponding to each
-					voice's level as well as the levels for chorus and
-					bitcrusher effects.
+					voice's level as well as the levels for chorus and reverb
+					effects.
 				</Typography>
 				<Typography
 					variant={'body2'}
