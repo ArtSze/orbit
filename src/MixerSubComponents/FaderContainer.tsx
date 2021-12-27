@@ -6,6 +6,7 @@ export const FaderContainer = ({
 	defaultValue,
 	label,
 	color,
+	max,
 }: FaderContainerProps) => {
 	return (
 		<ChannelFader
@@ -13,7 +14,7 @@ export const FaderContainer = ({
 			onChange={(event, value) => {
 				value < -14
 					? channel.set({
-							volume: (value as number) * 2,
+							volume: (value as number) * 2.5,
 					  })
 					: channel.set({
 							volume: value as number,
@@ -21,6 +22,7 @@ export const FaderContainer = ({
 			}}
 			defaultValue={defaultValue}
 			color={color}
+			max={max}
 		/>
 	);
 };

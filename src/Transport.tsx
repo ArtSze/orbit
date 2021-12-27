@@ -27,7 +27,7 @@ const Transport = ({
 	channel2,
 	channel3,
 	chorusChannel,
-	crusherChannel,
+	reverbChannel,
 	tonal,
 	setTonal,
 }: TransportProps) => {
@@ -417,7 +417,7 @@ const Transport = ({
 						channel2={channel2}
 						channel3={channel3}
 						chorusChannel={chorusChannel}
-						crusherChannel={crusherChannel}
+						reverbChannel={reverbChannel}
 					/>
 				</Grid>
 

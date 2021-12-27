@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import Grow from '@mui/material/Grow';
 import Tooltip from '@mui/material/Tooltip';
 import SettingsInputComponentSharpIcon from '@mui/icons-material/SettingsInputComponentSharp';
-import CompressIcon from '@mui/icons-material/Compress';
+import BlurLinearIcon from '@mui/icons-material/BlurLinear';
 import WavesIcon from '@mui/icons-material/Waves';
 
 import { FaderContainer } from './FaderContainer';
@@ -21,7 +21,7 @@ export const FaderMasterContainer = ({
 	channel2,
 	channel3,
 	chorusChannel,
-	crusherChannel,
+	reverbChannel,
 }: FaderMasterContainerProps) => {
 	const [display, setDisplay] = useState(false);
 
@@ -65,7 +65,7 @@ export const FaderMasterContainer = ({
 						/>
 
 						<FaderContainer
-							channel={crusherChannel}
+							channel={reverbChannel}
 							defaultValue={-60}
 							color={theme.palette.info.main as ThemeColors}
 						/>
@@ -81,7 +81,7 @@ export const FaderMasterContainer = ({
 								transform: `translateX(-18px) translateY(-4px);`,
 							}}
 						/>
-						<CompressIcon
+						<BlurLinearIcon
 							sx={{
 								transform: `translateX(-6px) translateY(-4px);`,
 							}}
@@ -130,12 +130,14 @@ export const FaderMasterContainer = ({
 						/>
 						<FaderContainer
 							channel={chorusChannel}
+							max={-6}
 							defaultValue={-60}
 							color={theme.palette.info.main as ThemeColors}
 						/>
 
 						<FaderContainer
-							channel={crusherChannel}
+							channel={reverbChannel}
+							max={-6}
 							defaultValue={-60}
 							color={theme.palette.info.main as ThemeColors}
 						/>
@@ -151,7 +153,7 @@ export const FaderMasterContainer = ({
 								transform: `translateX(-18px) translateY(-4px);`,
 							}}
 						/>
-						<CompressIcon
+						<BlurLinearIcon
 							sx={{
 								transform: `translateX(-6px) translateY(-4px);`,
 							}}

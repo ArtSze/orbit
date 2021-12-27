@@ -40,7 +40,7 @@ export type TransportProps = {
 	channel2: Tone.Channel;
 	channel3: Tone.Channel;
 	chorusChannel: Tone.Channel;
-	crusherChannel: Tone.Channel;
+	reverbChannel: Tone.Channel;
 	tonal: boolean;
 	setTonal: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -61,6 +61,7 @@ export type ChannelFaderProps = {
 	) => void;
 	defaultValue: number;
 	color: ThemeColors;
+	max?: number;
 };
 
 export type FaderContainerProps = {
@@ -68,6 +69,7 @@ export type FaderContainerProps = {
 	defaultValue: number;
 	label?: string;
 	color: ThemeColors;
+	max?: number;
 };
 
 export type FaderMasterContainerProps = {
@@ -75,7 +77,7 @@ export type FaderMasterContainerProps = {
 	channel2: Tone.Channel;
 	channel3: Tone.Channel;
 	chorusChannel: Tone.Channel;
-	crusherChannel: Tone.Channel;
+	reverbChannel: Tone.Channel;
 };
 
 export type BpmContainerProps = {

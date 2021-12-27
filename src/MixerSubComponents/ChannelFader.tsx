@@ -7,6 +7,7 @@ export const ChannelFader = ({
 	onChange,
 	defaultValue,
 	color,
+	max,
 }: ChannelFaderProps) => {
 	const calculateValue = (value: number) => {
 		return value;
@@ -19,7 +20,7 @@ export const ChannelFader = ({
 				orientation="vertical"
 				defaultValue={defaultValue}
 				step={0.1}
-				max={-1}
+				max={max ? max : -1}
 				min={-15}
 				scale={calculateValue}
 				sx={{

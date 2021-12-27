@@ -32,21 +32,21 @@ const Mixer = () => {
 
 	const player1 = useMemo(() => {
 		return new Tone.Player(
-			'https://archive.org/download/JeanLucCohen/JeanLucCohen22.zip/JeanLucCohen22%2FKick_15.wav'
+			'https://archive.org/download/JeanLucCohen/JeanLucCohen44.zip/JeanLucCohen44%2FKick_15.wav'
 		).connect(channel1);
 	}, []);
 	const player2 = useMemo(() => {
 		return new Tone.Player(
-			'https://archive.org/download/JeanLucCohen/JeanLucCohen22.zip/JeanLucCohen22%2FSnare_11.wav'
+			'https://archive.org/download/JeanLucCohen/JeanLucCohen44.zip/JeanLucCohen44%2FSnare_11.wav'
 		).connect(channel2);
 	}, []);
 	const player3 = useMemo(() => {
 		return new Tone.Player(
-			'https://archive.org/download/JeanLucCohen/JeanLucCohen22.zip/JeanLucCohen22%2FHat_01.wav'
+			'https://archive.org/download/JeanLucCohen/JeanLucCohen44.zip/JeanLucCohen44%2FHat_01.wav'
 		).connect(channel3);
 	}, []);
 
-	player1.volume.value = 4;
+	player1.volume.value = -2;
 	player2.volume.value = 0;
 	player3.volume.value = -7;
 
@@ -58,21 +58,21 @@ const Mixer = () => {
 	}, []);
 	chorusChannel.receive('chorus');
 
-	const crusher = useMemo(() => {
-		return new Tone.BitCrusher(6).connect(limiter);
+	const reverb = useMemo(() => {
+		return new Tone.JCReverb(0.7).connect(limiter);
 	}, []);
-	const crusherChannel = useMemo(() => {
-		return new Tone.Channel({ volume: -60 }).connect(crusher);
+	const reverbChannel = useMemo(() => {
+		return new Tone.Channel({ volume: -60 }).connect(reverb);
 	}, []);
-	crusherChannel.receive('crusher');
+	reverbChannel.receive('reverb');
 
 	channel1.send('chorus', -2);
 	channel2.send('chorus', -2);
 	channel3.send('chorus', -2);
 
-	channel1.send('crusher', -4);
-	channel2.send('crusher', -4);
-	channel3.send('crusher', -4);
+	channel1.send('reverb', -8);
+	channel2.send('reverb', -8);
+	channel3.send('reverb', -8);
 
 	return (
 		<Transport
@@ -83,7 +83,7 @@ const Mixer = () => {
 			channel2={channel2}
 			channel3={channel3}
 			chorusChannel={chorusChannel}
-			crusherChannel={crusherChannel}
+			reverbChannel={reverbChannel}
 			tonal={tonal}
 			setTonal={setTonal}
 		/>
