@@ -39,6 +39,13 @@ const Info = ({ openInfo, setOpenInfo }: InfoContainerProps) => {
 					variant={'body2'}
 					marginTop={'8px'}
 					marginBottom={'8px'}>
+					You can start and stop the loop using your space bar.
+				</Typography>
+
+				<Typography
+					variant={'body2'}
+					marginTop={'8px'}
+					marginBottom={'8px'}>
 					When working with sequences that have high step counts, it's
 					possible to toggle steps on/off by clicking your mouse and
 					dragging over multiple steps in one smooth motion. Easier
