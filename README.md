@@ -28,12 +28,12 @@ cd orbit
 2. Install the dependencies with `yarn`.
 
 ```shell
- yarn install
+ npm install
 ```
 
 3. Start the client server.
 
 ```shell
-yarn start
+npm start
 ```
 
