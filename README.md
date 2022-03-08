@@ -14,6 +14,8 @@ Orbit features a mixer containing faders that correspond to each voice's level a
 
 Programmed sequences can be downloaded as MIDI files, allowing you to import them into your DAW of choice, e.g. Logic Pro, Ableton, Pro Tools, Bitwig.
 
+User experience is best using a desktop browser.
+
 ## Installation
 
 In order to run this application locally:
@@ -28,7 +30,7 @@ cd orbit
 2. Install the dependencies with `yarn`.
 
 ```shell
- npm install
+npm install
 ```
 
 3. Start the client server.
